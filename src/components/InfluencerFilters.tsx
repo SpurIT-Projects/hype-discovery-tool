@@ -31,11 +31,11 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
         <div className="space-y-3">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <Users className="w-4 h-4 text-primary" />
-            Размер влияния
+            Influencer Size
           </Label>
           <Select value={filters.influencerSize} onValueChange={(value) => updateFilter('influencerSize', value)}>
             <SelectTrigger className="bg-background/50 border-primary/30">
-              <SelectValue placeholder="Выберите размер" />
+              <SelectValue placeholder="Select size" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="nano">Nano (1K-10K)</SelectItem>
@@ -51,20 +51,20 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
         <div className="space-y-3">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <MapPin className="w-4 h-4 text-primary" />
-            Локация аудитории
+            Audience Location
           </Label>
           <Select value={filters.audienceLocation} onValueChange={(value) => updateFilter('audienceLocation', value)}>
             <SelectTrigger className="bg-background/50 border-primary/30">
-              <SelectValue placeholder="Выберите страну" />
+              <SelectValue placeholder="Select country" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="us">США</SelectItem>
-              <SelectItem value="uk">Великобритания</SelectItem>
-              <SelectItem value="ru">Россия</SelectItem>
-              <SelectItem value="de">Германия</SelectItem>
-              <SelectItem value="fr">Франция</SelectItem>
-              <SelectItem value="ca">Канада</SelectItem>
-              <SelectItem value="au">Австралия</SelectItem>
+              <SelectItem value="us">United States</SelectItem>
+              <SelectItem value="uk">United Kingdom</SelectItem>
+              <SelectItem value="ru">Russia</SelectItem>
+              <SelectItem value="de">Germany</SelectItem>
+              <SelectItem value="fr">France</SelectItem>
+              <SelectItem value="ca">Canada</SelectItem>
+              <SelectItem value="au">Australia</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -73,10 +73,10 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
         <div className="space-y-3">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <Search className="w-4 h-4 text-primary" />
-            Категория
+            Category
           </Label>
           <Input
-            placeholder="Введите категорию..."
+            placeholder="Enter category..."
             value={filters.category}
             onChange={(e) => updateFilter('category', e.target.value)}
             className="bg-background/50 border-primary/30"
@@ -87,7 +87,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
         <div className="space-y-3">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <Eye className="w-4 h-4 text-primary" />
-            Просмотры Reels (90 дней)
+            Reels Views (90 days)
           </Label>
           <div className="px-3">
             <Slider
@@ -99,8 +99,8 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
               className="w-full"
             />
             <div className="flex justify-between text-sm text-muted-foreground mt-2">
-              <span>{filters.avgReelsViews[0].toLocaleString()}</span>
-              <span>{filters.avgReelsViews[1]?.toLocaleString() || '1M+'}</span>
+              <span>1K</span>
+              <span>{filters.avgReelsViews[0]?.toLocaleString() || '1K'}</span>
             </div>
           </div>
         </div>
@@ -109,7 +109,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
         <div className="space-y-3">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <DollarSign className="w-4 h-4 text-primary" />
-            Цена за пост ($)
+            Post Price ($)
           </Label>
           <div className="px-3">
             <Slider
@@ -121,8 +121,8 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
               className="w-full"
             />
             <div className="flex justify-between text-sm text-muted-foreground mt-2">
-              <span>${filters.postPrice[0]}</span>
-              <span>${filters.postPrice[1] || '10K+'}</span>
+              <span>$50</span>
+              <span>${filters.postPrice[0] || '50'}</span>
             </div>
           </div>
         </div>

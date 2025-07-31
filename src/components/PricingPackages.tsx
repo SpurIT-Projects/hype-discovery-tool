@@ -19,30 +19,30 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
   const packages = [
     {
       id: "starter",
-      name: "Стартер",
+      name: "Starter",
       count: 30,
       price: 99,
       icon: Zap,
-      description: "Идеально для первого знакомства",
-      features: ["30 проверенных инфлюэнсеров", "Базовая аналитика", "Email поддержка"]
+      description: "Perfect for first-time users",
+      features: ["30 verified influencers", "Basic analytics", "Email support"]
     },
     {
       id: "professional",
-      name: "Профессиональный",
+      name: "Professional",
       count: 100,
       price: 199,
       icon: Star,
-      description: "Для серьезных кампаний",
-      features: ["100 проверенных инфлюэнсеров", "Расширенная аналитика", "Приоритетная поддержка"]
+      description: "For serious campaigns",
+      features: ["100 verified influencers", "Advanced analytics", "Priority support"]
     },
     {
       id: "enterprise",
-      name: "Корпоративный",
+      name: "Enterprise",
       count: 500,
       price: 299,
       icon: Crown,
-      description: "Максимальная эффективность",
-      features: ["500 проверенных инфлюэнсеров", "Полная аналитика", "Персональный менеджер"],
+      description: "Maximum efficiency",
+      features: ["500 verified influencers", "Full analytics", "Personal manager"],
       recommended: true
     }
   ];
@@ -86,7 +86,7 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
             >
               {pkg.recommended && (
                 <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-primary">
-                  Рекомендуемый
+                  Recommended
                 </Badge>
               )}
               
@@ -102,7 +102,7 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
                 
                 <div className="space-y-2">
                   <div className="text-3xl font-bold text-primary">${pkg.price}</div>
-                  <div className="text-sm text-muted-foreground">{pkg.count} инфлюэнсеров</div>
+                  <div className="text-sm text-muted-foreground">{pkg.count} influencers</div>
                 </div>
                 
                 <ul className="space-y-2 text-sm">
@@ -119,7 +119,7 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
                   className="w-full"
                   onClick={() => onPurchase(pkg.id, pkg.count, pkg.price)}
                 >
-                  Купить пакет
+                  Buy Package
                 </Button>
               </div>
             </Card>
@@ -132,16 +132,16 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
         <Card className="p-6 bg-gradient-card border-primary/20">
           <div className="space-y-6">
             <div className="text-center">
-              <h3 className="text-xl font-bold text-foreground mb-2">Кастомный пакет</h3>
-              <p className="text-muted-foreground">Выберите точное количество инфлюэнсеров</p>
+              <h3 className="text-xl font-bold text-foreground mb-2">Custom Package</h3>
+              <p className="text-muted-foreground">Choose the exact number of influencers</p>
             </div>
 
-            {customCount[0] > 10000 ? (
+            {customCount[0] >= 10000 ? (
               <div className="text-center space-y-4">
-                <div className="text-2xl font-bold text-primary">Свяжитесь с нами</div>
-                <p className="text-muted-foreground">Для заказов свыше 10,000 инфлюэнсеров</p>
+                <div className="text-2xl font-bold text-primary">Contact Us</div>
+                <p className="text-muted-foreground">For orders over 10,000 influencers</p>
                 <Button variant="hero" onClick={() => onPurchase("contact", customCount[0], 0)}>
-                  Связаться с нами
+                  Contact Us
                 </Button>
               </div>
             ) : (
@@ -149,7 +149,7 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
                 <div className="space-y-4">
                   <Label className="flex items-center gap-2">
                     <Users className="w-4 h-4 text-primary" />
-                    Количество инфлюэнсеров
+                    Number of Influencers
                   </Label>
                   
                   <div className="flex gap-4 items-center">
@@ -181,7 +181,7 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
                 <div className="text-center space-y-2">
                   <div className="text-3xl font-bold text-primary">${customPrice.toFixed(0)}</div>
                   <div className="text-sm text-muted-foreground">
-                    ${(customPrice / customCount[0]).toFixed(2)} за инфлюэнсера
+                    ${(customPrice / customCount[0]).toFixed(2)} per influencer
                   </div>
                 </div>
 
@@ -190,7 +190,7 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
                   className="w-full"
                   onClick={() => onPurchase("custom", customCount[0], customPrice)}
                 >
-                  Купить кастомный пакет
+                  Buy Custom Package
                 </Button>
               </div>
             )}

@@ -15,8 +15,8 @@ export const TrialSection = () => {
     e.preventDefault();
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
       toast({
-        title: "Ошибка",
-        description: "Пожалуйста, введите корректный email адрес",
+        title: "Error",
+        description: "Please enter a valid email address",
         variant: "destructive"
       });
       return;
@@ -26,8 +26,8 @@ export const TrialSection = () => {
     setTimeout(() => {
       setIsSubmitted(true);
       toast({
-        title: "Успешно!",
-        description: "Пробный пакет будет отправлен на ваш email в течение 5 минут",
+        title: "Success!",
+        description: "Trial package will be sent to your email within 5 minutes",
       });
     }, 1000);
   };
@@ -39,9 +39,9 @@ export const TrialSection = () => {
           <div className="w-16 h-16 mx-auto bg-green-500/20 rounded-full flex items-center justify-center">
             <CheckCircle className="w-8 h-8 text-green-400" />
           </div>
-          <h3 className="text-xl font-bold text-foreground">Готово!</h3>
+          <h3 className="text-xl font-bold text-foreground">Done!</h3>
           <p className="text-muted-foreground">
-            Пробный пакет из 5 инфлюэнсеров отправлен на {email}
+            Trial package of 5 influencers sent to {email}
           </p>
         </div>
       </Card>
@@ -56,9 +56,9 @@ export const TrialSection = () => {
         </div>
         
         <div>
-          <h3 className="text-2xl font-bold text-foreground mb-2">Бесплатный пробный пакет</h3>
+          <h3 className="text-2xl font-bold text-foreground mb-2">Free Trial Package</h3>
           <p className="text-muted-foreground">
-            Получите 5 инфлюэнсеров бесплатно, чтобы оценить качество нашей базы
+            Get 5 influencers for free to evaluate the quality of our database
           </p>
         </div>
 
@@ -66,7 +66,7 @@ export const TrialSection = () => {
           <div className="space-y-2">
             <Label htmlFor="email" className="flex items-center gap-2 justify-center">
               <Mail className="w-4 h-4 text-primary" />
-              Email адрес
+              Email Address
             </Label>
             <Input
               id="email"
@@ -80,12 +80,12 @@ export const TrialSection = () => {
           </div>
           
           <Button type="submit" variant="hero" className="w-full">
-            Получить бесплатный пакет
+            Get Free Package
           </Button>
         </form>
 
         <p className="text-xs text-muted-foreground">
-          Никакого спама. Только качественные данные инфлюэнсеров.
+          No spam. Only quality influencer data.
         </p>
       </div>
     </Card>

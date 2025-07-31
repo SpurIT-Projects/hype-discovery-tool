@@ -26,8 +26,8 @@ export const ContactForm = ({ onClose }: ContactFormProps) => {
     // Simulate API call
     setTimeout(() => {
       toast({
-        title: "Сообщение отправлено!",
-        description: "Мы свяжемся с вами в течение 24 часов",
+        title: "Message Sent!",
+        description: "We will contact you within 24 hours",
       });
       onClose();
     }, 1000);
@@ -47,9 +47,9 @@ export const ContactForm = ({ onClose }: ContactFormProps) => {
           <MessageCircle className="w-8 h-8 text-white" />
         </div>
         <div>
-          <h3 className="text-2xl font-bold text-foreground mb-2">Свяжитесь с нами</h3>
+          <h3 className="text-2xl font-bold text-foreground mb-2">Contact Us</h3>
           <p className="text-muted-foreground">
-            Для больших заказов мы предложим персональные условия
+            For large orders we will offer personalized terms
           </p>
         </div>
       </div>
@@ -59,7 +59,7 @@ export const ContactForm = ({ onClose }: ContactFormProps) => {
           <div className="space-y-2">
             <Label htmlFor="name" className="flex items-center gap-2">
               <User className="w-4 h-4 text-primary" />
-              Имя
+              Name
             </Label>
             <Input
               id="name"
@@ -91,7 +91,7 @@ export const ContactForm = ({ onClose }: ContactFormProps) => {
         <div className="space-y-2">
           <Label htmlFor="phone" className="flex items-center gap-2">
             <Phone className="w-4 h-4 text-primary" />
-            Телефон (опционально)
+            Phone (optional)
           </Label>
           <Input
             id="phone"
@@ -106,13 +106,13 @@ export const ContactForm = ({ onClose }: ContactFormProps) => {
         <div className="space-y-2">
           <Label htmlFor="message" className="flex items-center gap-2">
             <MessageCircle className="w-4 h-4 text-primary" />
-            Сообщение
+            Message
           </Label>
           <Textarea
             id="message"
             name="message"
             rows={4}
-            placeholder="Расскажите о ваших потребностях..."
+            placeholder="Tell us about your needs..."
             value={formData.message}
             onChange={handleChange}
             className="bg-background/50 border-primary/30"
@@ -122,10 +122,10 @@ export const ContactForm = ({ onClose }: ContactFormProps) => {
 
         <div className="flex gap-4">
           <Button type="submit" variant="hero" className="flex-1">
-            Отправить сообщение
+            Send Message
           </Button>
           <Button type="button" variant="outline" onClick={onClose}>
-            Отмена
+            Cancel
           </Button>
         </div>
       </form>
