@@ -51,18 +51,18 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-hero">
       {/* Logo */}
-      <div className="container mx-auto px-4 pt-8">
+      <div className="container mx-auto px-4 pt-8 pb-4">
         <div className="text-left">
           <h1 className="text-3xl font-bold">
             <span className="text-primary">influencer</span>
-            <span className="text-white">$$$</span>
+            <span className="text-white text-2xl">$$$</span>
             <span className="text-primary">.com</span>
           </h1>
         </div>
       </div>
       
       {/* Hero Section */}
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-8">
         <div className="text-center space-y-8 mb-16">
           
           <Badge className="bg-gradient-primary text-white px-4 py-2">
@@ -150,8 +150,8 @@ const Index = () => {
               <p>© 2024 Influencer Database. All rights reserved.</p>
             </div>
             <div className="flex justify-center gap-8 text-sm">
-              <a href="mailto:contact@influencerdb.com" className="text-muted-foreground hover:text-primary transition-colors">
-                contact@influencerdb.com
+              <a href="mailto:contact@influencerss.com" className="text-muted-foreground hover:text-primary transition-colors">
+                contact@influencerss.com
               </a>
               <span className="text-muted-foreground">|</span>
               <a href="tel:+1-555-0123" className="text-muted-foreground hover:text-primary transition-colors">
