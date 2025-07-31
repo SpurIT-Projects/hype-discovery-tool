@@ -3,7 +3,6 @@ import { InfluencerFilters, FilterState } from "@/components/InfluencerFilters";
 import { PricingPackages } from "@/components/PricingPackages";
 import { TrialSection } from "@/components/TrialSection";
 import { ContactForm } from "@/components/ContactForm";
-import logo from "@/assets/logo.png";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Users, Globe, Zap } from "lucide-react";
 
@@ -51,13 +50,20 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-hero">
+      {/* Logo */}
+      <div className="container mx-auto px-4 pt-8">
+        <div className="text-left">
+          <h1 className="text-3xl font-bold">
+            <span className="text-primary">influencer</span>
+            <span className="text-white">$$$</span>
+            <span className="text-primary">.com</span>
+          </h1>
+        </div>
+      </div>
+      
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-16">
         <div className="text-center space-y-8 mb-16">
-          {/* Logo */}
-          <div className="flex justify-center mb-8">
-            <img src={logo} alt="Influencersss" className="h-12 w-auto" />
-          </div>
           
           <Badge className="bg-gradient-primary text-white px-4 py-2">
             Premium Influencer Database
