@@ -9,9 +9,10 @@ import { useToast } from "@/hooks/use-toast";
 
 interface ContactFormProps {
   onClose: () => void;
+  showCancel?: boolean;
 }
 
-export const ContactForm = ({ onClose }: ContactFormProps) => {
+export const ContactForm = ({ onClose, showCancel = true }: ContactFormProps) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -124,9 +125,11 @@ export const ContactForm = ({ onClose }: ContactFormProps) => {
           <Button type="submit" variant="hero" className="flex-1">
             Send Message
           </Button>
-          <Button type="button" variant="outline" onClick={onClose}>
-            Cancel
-          </Button>
+          {showCancel && (
+            <Button type="button" variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+          )}
         </div>
       </form>
     </Card>

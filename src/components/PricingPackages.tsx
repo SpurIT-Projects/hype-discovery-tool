@@ -171,7 +171,7 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
               </div>
 
               {customCount[0] >= 10000 ? (
-                <ContactForm onClose={() => {}} />
+                <ContactForm onClose={() => {}} showCancel={false} />
               ) : (
                 <>
                   <div className="text-center space-y-2">
