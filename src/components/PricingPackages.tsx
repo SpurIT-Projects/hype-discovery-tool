@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { ContactForm } from "@/components/ContactForm";
 import { Crown, Star, Users, Zap } from "lucide-react";
 
 interface PricingPackagesProps {
@@ -136,64 +137,60 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
               <p className="text-muted-foreground">Choose the exact number of influencers</p>
             </div>
 
-            {customCount[0] >= 10000 ? (
-              <div className="text-center space-y-4">
-                <div className="text-2xl font-bold text-primary">Contact Us</div>
-                <p className="text-muted-foreground">For orders over 10,000 influencers</p>
-                <Button variant="hero" onClick={() => onPurchase("contact", customCount[0], 0)}>
-                  Contact Us
-                </Button>
-              </div>
-            ) : (
-              <div className="space-y-6">
-                <div className="space-y-4">
-                  <Label className="flex items-center gap-2">
-                    <Users className="w-4 h-4 text-primary" />
-                    Number of Influencers
-                  </Label>
-                  
-                  <div className="flex gap-4 items-center">
-                    <div className="flex-1">
-                      <Slider
-                        value={customCount}
-                        onValueChange={handleCustomCountChange}
-                        min={600}
-                        max={Math.min(maxInfluencers, 10000)}
-                        step={50}
-                        className="w-full"
-                      />
-                    </div>
-                    <Input
-                      value={customInputValue}
-                      onChange={(e) => handleInputChange(e.target.value)}
-                      className="w-24 text-center"
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <Label className="flex items-center gap-2">
+                  <Users className="w-4 h-4 text-primary" />
+                  Number of Influencers
+                </Label>
+                
+                <div className="flex gap-4 items-center">
+                  <div className="flex-1">
+                    <Slider
+                      value={customCount}
+                      onValueChange={handleCustomCountChange}
                       min={600}
                       max={Math.min(maxInfluencers, 10000)}
+                      step={50}
+                      className="w-full"
                     />
                   </div>
-                  
-                  <div className="flex justify-between text-sm text-muted-foreground">
-                    <span>600</span>
-                    <span>{Math.min(maxInfluencers, 10000).toLocaleString()}</span>
-                  </div>
+                  <Input
+                    value={customInputValue}
+                    onChange={(e) => handleInputChange(e.target.value)}
+                    className="w-24 text-center"
+                    min={600}
+                    max={Math.min(maxInfluencers, 10000)}
+                  />
                 </div>
-
-                <div className="text-center space-y-2">
-                  <div className="text-3xl font-bold text-primary">${customPrice.toFixed(0)}</div>
-                  <div className="text-sm text-muted-foreground">
-                    ${(customPrice / customCount[0]).toFixed(2)} per influencer
-                  </div>
+                
+                <div className="flex justify-between text-sm text-muted-foreground">
+                  <span>600</span>
+                  <span>{Math.min(maxInfluencers, 10000).toLocaleString()}</span>
                 </div>
-
-                <Button
-                  variant="premium"
-                  className="w-full"
-                  onClick={() => onPurchase("custom", customCount[0], customPrice)}
-                >
-                  Buy Custom Package
-                </Button>
               </div>
-            )}
+
+              {customCount[0] >= 10000 ? (
+                <ContactForm onClose={() => {}} />
+              ) : (
+                <>
+                  <div className="text-center space-y-2">
+                    <div className="text-3xl font-bold text-primary">${customPrice.toFixed(0)}</div>
+                    <div className="text-sm text-muted-foreground">
+                      ${(customPrice / customCount[0]).toFixed(2)} per influencer
+                    </div>
+                  </div>
+
+                  <Button
+                    variant="premium"
+                    className="w-full"
+                    onClick={() => onPurchase("custom", customCount[0], customPrice)}
+                  >
+                    Buy Custom Package
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
         </Card>
       )}
