@@ -14,7 +14,7 @@ const Index = () => {
     avgReelsViews: [10000],
     category: "lifestyle",
     customCategory: "",
-    postPrice: [500]
+    postPrice: [50, 5000]
   });
   
   const [maxInfluencers, setMaxInfluencers] = useState(8542);

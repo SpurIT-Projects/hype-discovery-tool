@@ -401,6 +401,9 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
               <span>${filters.postPrice[0] || '50'}</span>
               <span>${filters.postPrice[1] || '10000'}</span>
             </div>
+            <div className="text-center text-sm text-muted-foreground mt-1">
+              Range: ${filters.postPrice[0] || '50'} - ${filters.postPrice[1] || '10000'}
+            </div>
           </div>
         </div>
         
