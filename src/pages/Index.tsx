@@ -150,8 +150,8 @@ const Index = () => {
               <p>© 2024 Influencer Database. All rights reserved.</p>
             </div>
             <div className="flex justify-center gap-8 text-sm">
-              <a href="mailto:contact@influencerss.com" className="text-muted-foreground hover:text-primary transition-colors">
-                contact@influencerss.com
+              <a href="mailto:contact@influencersss.com" className="text-muted-foreground hover:text-primary transition-colors">
+                contact@influencersss.com
               </a>
               <span className="text-muted-foreground">|</span>
               <a href="tel:+1-555-0123" className="text-muted-foreground hover:text-primary transition-colors">
