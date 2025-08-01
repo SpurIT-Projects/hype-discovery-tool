@@ -5,9 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Separator } from "@/components/ui/separator";
-import { MapPin, Users, Eye, Search, DollarSign } from "lucide-react";
+import { MapPin, Users, Eye, Search, DollarSign, Share2 } from "lucide-react";
 
 export interface FilterState {
+  socialPlatform: string;
   influencerSize: string;
   audienceLocation: string;
   avgReelsViews: number[];
@@ -29,6 +30,27 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
   return (
     <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Social Platform */}
+        <div className="space-y-3">
+          <Label className="flex items-center gap-2 text-foreground font-medium">
+            <Share2 className="w-4 h-4 text-primary" />
+            Social Platform
+          </Label>
+          <Select value={filters.socialPlatform} onValueChange={(value) => updateFilter('socialPlatform', value)}>
+            <SelectTrigger className="bg-background/50 border-primary/30">
+              <SelectValue placeholder="Select platform" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="instagram">📷 Instagram</SelectItem>
+              <SelectItem value="youtube">🎥 YouTube</SelectItem>
+              <SelectItem value="tiktok">🎵 TikTok</SelectItem>
+              <SelectItem value="twitch">🎮 Twitch</SelectItem>
+              <SelectItem value="twitter">🐦 X (Twitter)</SelectItem>
+              <SelectItem value="snapchat">👻 Snapchat</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
         {/* Influencer Size */}
         <div className="space-y-3">
           <Label className="flex items-center gap-2 text-foreground font-medium">

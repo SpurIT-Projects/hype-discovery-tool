@@ -8,6 +8,7 @@ import { TrendingUp, Users, Globe, Zap } from "lucide-react";
 
 const Index = () => {
   const [filters, setFilters] = useState<FilterState>({
+    socialPlatform: "",
     influencerSize: "micro",
     audienceLocation: "us",
     avgReelsViews: [10000],
