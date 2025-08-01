@@ -27,7 +27,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
 
   return (
     <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-max">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Influencer Size */}
         <div className="space-y-3">
           <Label className="flex items-center gap-2 text-foreground font-medium">
@@ -128,7 +128,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
         </div>
 
         {/* Category */}
-        <div className="space-y-3 self-start">
+        <div className="space-y-3">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <Search className="w-4 h-4 text-primary" />
             Category
@@ -167,19 +167,10 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
               <SelectItem value="custom">Other (Custom)</SelectItem>
             </SelectContent>
           </Select>
-          
-          {filters.category === "custom" && (
-            <Input
-              placeholder="Enter custom category..."
-              value={filters.category === "custom" ? "" : filters.category}
-              onChange={(e) => updateFilter('category', e.target.value)}
-              className="bg-background/50 border-primary/30 mt-2"
-            />
-          )}
         </div>
 
         {/* Avg Reels Views */}
-        <div className="space-y-3 self-start">
+        <div className="space-y-3">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <Eye className="w-4 h-4 text-primary" />
             Reels Views (90 days)
@@ -201,7 +192,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
         </div>
 
         {/* Post Price */}
-        <div className="space-y-3 self-start">
+        <div className="space-y-3">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <DollarSign className="w-4 h-4 text-primary" />
             Post Price ($)
@@ -221,6 +212,22 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
             </div>
           </div>
         </div>
+        
+        {/* Custom Category Input - показывается отдельно только при выборе custom */}
+        {filters.category === "custom" && (
+          <div className="lg:col-start-1 space-y-3">
+            <Label className="flex items-center gap-2 text-foreground font-medium">
+              <Search className="w-4 h-4 text-primary" />
+              Custom Category
+            </Label>
+            <Input
+              placeholder="Enter custom category..."
+              value={filters.category === "custom" ? "" : filters.category}
+              onChange={(e) => updateFilter('category', e.target.value)}
+              className="bg-background/50 border-primary/30"
+            />
+          </div>
+        )}
       </div>
     </Card>
   );
