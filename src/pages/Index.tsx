@@ -12,6 +12,7 @@ const Index = () => {
     audienceLocation: "us",
     avgReelsViews: [10000],
     category: "lifestyle",
+    customCategory: "",
     postPrice: [500]
   });
   

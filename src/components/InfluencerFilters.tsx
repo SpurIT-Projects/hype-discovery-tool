@@ -12,6 +12,7 @@ export interface FilterState {
   audienceLocation: string;
   avgReelsViews: number[];
   category: string;
+  customCategory: string;
   postPrice: number[];
 }
 
@@ -222,8 +223,8 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
             </Label>
             <Input
               placeholder="Enter custom category..."
-              value={filters.category === "custom" ? "" : filters.category}
-              onChange={(e) => updateFilter('category', e.target.value)}
+              value={filters.customCategory}
+              onChange={(e) => updateFilter('customCategory', e.target.value)}
               className="bg-background/50 border-primary/30"
             />
           </div>
