@@ -56,8 +56,9 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
   };
 
   const handleCustomCountChange = (value: number[]) => {
-    setCustomCount(value);
-    setCustomInputValue(value[0].toString());
+    const newValue = Math.max(600, value[0]);
+    setCustomCount([newValue]);
+    setCustomInputValue(newValue.toString());
   };
 
   const handleInputChange = (value: string) => {
@@ -149,7 +150,7 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
                     <Slider
                       value={customCount}
                       onValueChange={handleCustomCountChange}
-                      min={600}
+                      min={0}
                       max={10000}
                       step={50}
                       className="w-full"
@@ -165,7 +166,7 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
                 </div>
                 
                 <div className="flex justify-between text-sm text-muted-foreground">
-                  <span>600</span>
+                  <span>0</span>
                   <span>10,000</span>
                 </div>
               </div>
