@@ -44,7 +44,7 @@ const Index = () => {
   const stats = [
     { icon: Users, label: "Active Influencers", value: "100,000+" },
     { icon: Globe, label: "Countries", value: "50+" },
-    { icon: TrendingUp, label: "Average ER", value: "4.2%" },
+    { icon: TrendingUp, label: "Response Rate", value: "87%" },
     { icon: Zap, label: "Daily Updates", value: "100+" }
   ];
 
