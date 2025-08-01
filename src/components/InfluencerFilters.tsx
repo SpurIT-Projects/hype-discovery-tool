@@ -27,9 +27,9 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
 
   return (
     <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
         {/* Influencer Size */}
-        <div className="flex flex-col space-y-3">
+        <div className="flex flex-col space-y-3 min-h-[120px]">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <Users className="w-4 h-4 text-primary" />
             Influencer Size
@@ -49,7 +49,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
         </div>
 
         {/* Audience Location */}
-        <div className="flex flex-col space-y-3">
+        <div className="flex flex-col space-y-3 min-h-[120px]">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <MapPin className="w-4 h-4 text-primary" />
             Audience Location
@@ -128,7 +128,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
         </div>
 
         {/* Category */}
-        <div className="flex flex-col space-y-3">
+        <div className="flex flex-col space-y-3 min-h-[120px]">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <Search className="w-4 h-4 text-primary" />
             Category
@@ -179,7 +179,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
         </div>
 
         {/* Avg Reels Views */}
-        <div className="flex flex-col space-y-3">
+        <div className="flex flex-col space-y-3 min-h-[120px]">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <Eye className="w-4 h-4 text-primary" />
             Reels Views (90 days)
@@ -201,7 +201,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
         </div>
 
         {/* Post Price */}
-        <div className="flex flex-col space-y-3">
+        <div className="flex flex-col space-y-3 min-h-[120px]">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <DollarSign className="w-4 h-4 text-primary" />
             Post Price ($)
