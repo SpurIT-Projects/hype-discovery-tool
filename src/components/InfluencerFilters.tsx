@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Separator } from "@/components/ui/separator";
-import { MapPin, Users, Eye, Search, DollarSign, Share2 } from "lucide-react";
+import { MapPin, Users, Eye, Search, DollarSign, Share2, Instagram, Youtube, Music, Tv, Twitter, Camera } from "lucide-react";
 
 export interface FilterState {
   socialPlatform: string;
@@ -41,12 +41,42 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
               <SelectValue placeholder="Select platform" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="instagram">📷 Instagram</SelectItem>
-              <SelectItem value="youtube">🎥 YouTube</SelectItem>
-              <SelectItem value="tiktok">🎵 TikTok</SelectItem>
-              <SelectItem value="twitch">🎮 Twitch</SelectItem>
-              <SelectItem value="twitter">🐦 X (Twitter)</SelectItem>
-              <SelectItem value="snapchat">👻 Snapchat</SelectItem>
+              <SelectItem value="instagram">
+                <div className="flex items-center gap-2">
+                  <Instagram className="w-4 h-4" />
+                  Instagram
+                </div>
+              </SelectItem>
+              <SelectItem value="youtube">
+                <div className="flex items-center gap-2">
+                  <Youtube className="w-4 h-4" />
+                  YouTube
+                </div>
+              </SelectItem>
+              <SelectItem value="tiktok">
+                <div className="flex items-center gap-2">
+                  <Music className="w-4 h-4" />
+                  TikTok
+                </div>
+              </SelectItem>
+              <SelectItem value="twitch">
+                <div className="flex items-center gap-2">
+                  <Tv className="w-4 h-4" />
+                  Twitch
+                </div>
+              </SelectItem>
+              <SelectItem value="twitter">
+                <div className="flex items-center gap-2">
+                  <Twitter className="w-4 h-4" />
+                  X (Twitter)
+                </div>
+              </SelectItem>
+              <SelectItem value="snapchat">
+                <div className="flex items-center gap-2">
+                  <Camera className="w-4 h-4" />
+                  Snapchat
+                </div>
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
