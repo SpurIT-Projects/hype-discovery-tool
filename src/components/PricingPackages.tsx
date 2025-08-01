@@ -62,7 +62,7 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
 
   const handleInputChange = (value: string) => {
     const numValue = parseInt(value) || 600;
-    if (numValue >= 600 && numValue <= Math.min(maxInfluencers, 10000)) {
+    if (numValue >= 600 && numValue <= 10000) {
       setCustomCount([numValue]);
       setCustomInputValue(value);
     }
@@ -150,7 +150,7 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
                       value={customCount}
                       onValueChange={handleCustomCountChange}
                       min={600}
-                      max={Math.min(maxInfluencers, 10000)}
+                      max={10000}
                       step={50}
                       className="w-full"
                     />
@@ -160,13 +160,13 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
                     onChange={(e) => handleInputChange(e.target.value)}
                     className="w-24 text-center"
                     min={600}
-                    max={Math.min(maxInfluencers, 10000)}
+                    max={10000}
                   />
                 </div>
                 
                 <div className="flex justify-between text-sm text-muted-foreground">
                   <span>600</span>
-                  <span>{Math.min(maxInfluencers, 10000).toLocaleString()}</span>
+                  <span>10,000</span>
                 </div>
               </div>
 

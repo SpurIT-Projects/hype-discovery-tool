@@ -75,7 +75,7 @@ const Index = () => {
               <span className="bg-gradient-primary bg-clip-text text-transparent"> Influencers</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Get access to a verified database of influencers who can promote your products through promotional or native posts and video reviews on their social networks, with detailed analytics and up-to-date contact information
+              Get access to a verified database of influencers who can <strong>promote your products</strong> through <strong>promotional</strong> or <strong>native posts</strong> and <strong>video reviews</strong> on their social networks, with detailed analytics and up-to-date contact information
             </p>
           </div>
 
