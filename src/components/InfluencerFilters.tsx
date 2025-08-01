@@ -386,7 +386,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
         <div className="space-y-3">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <DollarSign className="w-4 h-4 text-primary" />
-            Post Price ($)
+            Post Price Range ($)
           </Label>
           <div className="px-3">
             <Slider
@@ -398,8 +398,8 @@ export const InfluencerFilters = ({ filters, onFiltersChange }: InfluencerFilter
               className="w-full"
             />
             <div className="flex justify-between text-sm text-muted-foreground mt-2">
-              <span>$50</span>
               <span>${filters.postPrice[0] || '50'}</span>
+              <span>${filters.postPrice[1] || '10000'}</span>
             </div>
           </div>
         </div>
