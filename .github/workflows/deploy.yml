@@ -30,8 +30,8 @@ jobs:
         id: extract
         run: echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-      - name: Build Vite site with dynamic base
-        run: npx vite build --base=/${{ env.REPO_NAME }}/
+      - name: Build Vite site
+        run: npm run build
 
       - name: Upload dist to GitHub Pages
         uses: actions/upload-pages-artifact@v3
