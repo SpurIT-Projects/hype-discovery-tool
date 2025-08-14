@@ -122,10 +122,12 @@ const Index = () => {
           {showContactForm ? (
             <ContactForm onClose={() => setShowContactForm(false)} />
           ) : (
-            <PricingPackages 
-              maxInfluencers={maxInfluencers} 
-              onPurchase={handlePurchase}
-            />
+        <div className="w-full max-w-6xl mx-auto">
+          <stripe-pricing-table 
+            pricing-table-id="prctbl_1Rw0ChGifA2aeWJ3MA1cFlun"
+            publishable-key="pk_test_51LdXkTGifA2aeWJ3CLmWlPiYusyyjUXvvmVpKFpwIjPWDzhUi1WDVs7wZncc1VA1smxKizBPb1mVw5FmByTqjrFb00cbdbnelP">
+          </stripe-pricing-table>
+        </div>
           )}
         </div>
 
