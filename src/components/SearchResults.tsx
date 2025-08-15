@@ -125,12 +125,12 @@ const formatNumber = (num: number) => {
 export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, isLoading = false, onTrialRequest }: SearchResultsProps) => {
   if (isLoading) {
     return (
-      <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
-        <div className="text-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-          <p className="text-muted-foreground mt-4">Searching influencers...</p>
+      <div className="py-20">
+        <div className="text-center space-y-6">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary/20 border-t-primary mx-auto"></div>
+          <p className="text-muted-foreground text-lg">Searching influencers...</p>
         </div>
-      </Card>
+      </div>
     );
   }
 
