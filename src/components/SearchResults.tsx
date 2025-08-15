@@ -134,9 +134,9 @@ export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, i
   }
 
   return (
-    <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
-      <div className="space-y-8">
-        {/* Search Results Section */}
+    <div className="space-y-8">
+      {/* Search Results Section */}
+      <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
         <div className="space-y-6">
           <div className="text-center">
             <h3 className="text-2xl font-bold text-foreground mb-2">Search Results</h3>
@@ -156,6 +156,7 @@ export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, i
                 </TableRow>
               </TableHeader>
               <TableBody>
+                {/* Real influencer data - first 5 rows */}
                 {results.slice(0, 5).map((influencer) => (
                   <TableRow key={influencer.id}>
                     <TableCell>
@@ -187,22 +188,11 @@ export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, i
                   </TableRow>
                 ))}
                 
-                {/* Blurred additional results */}
+                {/* Blurred additional results - shown vertically below real data */}
                 {totalCount > 5 && (
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-background/30 backdrop-blur-sm z-10 flex items-center justify-center">
-                      <div className="text-center space-y-2">
-                        <p className="font-semibold text-foreground">
-                          +{(totalCount - 5).toLocaleString()} more influencers
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          Purchase a package to see all results
-                        </p>
-                      </div>
-                    </div>
-                    {/* Mock additional rows */}
-                    {Array.from({ length: 3 }).map((_, index) => (
-                      <TableRow key={`mock-${index}`}>
+                  <>
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <TableRow key={`mock-${index}`} className="relative">
                         <TableCell>
                           <div className="flex items-center gap-3">
                             <Avatar className="h-10 w-10">
@@ -226,50 +216,56 @@ export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, i
                         </TableCell>
                       </TableRow>
                     ))}
-                  </div>
+                    
+                    {/* Overlay for blurred section */}
+                    <div className="absolute inset-0 bg-background/30 backdrop-blur-sm z-10 flex items-center justify-center" style={{top: '240px'}}>
+                      <div className="text-center space-y-2">
+                        <p className="font-semibold text-foreground">
+                          +{(totalCount - 5).toLocaleString()} more influencers
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          Purchase a package to see all results
+                        </p>
+                      </div>
+                    </div>
+                  </>
                 )}
               </TableBody>
             </Table>
           </div>
         </div>
+      </Card>
 
-        {/* Divider */}
-        <div className="border-t border-primary/20"></div>
+      {/* Trial Section */}
+      <div className="text-center space-y-4">
+        <h3 className="text-2xl font-bold text-foreground">Try for Free</h3>
+        <p className="text-muted-foreground">
+          Get a sample of these 5 influencer contacts to evaluate our database quality
+        </p>
+        <Button 
+          onClick={() => onTrialRequest?.("trial", 10, 0)}
+          className="bg-gradient-primary text-white"
+        >
+          Get Free Trial Package (5 Contacts)
+        </Button>
+      </div>
 
-        {/* Trial Section */}
+      {/* Pricing Section */}
+      <div className="space-y-6">
         <div className="text-center space-y-4">
-          <h3 className="text-2xl font-bold text-foreground">Try for Free</h3>
+          <h3 className="text-2xl font-bold text-foreground">Choose Your Package</h3>
           <p className="text-muted-foreground">
-            Get a sample of these 5 influencer contacts to evaluate our database quality
+            Get full access to all {totalCount.toLocaleString()} influencers with verified contacts and current analytics
           </p>
-          <Button 
-            onClick={() => onTrialRequest?.("trial", 10, 0)}
-            className="bg-gradient-primary text-white"
-          >
-            Get Free Trial Package (5 Contacts)
-          </Button>
         </div>
-
-        {/* Divider */}
-        <div className="border-t border-primary/20"></div>
-
-        {/* Pricing Section */}
-        <div className="space-y-6">
-          <div className="text-center space-y-4">
-            <h3 className="text-2xl font-bold text-foreground">Choose Your Package</h3>
-            <p className="text-muted-foreground">
-              Get full access to all {totalCount.toLocaleString()} influencers with verified contacts and current analytics
-            </p>
-          </div>
-          
-          <div className="w-full max-w-6xl mx-auto">
-            <stripe-pricing-table 
-              pricing-table-id="prctbl_1Rw0ChGifA2aeWJ3MA1cFlun"
-              publishable-key="pk_test_51LdXkTGifA2aeWJ3CLmWlPiYusyyjUXvvmVpKFpwIjPWDzhUi1WDVs7wZncc1VA1smxKizBPb1mVw5FmByTqjrFb00cbdbnelP">
-            </stripe-pricing-table>
-          </div>
+        
+        <div className="w-full max-w-6xl mx-auto">
+          <stripe-pricing-table 
+            pricing-table-id="prctbl_1Rw0ChGifA2aeWJ3MA1cFlun"
+            publishable-key="pk_test_51LdXkTGifA2aeWJ3CLmWlPiYusyyjUXvvmVpKFpwIjPWDzhUi1WDVs7wZncc1VA1smxKizBPb1mVw5FmByTqjrFb00cbdbnelP">
+          </stripe-pricing-table>
         </div>
       </div>
-    </Card>
+    </div>
   );
 };
