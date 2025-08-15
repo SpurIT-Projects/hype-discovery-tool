@@ -20,6 +20,7 @@ interface Influencer {
 interface SearchResultsProps {
   results: Influencer[];
   totalCount: number;
+  platform?: string;
   isLoading?: boolean;
   onTrialRequest?: (packageType: string, count: number, price: number) => void;
 }
@@ -53,7 +54,7 @@ const formatNumber = (num: number) => {
   return num.toString();
 };
 
-export const SearchResults = ({ results = [], totalCount = 0, isLoading = false, onTrialRequest }: SearchResultsProps) => {
+export const SearchResults = ({ results = [], totalCount = 0, platform = "", isLoading = false, onTrialRequest }: SearchResultsProps) => {
   if (isLoading) {
     return (
       <div className="py-20">
@@ -120,8 +121,8 @@ export const SearchResults = ({ results = [], totalCount = 0, isLoading = false,
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        {getPlatformIcon("instagram")}
-                        <span className="capitalize">Instagram</span>
+                        {getPlatformIcon(platform)}
+                        <span className="capitalize">{platform}</span>
                       </div>
                     </TableCell>
                     <TableCell>

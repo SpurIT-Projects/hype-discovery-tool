@@ -25,6 +25,7 @@ const Index = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
+  const [platform, setPlatform] = useState("");
 
   // Map short country codes to full names for API
   const countryNameMap: Record<string, string> = {
@@ -72,6 +73,7 @@ const Index = () => {
         const data = await response.json();
         setSearchResults(data.accounts || []);
         setTotalCount(data.total || 0);
+        setPlatform(data.platform || "");
         setShowSearchResults(true);
       } else {
         console.error('Search failed:', response.statusText);
@@ -179,6 +181,7 @@ const Index = () => {
             <SearchResults 
               results={searchResults}
               totalCount={totalCount}
+              platform={platform}
               isLoading={isSearching}
               onTrialRequest={(packageType, count, price) => {
                 if (packageType === "trial") {
