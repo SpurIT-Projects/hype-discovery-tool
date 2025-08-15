@@ -168,30 +168,33 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
             {/* Fake results under blur - only show if we have more than 5 total results */}
             {totalCount > 5 && (
               <div className="relative">
+                {/* Total count banner */}
+                <div className="bg-gradient-to-r from-primary/10 to-primary/20 border border-primary/30 rounded-lg p-3 mb-4 text-center">
+                  <p className="text-sm text-muted-foreground">
+                    Total influencers found: <span className="text-primary font-bold text-lg">{totalCount.toLocaleString()}</span>
+                  </p>
+                </div>
+
                 <div className="space-y-4 md:space-y-0">
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <div key={`fake-${index}`} className="py-4 border-t border-primary/10">
-                      {/* Mobile Card Layout */}
+                  {/* Reduce fake results on mobile - show only 2 instead of 5 */}
+                  {Array.from({ length: window.innerWidth < 768 ? 2 : 3 }).map((_, index) => (
+                    <div key={`fake-${index}`} className="py-3 md:py-4 border-t border-primary/10">
+                      {/* Mobile Card Layout - Compressed */}
                       <div className="md:hidden">
-                        <div className="flex items-start gap-3">
-                          <Avatar className="h-12 w-12 flex-shrink-0">
+                        <div className="flex items-center gap-3">
+                          <Avatar className="h-10 w-10 flex-shrink-0">
                             <AvatarFallback>••</AvatarFallback>
                           </Avatar>
                           <div className="flex-1 min-w-0">
-                            <div className="font-medium text-foreground">•••••••••</div>
-                            <div className="text-sm text-muted-foreground">•••••••••</div>
-                            <div className="flex items-center gap-2 mt-1">
-                              <div className="w-4 h-4 bg-muted rounded"></div>
-                              <span className="text-sm">•••••••••</span>
-                            </div>
-                            <div className="flex items-center justify-between mt-2">
-                              <div className="text-sm">
-                                <span className="text-muted-foreground">Followers: </span>
-                                <span className="font-medium">•••••••</span>
+                            <div className="font-medium text-foreground text-sm">•••••••••</div>
+                            <div className="text-xs text-muted-foreground">•••••••••</div>
+                            <div className="flex items-center justify-between mt-1">
+                              <div className="flex items-center gap-1">
+                                <div className="w-3 h-3 bg-muted rounded"></div>
+                                <span className="text-xs">•••••</span>
                               </div>
                               <div className="text-right">
-                                <div className="text-xs text-muted-foreground">Engagement Rate</div>
-                                <Badge variant="outline" className="text-xs">•••</Badge>
+                                <Badge variant="outline" className="text-xs px-1 py-0">•••</Badge>
                               </div>
                             </div>
                           </div>
@@ -223,29 +226,32 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
                 </div>
                 
                 {/* Overlay for blurred fake results only */}
-                <div className="absolute inset-0 -mx-4 -mb-4 bg-background/30 backdrop-blur-sm z-30 flex items-center justify-center">
-                  <div className="text-center space-y-3 max-w-sm mx-auto px-4">
-                    <div className="space-y-1">
-                      <p className="font-semibold text-foreground">
+                <div className="absolute inset-0 -mx-4 -mb-4 bg-background/40 backdrop-blur-md z-30 flex items-center justify-center min-h-[300px] md:min-h-[400px]">
+                  <div className="text-center space-y-6 max-w-md mx-auto px-6">
+                    <div className="space-y-2">
+                      <p className="text-xl md:text-2xl font-bold text-foreground">
                         +{(totalCount - 5).toLocaleString()} more influencers
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Unlock access to the complete database
                       </p>
                     </div>
                     
-                    {/* Try for Free section */}
-                    <div className="space-y-2 pt-2 border-t border-primary/20">
-                      <h4 className="text-base font-bold text-foreground">Try for Free</h4>
-                      <p className="text-xs text-muted-foreground">
+                    {/* Try for Free section - Larger and centered */}
+                    <div className="bg-background/80 backdrop-blur-sm rounded-xl p-6 border border-primary/30 shadow-lg">
+                      <h4 className="text-xl md:text-2xl font-bold text-foreground mb-2">Try for Free</h4>
+                      <p className="text-sm text-muted-foreground mb-6">
                         Get 5 sample contacts to evaluate our database
                       </p>
-                      <div className="space-y-2">
+                      <div className="space-y-4">
                         <Input 
                           type="email" 
-                          placeholder="Enter email"
-                          className="bg-background/80 backdrop-blur-sm border-primary/30 h-8 text-sm"
+                          placeholder="Enter your email address"
+                          className="bg-background border-primary/40 h-12 text-base"
                         />
                         <Button 
                           onClick={() => onTrialRequest?.("trial", 10, 0)}
-                          className="w-full bg-gradient-primary text-white h-8 text-sm"
+                          className="w-full bg-gradient-primary text-white h-12 text-base font-semibold"
                         >
                           Get Free Trial (5 Contacts)
                         </Button>
