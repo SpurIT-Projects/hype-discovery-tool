@@ -26,6 +26,30 @@ const Index = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
 
+  // Map short country codes to full names for API
+  const countryNameMap: Record<string, string> = {
+    us: "United States",
+    uk: "United Kingdom",
+    de: "Germany",
+    fr: "France",
+    br: "Brazil",
+    ca: "Canada",
+    au: "Australia",
+    es: "Spain",
+    it: "Italy",
+    jp: "Japan",
+    kr: "South Korea",
+    in: "India",
+    mx: "Mexico",
+    nl: "Netherlands",
+    se: "Sweden",
+    no: "Norway",
+    dk: "Denmark",
+    fi: "Finland",
+    ch: "Switzerland",
+    at: "Austria",
+  };
+
   const handleSearch = async () => {
     setIsSearching(true);
     try {
@@ -37,7 +61,7 @@ const Index = () => {
         body: JSON.stringify({
           platform: filters.socialPlatform,
           size: filters.influencerSize,
-          location: filters.influencerLocation,
+          location: countryNameMap[filters.influencerLocation] || filters.influencerLocation,
           category: filters.category,
           avg_views: filters.avgViews[0],
           er: filters.engagementRate[0]
