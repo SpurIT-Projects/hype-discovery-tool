@@ -2,7 +2,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { MapPin, Users, Eye, Zap, Instagram, Youtube, Music, Twitter, Tv } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Instagram, Youtube, Music, Twitter, Tv } from "lucide-react";
 
 interface Influencer {
   id: string;
@@ -22,6 +23,7 @@ interface SearchResultsProps {
   results: Influencer[];
   totalCount: number;
   isLoading?: boolean;
+  onTrialRequest?: (packageType: string, count: number, price: number) => void;
 }
 
 const mockInfluencers: Influencer[] = [
@@ -119,7 +121,7 @@ const formatNumber = (num: number) => {
   return num.toString();
 };
 
-export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, isLoading = false }: SearchResultsProps) => {
+export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, isLoading = false, onTrialRequest }: SearchResultsProps) => {
   if (isLoading) {
     return (
       <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
@@ -132,90 +134,137 @@ export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, i
   }
 
   return (
-    <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
-      <div className="space-y-6">
-        <div className="text-center">
-          <h3 className="text-2xl font-bold text-foreground mb-2">Search Results</h3>
+    <div className="space-y-8">
+      <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
+        <div className="space-y-6">
+          <div className="text-center">
+            <h3 className="text-2xl font-bold text-foreground mb-2">Search Results</h3>
+            <p className="text-muted-foreground">
+              Showing first 5 influencers • {totalCount.toLocaleString()} total results found
+            </p>
+          </div>
+
+          <div className="relative">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Influencer</TableHead>
+                  <TableHead>Platform</TableHead>
+                  <TableHead>Followers</TableHead>
+                  <TableHead>Engagement Rate</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {results.slice(0, 5).map((influencer) => (
+                  <TableRow key={influencer.id}>
+                    <TableCell>
+                      <div className="flex items-center gap-3">
+                        <Avatar className="h-10 w-10">
+                          <AvatarImage src={influencer.avatar} alt={influencer.name} />
+                          <AvatarFallback>{influencer.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="font-medium text-foreground">{influencer.name}</div>
+                          <div className="text-sm text-muted-foreground">{influencer.username}</div>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        {getPlatformIcon(influencer.platform)}
+                        <span className="capitalize">{influencer.platform}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <span>{formatNumber(influencer.followers)}</span>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className="text-xs">
+                        {influencer.engagementRate}%
+                      </Badge>
+                    </TableCell>
+                  </TableRow>
+                ))}
+                
+                {/* Blurred additional results */}
+                {totalCount > 5 && (
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-background/30 backdrop-blur-sm z-10 flex items-center justify-center">
+                      <div className="text-center space-y-2">
+                        <p className="font-semibold text-foreground">
+                          +{(totalCount - 5).toLocaleString()} more influencers
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          Purchase a package to see all results
+                        </p>
+                      </div>
+                    </div>
+                    {/* Mock additional rows */}
+                    {Array.from({ length: 3 }).map((_, index) => (
+                      <TableRow key={`mock-${index}`}>
+                        <TableCell>
+                          <div className="flex items-center gap-3">
+                            <Avatar className="h-10 w-10">
+                              <AvatarFallback>••</AvatarFallback>
+                            </Avatar>
+                            <div>
+                              <div className="font-medium text-foreground">•••••••••</div>
+                              <div className="text-sm text-muted-foreground">@•••••••••</div>
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <div className="w-4 h-4 bg-muted rounded"></div>
+                            <span>•••••••••</span>
+                          </div>
+                        </TableCell>
+                        <TableCell>•••••••</TableCell>
+                        <TableCell>
+                          <Badge variant="outline" className="text-xs">•••</Badge>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </div>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+      </Card>
+
+      {/* Trial Section */}
+      <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
+        <div className="text-center space-y-4">
+          <h3 className="text-2xl font-bold text-foreground">Try for Free</h3>
           <p className="text-muted-foreground">
-            Showing first 5 influencers • {totalCount.toLocaleString()} total results found
+            Get a sample of 10 influencer contacts to evaluate our database quality
           </p>
-        </div>
-
-        <div className="grid gap-4">
-          {results.slice(0, 5).map((influencer) => (
-            <Card key={influencer.id} className="p-4 bg-background/50 border-primary/10 hover:border-primary/30 transition-colors">
-              <div className="flex items-center gap-4">
-                <Avatar className="h-16 w-16">
-                  <AvatarImage src={influencer.avatar} alt={influencer.name} />
-                  <AvatarFallback>{influencer.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                </Avatar>
-                
-                <div className="flex-1 space-y-2">
-                  <div className="flex items-center gap-2">
-                    <h4 className="font-semibold text-foreground">{influencer.name}</h4>
-                    {influencer.verified && (
-                      <Badge variant="secondary" className="text-xs">Verified</Badge>
-                    )}
-                  </div>
-                  
-                  <p className="text-sm text-muted-foreground">{influencer.username}</p>
-                  
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      {getPlatformIcon(influencer.platform)}
-                      <span className="capitalize">{influencer.platform}</span>
-                    </div>
-                    
-                    <div className="flex items-center gap-1">
-                      <Users className="w-4 h-4" />
-                      <span>{formatNumber(influencer.followers)} followers</span>
-                    </div>
-                    
-                    <div className="flex items-center gap-1">
-                      <Eye className="w-4 h-4" />
-                      <span>{formatNumber(influencer.avgViews)} avg views</span>
-                    </div>
-                    
-                    <div className="flex items-center gap-1">
-                      <Zap className="w-4 h-4" />
-                      <span>{influencer.engagementRate}% engagement</span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-4 text-sm">
-                    <div className="flex items-center gap-1 text-muted-foreground">
-                      <MapPin className="w-4 h-4" />
-                      <span>{influencer.location}</span>
-                    </div>
-                    
-                    <Badge variant="outline" className="text-xs">
-                      {influencer.category}
-                    </Badge>
-                  </div>
-                </div>
-                
-                <div className="flex flex-col gap-2">
-                  <Button variant="default" size="sm" className="bg-gradient-primary text-white">
-                    View Profile
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    Contact
-                  </Button>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-
-        <div className="text-center pt-4 border-t border-primary/20">
-          <p className="text-muted-foreground mb-4">
-            {(totalCount - 5).toLocaleString()} more influencers match your criteria
-          </p>
-          <Button variant="outline" className="px-6">
-            View All Results
+          <Button 
+            onClick={() => onTrialRequest?.("trial", 10, 0)}
+            className="bg-gradient-primary text-white"
+          >
+            Get Free Trial Package
           </Button>
         </div>
-      </div>
-    </Card>
+      </Card>
+
+      {/* Pricing Section */}
+      <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
+        <div className="text-center space-y-4 mb-6">
+          <h3 className="text-2xl font-bold text-foreground">Choose Your Package</h3>
+          <p className="text-muted-foreground">
+            All packages include verified contacts and current analytics
+          </p>
+        </div>
+        
+        <div className="w-full max-w-6xl mx-auto">
+          <stripe-pricing-table 
+            pricing-table-id="prctbl_1Rw0ChGifA2aeWJ3MA1cFlun"
+            publishable-key="pk_test_51LdXkTGifA2aeWJ3CLmWlPiYusyyjUXvvmVpKFpwIjPWDzhUi1WDVs7wZncc1VA1smxKizBPb1mVw5FmByTqjrFb00cbdbnelP">
+          </stripe-pricing-table>
+        </div>
+      </Card>
+    </div>
   );
 };

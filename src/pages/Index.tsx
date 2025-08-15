@@ -118,34 +118,18 @@ const Index = () => {
               results={[]}
               totalCount={11212}
               isLoading={isSearching}
+              onTrialRequest={(packageType, count, price) => {
+                if (packageType === "trial") {
+                  setShowContactForm(true);
+                }
+              }}
             />
           </div>
         )}
 
-        {/* Pricing Section */}
-        <div className="space-y-8 mb-16">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-foreground mb-4">Choose Your Package</h2>
-            <p className="text-muted-foreground">
-              All packages include verified contacts and current analytics
-            </p>
-          </div>
-          
-          {showContactForm ? (
-            <ContactForm onClose={() => setShowContactForm(false)} />
-          ) : (
-        <div className="w-full max-w-6xl mx-auto">
-          <stripe-pricing-table 
-            pricing-table-id="prctbl_1Rw0ChGifA2aeWJ3MA1cFlun"
-            publishable-key="pk_test_51LdXkTGifA2aeWJ3CLmWlPiYusyyjUXvvmVpKFpwIjPWDzhUi1WDVs7wZncc1VA1smxKizBPb1mVw5FmByTqjrFb00cbdbnelP">
-          </stripe-pricing-table>
-        </div>
-          )}
-        </div>
-
-        {/* Trial Section */}
-        {!showContactForm && (
-          <div className="space-y-8">
+        {/* Only show contact form when explicitly requested */}
+        {showContactForm && !showSearchResults && !isSearching && (
+          <div className="space-y-8 mb-16">
             <div className="text-center">
               <h2 className="text-3xl font-bold text-foreground mb-4">Try for Free</h2>
               <p className="text-muted-foreground">
@@ -153,7 +137,7 @@ const Index = () => {
               </p>
             </div>
             
-            <TrialSection />
+            <ContactForm onClose={() => setShowContactForm(false)} />
           </div>
         )}
       </div>
