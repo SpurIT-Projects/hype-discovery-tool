@@ -23,14 +23,48 @@ const Index = () => {
   const [showContactForm, setShowContactForm] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     setIsSearching(true);
-    // Simulate search delay
-    setTimeout(() => {
-      setIsSearching(false);
+    try {
+      const response = await fetch('https://workflow.influencersss.com/webhook/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          socialPlatform: filters.socialPlatform,
+          influencerSize: filters.influencerSize,
+          influencerLocation: filters.influencerLocation,
+          category: filters.category,
+          avgViews: filters.avgViews,
+          engagementRate: filters.engagementRate
+        })
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setSearchResults(data.results || []);
+        setTotalCount(data.totalCount || 0);
+        setShowSearchResults(true);
+      } else {
+        console.error('Search failed:', response.statusText);
+        // Fallback to showing empty results
+        setSearchResults([]);
+        setTotalCount(0);
+        setShowSearchResults(true);
+      }
+    } catch (error) {
+      console.error('Search error:', error);
+      // Fallback to showing empty results
+      setSearchResults([]);
+      setTotalCount(0);
       setShowSearchResults(true);
-    }, 1500);
+    } finally {
+      setIsSearching(false);
+    }
   };
 
   const handlePurchase = (packageType: string, count: number, price: number) => {
@@ -119,8 +153,8 @@ const Index = () => {
         {(showSearchResults || isSearching) && (
           <div className="space-y-8 mb-16">
             <SearchResults 
-              results={[]}
-              totalCount={11212}
+              results={searchResults}
+              totalCount={totalCount}
               isLoading={isSearching}
               onTrialRequest={(packageType, count, price) => {
                 if (packageType === "trial") {
