@@ -145,15 +145,13 @@ const Index = () => {
           </div>
         )}
 
-        {/* Additional Content Sections - only show when search results are not displayed */}
-        {!showSearchResults && !isSearching && !showContactForm && (
-          <div className="space-y-16">
-            <HowItWorks />
-            <Benefits />
-            <Testimonials />
-            <FAQ />
-          </div>
-        )}
+        {/* Additional Content Sections */}
+        <div className="space-y-16">
+          <HowItWorks />
+          <Benefits />
+          <Testimonials />
+          <FAQ />
+        </div>
       </div>
       
       {/* Footer */}
