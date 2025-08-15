@@ -115,7 +115,7 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
                         </Avatar>
                         <div>
                           <div className="font-medium text-foreground">{influencer.profile.full_name}</div>
-                          <div className="text-sm text-muted-foreground">@{influencer.profile.username}</div>
+                          <div className="text-sm text-muted-foreground">{influencer.profile.username}</div>
                         </div>
                       </div>
                     </TableCell>
@@ -148,7 +148,7 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
                             </Avatar>
                             <div>
                               <div className="font-medium text-foreground">•••••••••</div>
-                              <div className="text-sm text-muted-foreground">@•••••••••</div>
+                              <div className="text-sm text-muted-foreground">•••••••••</div>
                             </div>
                           </div>
                         </TableCell>
