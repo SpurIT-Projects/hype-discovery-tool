@@ -225,34 +225,31 @@ export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, i
           
           {/* Absolute positioned overlay that covers entire card */}
           {totalCount > 5 && (
-            <div className="absolute inset-0 bg-background/30 backdrop-blur-sm z-30 flex items-center justify-center" style={{top: '240px'}}>
-              <div className="text-center space-y-4 max-w-md mx-auto px-6">
-                <div className="space-y-2">
+            <div className="absolute inset-0 bg-background/30 backdrop-blur-sm z-30 flex items-center justify-center" style={{top: '200px'}}>
+              <div className="text-center space-y-3 max-w-sm mx-auto px-4">
+                <div className="space-y-1">
                   <p className="font-semibold text-foreground">
                     +{(totalCount - 5).toLocaleString()} more influencers
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Purchase a package to see all results
                   </p>
                 </div>
                 
                 {/* Try for Free section */}
-                <div className="space-y-3 pt-4 border-t border-primary/20">
-                  <h4 className="text-lg font-bold text-foreground">Try for Free</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Get a sample of these 5 influencer contacts to evaluate our database quality
+                <div className="space-y-2 pt-2 border-t border-primary/20">
+                  <h4 className="text-base font-bold text-foreground">Try for Free</h4>
+                  <p className="text-xs text-muted-foreground">
+                    Get 5 sample contacts to evaluate our database
                   </p>
                   <div className="space-y-2">
                     <Input 
                       type="email" 
-                      placeholder="Enter your email address"
-                      className="bg-background/80 backdrop-blur-sm border-primary/30"
+                      placeholder="Enter email"
+                      className="bg-background/80 backdrop-blur-sm border-primary/30 h-8 text-sm"
                     />
                     <Button 
                       onClick={() => onTrialRequest?.("trial", 10, 0)}
-                      className="w-full bg-gradient-primary text-white"
+                      className="w-full bg-gradient-primary text-white h-8 text-sm"
                     >
-                      Get Free Trial Package (5 Contacts)
+                      Get Free Trial (5 Contacts)
                     </Button>
                   </div>
                 </div>
