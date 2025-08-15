@@ -144,8 +144,8 @@ export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, i
           </p>
         </div>
 
-        <Card className="bg-gradient-card border-primary/20 shadow-card overflow-hidden">
-          <div className="relative p-2">
+        <Card className="bg-gradient-card border-primary/20 shadow-card relative overflow-hidden">
+          <div className="p-2">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -216,23 +216,25 @@ export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, i
                         </TableCell>
                       </TableRow>
                     ))}
-                    
-                    {/* Overlay for blurred section */}
-                    <div className="absolute inset-0 bg-background/30 backdrop-blur-sm z-10 flex items-center justify-center" style={{top: '240px', left: '0', right: '0'}}>
-                      <div className="text-center space-y-2">
-                        <p className="font-semibold text-foreground">
-                          +{(totalCount - 5).toLocaleString()} more influencers
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          Purchase a package to see all results
-                        </p>
-                      </div>
-                    </div>
                   </>
                 )}
               </TableBody>
             </Table>
           </div>
+          
+          {/* Absolute positioned overlay that covers entire card */}
+          {totalCount > 5 && (
+            <div className="absolute inset-0 bg-background/30 backdrop-blur-sm z-30 flex items-center justify-center" style={{top: '240px'}}>
+              <div className="text-center space-y-2">
+                <p className="font-semibold text-foreground">
+                  +{(totalCount - 5).toLocaleString()} more influencers
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Purchase a package to see all results
+                </p>
+              </div>
+            </div>
+          )}
         </Card>
       </div>
 
