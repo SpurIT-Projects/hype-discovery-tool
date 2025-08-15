@@ -70,8 +70,8 @@ const Index = () => {
       
       if (response.ok) {
         const data = await response.json();
-        setSearchResults(data.results || []);
-        setTotalCount(data.totalCount || 0);
+        setSearchResults(data.accounts || []);
+        setTotalCount(data.total || 0);
         setShowSearchResults(true);
       } else {
         console.error('Search failed:', response.statusText);

@@ -7,17 +7,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Instagram, Youtube, Music, Twitter, Tv } from "lucide-react";
 
 interface Influencer {
-  id: string;
-  name: string;
-  username: string;
-  avatar: string;
-  platform: string;
-  followers: number;
-  avgViews: number;
-  engagementRate: number;
-  location: string;
-  category: string;
-  verified: boolean;
+  user_id: string;
+  profile: {
+    full_name: string;
+    username: string;
+    picture: string;
+    followers: number;
+    engagement_percent: number;
+  };
 }
 
 interface SearchResultsProps {
@@ -27,73 +24,7 @@ interface SearchResultsProps {
   onTrialRequest?: (packageType: string, count: number, price: number) => void;
 }
 
-const mockInfluencers: Influencer[] = [
-  {
-    id: "1",
-    name: "Emma Johnson",
-    username: "@emmaj_lifestyle",
-    avatar: "/placeholder.svg",
-    platform: "instagram",
-    followers: 245000,
-    avgViews: 8500,
-    engagementRate: 1.8,
-    location: "United States",
-    category: "Lifestyle",
-    verified: true
-  },
-  {
-    id: "2", 
-    name: "Alex Chen",
-    username: "@alexchen_tech",
-    avatar: "/placeholder.svg",
-    platform: "youtube",
-    followers: 158000,
-    avgViews: 12300,
-    engagementRate: 2.1,
-    location: "Canada",
-    category: "Technology",
-    verified: false
-  },
-  {
-    id: "3",
-    name: "Sofia Martinez",
-    username: "@sofia_beauty",
-    avatar: "/placeholder.svg", 
-    platform: "tiktok",
-    followers: 89000,
-    avgViews: 6700,
-    engagementRate: 1.5,
-    location: "Spain",
-    category: "Beauty",
-    verified: true
-  },
-  {
-    id: "4",
-    name: "Mike Thompson",
-    username: "@mikethompson_fit",
-    avatar: "/placeholder.svg",
-    platform: "instagram",
-    followers: 321000,
-    avgViews: 15400,
-    engagementRate: 1.9,
-    location: "United Kingdom",
-    category: "Fitness",
-    verified: true
-  },
-  {
-    id: "5",
-    name: "Lisa Wang",
-    username: "@lisawang_food",
-    avatar: "/placeholder.svg",
-    platform: "youtube",
-    followers: 194000,
-    avgViews: 9800,
-    engagementRate: 1.7,
-    location: "Australia",
-    category: "Food & Cooking",
-    verified: false
-  }
-];
+const mockInfluencers: Influencer[] = [];
 
 const getPlatformIcon = (platform: string) => {
   switch (platform) {
@@ -122,13 +53,28 @@ const formatNumber = (num: number) => {
   return num.toString();
 };
 
-export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, isLoading = false, onTrialRequest }: SearchResultsProps) => {
+export const SearchResults = ({ results = [], totalCount = 0, isLoading = false, onTrialRequest }: SearchResultsProps) => {
   if (isLoading) {
     return (
       <div className="py-20">
         <div className="text-center space-y-6">
           <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary/20 border-t-primary mx-auto"></div>
           <p className="text-muted-foreground text-lg">Searching influencers...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show "no results" message when totalCount is 0
+  if (totalCount === 0) {
+    return (
+      <div className="py-20">
+        <div className="text-center space-y-6">
+          <h3 className="text-2xl font-bold text-foreground">Search Results</h3>
+          <div className="text-muted-foreground">
+            <p className="text-lg mb-2">No influencers found</p>
+            <p>Try adjusting your search parameters to find more results</p>
+          </div>
         </div>
       </div>
     );
@@ -159,31 +105,31 @@ export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, i
               <TableBody>
                 {/* Real influencer data - first 5 rows */}
                 {results.slice(0, 5).map((influencer) => (
-                  <TableRow key={influencer.id}>
+                  <TableRow key={influencer.user_id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <Avatar className="h-10 w-10">
-                          <AvatarImage src={influencer.avatar} alt={influencer.name} />
-                          <AvatarFallback>{influencer.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                          <AvatarImage src={influencer.profile.picture} alt={influencer.profile.full_name} />
+                          <AvatarFallback>{influencer.profile.full_name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                         </Avatar>
                         <div>
-                          <div className="font-medium text-foreground">{influencer.name}</div>
-                          <div className="text-sm text-muted-foreground">{influencer.username}</div>
+                          <div className="font-medium text-foreground">{influencer.profile.full_name}</div>
+                          <div className="text-sm text-muted-foreground">@{influencer.profile.username}</div>
                         </div>
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        {getPlatformIcon(influencer.platform)}
-                        <span className="capitalize">{influencer.platform}</span>
+                        {getPlatformIcon("instagram")}
+                        <span className="capitalize">Instagram</span>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <span>{formatNumber(influencer.followers)}</span>
+                      <span>{formatNumber(influencer.profile.followers)}</span>
                     </TableCell>
                     <TableCell>
                       <Badge variant="outline" className="text-xs">
-                        {influencer.engagementRate}%
+                        {influencer.profile.engagement_percent.toFixed(1)}%
                       </Badge>
                     </TableCell>
                   </TableRow>
