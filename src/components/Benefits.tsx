@@ -48,7 +48,7 @@ export const Benefits = () => {
         {benefits.map((benefit, index) => {
           const Icon = benefit.icon;
           return (
-            <Card key={index} className="p-6 bg-gradient-card border-none shadow-card">
+            <Card key={index} className="p-6 border-none shadow-card">
               <div className="space-y-4">
                 <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
                   <Icon className="w-6 h-6 text-white" />
