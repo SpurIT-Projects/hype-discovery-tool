@@ -35,12 +35,12 @@ const Index = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          socialPlatform: filters.socialPlatform,
-          influencerSize: filters.influencerSize,
-          influencerLocation: filters.influencerLocation,
+          platform: filters.socialPlatform,
+          size: filters.influencerSize,
+          location: filters.influencerLocation,
           category: filters.category,
-          avgViews: filters.avgViews,
-          engagementRate: filters.engagementRate
+          avg_views: filters.avgViews[0],
+          er: filters.engagementRate[0]
         })
       });
       
