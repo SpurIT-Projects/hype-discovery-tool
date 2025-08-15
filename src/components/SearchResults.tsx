@@ -103,7 +103,7 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
 
             {/* Results Grid */}
             <div className="space-y-4 md:space-y-0">
-              {/* Real influencer data */}
+              {/* Real influencer data - always visible */}
               {results.slice(0, 5).map((influencer, index) => (
                 <div key={influencer.user_id} className={`py-4 ${index > 0 ? 'border-t border-primary/10 md:border-t-0' : ''}`}>
                   {/* Mobile Card Layout */}
@@ -163,33 +163,38 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
                   </div>
                 </div>
               ))}
-              
-              {/* Blurred additional results */}
-              {totalCount > 5 && (
-                <>
-                  {Array.from({ length: 3 }).map((_, index) => (
-                    <div key={`mock-${index}`} className="py-4 border-t border-primary/10">
+            </div>
+            
+            {/* Fake results under blur - only show if we have more than 5 total results */}
+            {totalCount > 5 && (
+              <div className="relative">
+                <div className="space-y-4 md:space-y-0">
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <div key={`fake-${index}`} className="py-4 border-t border-primary/10">
                       {/* Mobile Card Layout */}
-                      <div className="md:hidden space-y-3">
+                      <div className="md:hidden">
                         <div className="flex items-start gap-3">
                           <Avatar className="h-12 w-12 flex-shrink-0">
                             <AvatarFallback>••</AvatarFallback>
                           </Avatar>
                           <div className="flex-1 min-w-0">
-                            <div className="font-medium text-foreground text-sm">•••••••••</div>
-                            <div className="text-xs text-muted-foreground">•••••••••</div>
+                            <div className="font-medium text-foreground">•••••••••</div>
+                            <div className="text-sm text-muted-foreground">•••••••••</div>
                             <div className="flex items-center gap-2 mt-1">
                               <div className="w-4 h-4 bg-muted rounded"></div>
-                              <span className="text-xs">•••••••••</span>
+                              <span className="text-sm">•••••••••</span>
+                            </div>
+                            <div className="flex items-center justify-between mt-2">
+                              <div className="text-sm">
+                                <span className="text-muted-foreground">Followers: </span>
+                                <span className="font-medium">•••••••</span>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-xs text-muted-foreground">Engagement Rate</div>
+                                <Badge variant="outline" className="text-xs">•••</Badge>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="flex justify-between items-center text-sm">
-                          <div>
-                            <span className="text-muted-foreground">Followers: </span>
-                            <span className="font-medium">•••••••</span>
-                          </div>
-                          <Badge variant="outline" className="text-xs">•••</Badge>
                         </div>
                       </div>
 
@@ -215,44 +220,42 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
                       </div>
                     </div>
                   ))}
-                </>
-              )}
-            </div>
-          </div>
-          
-          {/* Overlay for blurred results */}
-          {totalCount > 5 && (
-            <div className="absolute inset-0 bg-background/30 backdrop-blur-sm z-30 flex items-center justify-center" style={{top: '200px'}}>
-              <div className="text-center space-y-3 max-w-sm mx-auto px-4">
-                <div className="space-y-1">
-                  <p className="font-semibold text-foreground">
-                    +{(totalCount - 5).toLocaleString()} more influencers
-                  </p>
                 </div>
                 
-                {/* Try for Free section */}
-                <div className="space-y-2 pt-2 border-t border-primary/20">
-                  <h4 className="text-base font-bold text-foreground">Try for Free</h4>
-                  <p className="text-xs text-muted-foreground">
-                    Get 5 sample contacts to evaluate our database
-                  </p>
-                  <div className="space-y-2">
-                    <Input 
-                      type="email" 
-                      placeholder="Enter email"
-                      className="bg-background/80 backdrop-blur-sm border-primary/30 h-8 text-sm"
-                    />
-                    <Button 
-                      onClick={() => onTrialRequest?.("trial", 10, 0)}
-                      className="w-full bg-gradient-primary text-white h-8 text-sm"
-                    >
-                      Get Free Trial (5 Contacts)
-                    </Button>
+                {/* Overlay for blurred fake results */}
+                <div className="absolute inset-0 bg-background/30 backdrop-blur-sm z-30 flex items-center justify-center">
+                  <div className="text-center space-y-3 max-w-sm mx-auto px-4">
+                    <div className="space-y-1">
+                      <p className="font-semibold text-foreground">
+                        +{(totalCount - 5).toLocaleString()} more influencers
+                      </p>
+                    </div>
+                    
+                    {/* Try for Free section */}
+                    <div className="space-y-2 pt-2 border-t border-primary/20">
+                      <h4 className="text-base font-bold text-foreground">Try for Free</h4>
+                      <p className="text-xs text-muted-foreground">
+                        Get 5 sample contacts to evaluate our database
+                      </p>
+                      <div className="space-y-2">
+                        <Input 
+                          type="email" 
+                          placeholder="Enter email"
+                          className="bg-background/80 backdrop-blur-sm border-primary/30 h-8 text-sm"
+                        />
+                        <Button 
+                          onClick={() => onTrialRequest?.("trial", 10, 0)}
+                          className="w-full bg-gradient-primary text-white h-8 text-sm"
+                        >
+                          Get Free Trial (5 Contacts)
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </Card>
       </div>
 
