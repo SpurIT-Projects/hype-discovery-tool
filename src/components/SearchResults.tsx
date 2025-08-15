@@ -229,8 +229,8 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
                 <div className="absolute inset-0 -mx-4 -mb-4 bg-background/40 backdrop-blur-md z-30 flex items-center justify-center min-h-[280px] md:min-h-[350px]">
                   <div className="text-center space-y-6 max-w-md mx-auto px-6">
                     <div className="space-y-2">
-                      <p className="text-lg md:text-xl font-bold text-foreground">
-                        More influencers available
+                      <p className="text-base md:text-lg font-bold text-foreground">
+                        {totalCount.toLocaleString()} influencers found
                       </p>
                       <p className="text-sm text-muted-foreground">
                         Unlock access to the complete database
