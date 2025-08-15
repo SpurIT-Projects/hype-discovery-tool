@@ -144,8 +144,8 @@ export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, i
           </p>
         </div>
 
-        <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
-          <div className="relative">
+        <Card className="bg-gradient-card border-primary/20 shadow-card overflow-hidden">
+          <div className="relative p-2">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -218,7 +218,7 @@ export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, i
                     ))}
                     
                     {/* Overlay for blurred section */}
-                    <div className="absolute inset-0 bg-background/30 backdrop-blur-sm z-10 flex items-center justify-center" style={{top: '240px'}}>
+                    <div className="absolute inset-0 bg-background/30 backdrop-blur-sm z-10 flex items-center justify-center" style={{top: '240px', left: '0', right: '0'}}>
                       <div className="text-center space-y-2">
                         <p className="font-semibold text-foreground">
                           +{(totalCount - 5).toLocaleString()} more influencers
