@@ -226,7 +226,7 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
                 </div>
                 
                 {/* Simple overlay for blurred fake results */}
-                <div className="absolute inset-0 -mx-4 -mb-4 bg-background/40 backdrop-blur-md z-30 flex items-center justify-center py-12 md:py-16">
+                <div className="absolute inset-0 -mx-4 -mb-4 bg-background/40 backdrop-blur-md z-30 flex items-center justify-center py-20 md:py-24">
                   <div className="text-center space-y-6 max-w-md mx-auto px-6">
                     <div className="space-y-2">
                       <p className="text-base md:text-lg font-bold text-foreground">
