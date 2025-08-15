@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Instagram, Youtube, Music, Twitter, Tv } from "lucide-react";
@@ -225,31 +226,40 @@ export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, i
           {/* Absolute positioned overlay that covers entire card */}
           {totalCount > 5 && (
             <div className="absolute inset-0 bg-background/30 backdrop-blur-sm z-30 flex items-center justify-center" style={{top: '240px'}}>
-              <div className="text-center space-y-2">
-                <p className="font-semibold text-foreground">
-                  +{(totalCount - 5).toLocaleString()} more influencers
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Purchase a package to see all results
-                </p>
+              <div className="text-center space-y-4 max-w-md mx-auto px-6">
+                <div className="space-y-2">
+                  <p className="font-semibold text-foreground">
+                    +{(totalCount - 5).toLocaleString()} more influencers
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Purchase a package to see all results
+                  </p>
+                </div>
+                
+                {/* Try for Free section */}
+                <div className="space-y-3 pt-4 border-t border-primary/20">
+                  <h4 className="text-lg font-bold text-foreground">Try for Free</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Get a sample of these 5 influencer contacts to evaluate our database quality
+                  </p>
+                  <div className="space-y-2">
+                    <Input 
+                      type="email" 
+                      placeholder="Enter your email address"
+                      className="bg-background/80 backdrop-blur-sm border-primary/30"
+                    />
+                    <Button 
+                      onClick={() => onTrialRequest?.("trial", 10, 0)}
+                      className="w-full bg-gradient-primary text-white"
+                    >
+                      Get Free Trial Package (5 Contacts)
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           )}
         </Card>
-      </div>
-
-      {/* Trial Section */}
-      <div className="text-center space-y-4">
-        <h3 className="text-2xl font-bold text-foreground">Try for Free</h3>
-        <p className="text-muted-foreground">
-          Get a sample of these 5 influencer contacts to evaluate our database quality
-        </p>
-        <Button 
-          onClick={() => onTrialRequest?.("trial", 10, 0)}
-          className="bg-gradient-primary text-white"
-        >
-          Get Free Trial Package (5 Contacts)
-        </Button>
       </div>
 
       {/* Pricing Section */}
