@@ -36,7 +36,7 @@ const benefits = [
 
 export const Benefits = () => {
   return (
-    <div className="space-y-12">
+    <div className="space-y-8">
       <div className="text-center">
         <h2 className="text-3xl font-bold text-foreground mb-4">Why Choose Our Database?</h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -44,31 +44,19 @@ export const Benefits = () => {
         </p>
       </div>
       
-      <div className="space-y-16">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {benefits.map((benefit, index) => {
           const Icon = benefit.icon;
-          const isEven = index % 2 === 0;
-          
           return (
-            <div 
-              key={index} 
-              className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-8 lg:gap-16`}
-            >
-              {/* Icon Section */}
-              <div className="flex-shrink-0">
-                <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gradient-primary rounded-2xl flex items-center justify-center shadow-lg">
-                  <Icon className="w-10 h-10 lg:w-12 lg:h-12 text-white" />
+            <Card key={index} className="p-6 bg-gradient-card border-none shadow-card">
+              <div className="space-y-4">
+                <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
+                  <Icon className="w-6 h-6 text-white" />
                 </div>
+                <h3 className="text-lg font-bold text-foreground">{benefit.title}</h3>
+                <p className="text-sm text-muted-foreground">{benefit.description}</p>
               </div>
-              
-              {/* Content Section */}
-              <div className={`flex-1 text-center ${isEven ? 'lg:text-left' : 'lg:text-right'} space-y-4`}>
-                <h3 className="text-2xl lg:text-3xl font-bold text-foreground">{benefit.title}</h3>
-                <p className="text-lg text-muted-foreground leading-relaxed max-w-lg">
-                  {benefit.description}
-                </p>
-              </div>
-            </div>
+            </Card>
           );
         })}
       </div>
