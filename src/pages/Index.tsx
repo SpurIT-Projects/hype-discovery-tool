@@ -3,6 +3,10 @@ import { InfluencerFilters, FilterState } from "@/components/InfluencerFilters";
 import { SearchResults } from "@/components/SearchResults";
 import { TrialSection } from "@/components/TrialSection";
 import { ContactForm } from "@/components/ContactForm";
+import { HowItWorks } from "@/components/HowItWorks";
+import { Benefits } from "@/components/Benefits";
+import { Testimonials } from "@/components/Testimonials";
+import { FAQ } from "@/components/FAQ";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Users, Globe, Zap } from "lucide-react";
 
@@ -138,6 +142,16 @@ const Index = () => {
             </div>
             
             <ContactForm onClose={() => setShowContactForm(false)} />
+          </div>
+        )}
+
+        {/* Additional Content Sections - only show when search results are not displayed */}
+        {!showSearchResults && !isSearching && !showContactForm && (
+          <div className="space-y-16">
+            <HowItWorks />
+            <Benefits />
+            <Testimonials />
+            <FAQ />
           </div>
         )}
       </div>
