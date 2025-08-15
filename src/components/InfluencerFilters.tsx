@@ -101,6 +101,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <Share2 className="w-4 h-4 text-primary" />
             Social Platform
+            <span className="text-red-500 ml-1">*</span>
           </Label>
           <Select value={filters.socialPlatform} onValueChange={(value) => updateFilter('socialPlatform', value)}>
             <SelectTrigger className="bg-background/50 border-primary/30">
@@ -217,6 +218,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <Search className="w-4 h-4 text-primary" />
             Category
+            <span className="text-red-500 ml-1">*</span>
           </Label>
           <div className="relative">
             <Input
@@ -293,7 +295,11 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
 
       {/* Search Button */}
       <div className="mt-6 flex justify-center">
-        <Button onClick={onSearch} className="px-8 py-3 bg-gradient-primary text-white font-medium">
+        <Button 
+          onClick={onSearch} 
+          disabled={!filters.socialPlatform || !filters.category}
+          className="px-8 py-3 bg-gradient-primary text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           <Search className="w-4 h-4 mr-2" />
           Search Influencers
         </Button>
