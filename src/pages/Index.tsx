@@ -206,9 +206,9 @@ const Index = () => {
           </div>
         )}
 
-        {/* Additional Content Sections */}
+        {/* Additional Content Sections - Hide HowItWorks when search results are shown */}
         <div className="space-y-16">
-          <HowItWorks />
+          {!showSearchResults && <HowItWorks />}
           <Benefits />
           <Testimonials />
           <FAQ />
