@@ -168,10 +168,10 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
             {/* Fake results under blur - only show if we have more than 5 total results */}
             {totalCount > 5 && (
               <div className="relative">
-                {/* Total count banner */}
-                <div className="bg-gradient-to-r from-primary/10 to-primary/20 border border-primary/30 rounded-lg p-3 mb-4 text-center">
+                {/* Simple banner showing total count from API - positioned at the junction */}
+                <div className="bg-primary/10 border-t border-primary/20 px-4 py-3 text-center">
                   <p className="text-sm text-muted-foreground">
-                    Total influencers found: <span className="text-primary font-bold text-lg">{totalCount.toLocaleString()}</span>
+                    Total found: <span className="text-primary font-bold text-base">{totalCount.toLocaleString()}</span> influencers
                   </p>
                 </div>
 
@@ -225,29 +225,29 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
                   ))}
                 </div>
                 
-                {/* Overlay for blurred fake results only */}
-                <div className="absolute inset-0 -mx-4 -mb-4 bg-background/40 backdrop-blur-md z-30 flex items-center justify-center min-h-[300px] md:min-h-[400px]">
+                {/* Simple overlay for blurred fake results */}
+                <div className="absolute inset-0 -mx-4 -mb-4 bg-background/40 backdrop-blur-md z-30 flex items-center justify-center min-h-[280px] md:min-h-[350px]">
                   <div className="text-center space-y-6 max-w-md mx-auto px-6">
                     <div className="space-y-2">
                       <p className="text-xl md:text-2xl font-bold text-foreground">
-                        +{(totalCount - 5).toLocaleString()} more influencers
+                        {(totalCount - 5).toLocaleString()} more influencers
                       </p>
                       <p className="text-sm text-muted-foreground">
                         Unlock access to the complete database
                       </p>
                     </div>
                     
-                    {/* Try for Free section - Larger and centered */}
-                    <div className="bg-background/80 backdrop-blur-sm rounded-xl p-6 border border-primary/30 shadow-lg">
-                      <h4 className="text-xl md:text-2xl font-bold text-foreground mb-2">Try for Free</h4>
-                      <p className="text-sm text-muted-foreground mb-6">
+                    {/* Try for Free section - Large and centered */}
+                    <div className="space-y-4">
+                      <h4 className="text-xl md:text-2xl font-bold text-foreground">Try for Free</h4>
+                      <p className="text-sm text-muted-foreground">
                         Get 5 sample contacts to evaluate our database
                       </p>
                       <div className="space-y-4">
                         <Input 
                           type="email" 
                           placeholder="Enter your email address"
-                          className="bg-background border-primary/40 h-12 text-base"
+                          className="bg-background/90 border-primary/40 h-12 text-base"
                         />
                         <Button 
                           onClick={() => onTrialRequest?.("trial", 10, 0)}
