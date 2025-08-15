@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { InfluencerFilters, FilterState } from "@/components/InfluencerFilters";
-import { SearchResults } from "@/components/SearchResults";
+import {SearchResults, SearchResultState} from "@/components/SearchResults";
 import { TrialSection } from "@/components/TrialSection";
 import { ContactForm } from "@/components/ContactForm";
 import { HowItWorks } from "@/components/HowItWorks";
@@ -16,16 +16,14 @@ const Index = () => {
     influencerSize: "micro",
     influencerLocation: "us",
     category: "",
-    avgViews: [100],
-    engagementRate: [0.1]
+    avgViews: [2500],
+    engagementRate: [0.8]
   });
-  
+
+
+  const [searchResult, setSearchResult] = useState<SearchResultState>(null);
   const [showContactForm, setShowContactForm] = useState(false);
-  const [showSearchResults, setShowSearchResults] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [platform, setPlatform] = useState("");
 
   // Map short country codes to full names for API
   const countryNameMap: Record<string, string> = {
@@ -53,6 +51,7 @@ const Index = () => {
 
   const handleSearch = async () => {
     setIsSearching(true);
+    setSearchResult(null);
     try {
       const response = await fetch('https://workflow.influencersss.com/webhook/search', {
         method: 'POST',
@@ -68,26 +67,34 @@ const Index = () => {
           er: filters.engagementRate[0]
         })
       });
-      
+
       if (response.ok) {
         const data = await response.json();
-        setSearchResults(data.accounts || []);
-        setTotalCount(data.total || 0);
-        setPlatform(data.platform || "");
-        setShowSearchResults(true);
+          setSearchResult({
+              id: data.id || null,
+              accounts: data.accounts || [],
+              total: data.total || 0,
+              platform: data.platform || ""
+          })
       } else {
         console.error('Search failed:', response.statusText);
         // Fallback to showing empty results
-        setSearchResults([]);
-        setTotalCount(0);
-        setShowSearchResults(true);
+          setSearchResult({
+              id: null,
+              accounts: [],
+              total: 0,
+              platform: ""
+          })
       }
     } catch (error) {
       console.error('Search error:', error);
       // Fallback to showing empty results
-      setSearchResults([]);
-      setTotalCount(0);
-      setShowSearchResults(true);
+        setSearchResult({
+            id: null,
+            accounts: [],
+            total: 0,
+            platform: ""
+        })
     } finally {
       setIsSearching(false);
     }
@@ -98,7 +105,7 @@ const Index = () => {
       setShowContactForm(true);
       return;
     }
-    
+
     // Here you would integrate with payment system
     console.log(`Purchasing ${packageType} package: ${count} influencers for $${price}`);
     // Redirect to payment or show payment modal
@@ -123,15 +130,15 @@ const Index = () => {
           </h1>
         </div>
       </div>
-      
+
       {/* Hero Section */}
       <div className="container mx-auto px-4 pt-4 pb-8">
         <div className="text-center space-y-8 mb-16">
-          
+
           <Badge className="bg-gradient-primary text-white px-4 py-2">
             Premium Influencer Database
           </Badge>
-          
+
           <div className="space-y-4">
             <h1 className="text-4xl md:text-6xl font-bold text-foreground">
               Find Perfect
@@ -167,21 +174,19 @@ const Index = () => {
               Use filters below to find the perfect influencers for your campaign
             </p>
           </div>
-          
-          <InfluencerFilters 
-            filters={filters} 
+
+          <InfluencerFilters
+            filters={filters}
             onFiltersChange={setFilters}
             onSearch={handleSearch}
           />
         </div>
 
         {/* Search Results */}
-        {(showSearchResults || isSearching) && (
+        {(searchResult || isSearching) && (
           <div className="space-y-8 mb-16">
-            <SearchResults 
-              results={searchResults}
-              totalCount={totalCount}
-              platform={platform}
+            <SearchResults
+              result={searchResult}
               isLoading={isSearching}
               onTrialRequest={(packageType, count, price) => {
                 if (packageType === "trial") {
@@ -193,7 +198,7 @@ const Index = () => {
         )}
 
         {/* Only show contact form when explicitly requested */}
-        {showContactForm && !showSearchResults && !isSearching && (
+        {showContactForm && !searchResult && !isSearching && (
           <div className="space-y-8 mb-16">
             <div className="text-center">
               <h2 className="text-3xl font-bold text-foreground mb-4">Try for Free</h2>
@@ -201,35 +206,35 @@ const Index = () => {
                 Evaluate the quality of our database before making a purchase
               </p>
             </div>
-            
+
             <ContactForm onClose={() => setShowContactForm(false)} />
           </div>
         )}
 
         {/* Additional Content Sections - Hide HowItWorks when search results are shown */}
         <div className="space-y-16">
-          {!showSearchResults && <HowItWorks />}
+          {(!searchResult && !isSearching)  && <HowItWorks />}
           <Benefits />
           <Testimonials />
           <FAQ />
         </div>
       </div>
-      
+
       {/* Footer */}
       <footer className="border-t border-primary/20 bg-background/50 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-8">
           <div className="text-center space-y-4">
             <div className="text-sm text-muted-foreground">
-              <p>© 2024 Influencer Database. All rights reserved.</p>
+              <p>© 2025 Influencer Database. All rights reserved.</p>
             </div>
             <div className="flex justify-center gap-8 text-sm">
               <a href="mailto:contact@influencersss.com" className="text-muted-foreground hover:text-primary transition-colors">
                 contact@influencersss.com
               </a>
-              <span className="text-muted-foreground">|</span>
+          {/*    <span className="text-muted-foreground">|</span>
               <a href="tel:+1-555-0123" className="text-muted-foreground hover:text-primary transition-colors">
                 +1 (555) 012-3456
-              </a>
+              </a>*/}
             </div>
           </div>
         </div>

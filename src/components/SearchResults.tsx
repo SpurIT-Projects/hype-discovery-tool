@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Instagram, Youtube, Music, Twitter, Tv } from "lucide-react";
+import {SiInstagram, SiTiktok, SiTwitch, SiX, SiYoutube} from '@icons-pack/react-simple-icons';
 
 interface Influencer {
   user_id: string;
@@ -16,28 +16,31 @@ interface Influencer {
   };
 }
 
+export interface SearchResultState {
+    id?: number | null;
+    accounts: Influencer[];
+    total: number;
+    platform?: string;
+}
+
 interface SearchResultsProps {
-  results: Influencer[];
-  totalCount: number;
-  platform?: string;
+  result?: SearchResultState | null;
   isLoading?: boolean;
   onTrialRequest?: (packageType: string, count: number, price: number) => void;
 }
 
-const mockInfluencers: Influencer[] = [];
-
 const getPlatformIcon = (platform: string) => {
   switch (platform) {
     case "instagram":
-      return <Instagram className="w-4 h-4" />;
-    case "youtube": 
-      return <Youtube className="w-4 h-4" />;
+      return <SiInstagram className="w-4 h-4" />;
+    case "youtube":
+      return <SiYoutube className="w-4 h-4" />;
     case "tiktok":
-      return <Music className="w-4 h-4" />;
+      return <SiTiktok className="w-4 h-4" />;
     case "twitter":
-      return <Twitter className="w-4 h-4" />;
+      return <SiX className="w-4 h-4" />;
     case "twitch":
-      return <Tv className="w-4 h-4" />;
+      return <SiTwitch className="w-4 h-4" />;
     default:
       return null;
   }
@@ -53,7 +56,12 @@ const formatNumber = (num: number) => {
   return num.toString();
 };
 
-export const SearchResults = ({ results = [], totalCount = 0, platform = "", isLoading = false, onTrialRequest }: SearchResultsProps) => {
+export const SearchResults = ({ result = null, isLoading = false, onTrialRequest }: SearchResultsProps) => {
+
+    const { id, accounts, total, platform } = result || { id: null, accounts: [], total: 0, platform: "" };
+    const results = accounts.slice(0, 5);
+    const totalCount = total;
+
   if (isLoading) {
     return (
       <div className="py-20">
@@ -66,7 +74,7 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
   }
 
   // Show "no results" message when totalCount is 0
-  if (totalCount === 0) {
+  if (totalCount < 300) {
     return (
       <div className="py-20">
         <div className="text-center space-y-6">
@@ -164,20 +172,14 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
                 </div>
               ))}
             </div>
-            
+
             {/* Fake results under blur - only show if we have more than 5 total results */}
             {totalCount > 5 && (
               <div className="relative">
                 {/* Simple banner showing total count from API - positioned at the junction */}
-                <div className="bg-primary/10 border-t border-primary/20 px-4 py-3 text-center">
-                  <p className="text-sm text-muted-foreground">
-                    Total found: <span className="text-primary font-bold text-base">{totalCount.toLocaleString()}</span> influencers
-                  </p>
-                </div>
-
                 <div className="space-y-4 md:space-y-0">
                   {/* Reduce fake results on mobile - show only 2 instead of 5 */}
-                  {Array.from({ length: window.innerWidth < 768 ? 2 : 3 }).map((_, index) => (
+                  {Array.from({ length: window.innerWidth < 768 ? 3 : 5 }).map((_, index) => (
                     <div key={`fake-${index}`} className="py-3 md:py-4 border-t border-primary/10">
                       {/* Mobile Card Layout - Compressed */}
                       <div className="md:hidden">
@@ -186,7 +188,7 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
                             <AvatarFallback>••</AvatarFallback>
                           </Avatar>
                           <div className="flex-1 min-w-0">
-                            <div className="font-medium text-foreground text-sm">•••••••••</div>
+                            <div className="font-medium text-foreground text-sm">••••••••••••••••••</div>
                             <div className="text-xs text-muted-foreground">•••••••••</div>
                             <div className="flex items-center justify-between mt-1">
                               <div className="flex items-center gap-1">
@@ -208,7 +210,7 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
                             <AvatarFallback>••</AvatarFallback>
                           </Avatar>
                           <div className="min-w-0 flex-1">
-                            <div className="font-medium text-foreground">•••••••••</div>
+                            <div className="font-medium text-foreground">••••••••••••••••••</div>
                             <div className="text-sm text-muted-foreground">•••••••••</div>
                           </div>
                         </div>
@@ -224,19 +226,19 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
                     </div>
                   ))}
                 </div>
-                
+
                 {/* Simple overlay for blurred fake results */}
-                <div className="absolute inset-0 -mx-4 -mb-4 bg-background/40 backdrop-blur-md z-30 flex items-center justify-center py-20 md:py-24">
-                  <div className="text-center space-y-6 max-w-md mx-auto px-6">
-                    <div className="space-y-2">
+                <div className="absolute inset-0 -mx-4 -mb-4 bg-background/40 backdrop-blur-md z-30 flex justify-center">
+                  <div className="text-center space-y-6 md:space-y-12 max-w-md">
+                    <div className="px-4 py-2 text-center">
                       <p className="text-base md:text-lg font-bold text-foreground">
-                        {totalCount.toLocaleString()} influencers found
+                        Total <span className="text-primary">{totalCount.toLocaleString()}</span> influencers found
                       </p>
                       <p className="text-sm text-muted-foreground">
                         Unlock access to the complete database
                       </p>
                     </div>
-                    
+
                     {/* Try for Free section - Large and centered */}
                     <div className="space-y-4">
                       <h4 className="text-xl md:text-2xl font-bold text-foreground">Try for Free</h4>
@@ -244,16 +246,16 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
                         Get 5 sample contacts to evaluate our database
                       </p>
                       <div className="space-y-4">
-                        <Input 
-                          type="email" 
+                        <Input
+                          type="email"
                           placeholder="Enter your email address"
                           className="bg-background/90 border-primary/40 h-12 text-base"
                         />
-                        <Button 
+                        <Button
                           onClick={() => onTrialRequest?.("trial", 10, 0)}
                           className="w-full bg-gradient-primary text-white h-12 text-base font-semibold"
                         >
-                          Get Free Trial (5 Contacts)
+                          Get Free Package
                         </Button>
                       </div>
                     </div>
@@ -262,26 +264,31 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
               </div>
             )}
           </div>
-          
+
         </Card>
       </div>
 
+
       {/* Pricing Section */}
-      <div className="space-y-6">
-        <div className="text-center space-y-4">
-          <h3 className="text-2xl font-bold text-foreground">Choose Your Package</h3>
-          <p className="text-muted-foreground">
-            Get full access to all {totalCount.toLocaleString()} influencers with verified contacts and current analytics
-          </p>
-        </div>
-        
-        <div className="w-full max-w-6xl mx-auto">
-          <stripe-pricing-table 
-            pricing-table-id="prctbl_1Rw0ChGifA2aeWJ3MA1cFlun"
-            publishable-key="pk_test_51LdXkTGifA2aeWJ3CLmWlPiYusyyjUXvvmVpKFpwIjPWDzhUi1WDVs7wZncc1VA1smxKizBPb1mVw5FmByTqjrFb00cbdbnelP">
-          </stripe-pricing-table>
-        </div>
-      </div>
+        { id && (
+            <div className="space-y-6">
+                <div className="text-center space-y-4">
+                    <h3 className="text-2xl font-bold text-foreground">Choose Your Package</h3>
+                    <p className="text-muted-foreground">
+                        Get access to influencers with verified contacts and current analytics
+                    </p>
+                </div>
+
+                <div className="w-full max-w-6xl mx-auto">
+                    <stripe-pricing-table
+                        pricing-table-id="prctbl_1Rw0ChGifA2aeWJ3MA1cFlun"
+                        publishable-key="pk_test_51LdXkTGifA2aeWJ3CLmWlPiYusyyjUXvvmVpKFpwIjPWDzhUi1WDVs7wZncc1VA1smxKizBPb1mVw5FmByTqjrFb00cbdbnelP"
+                        client-reference-id={id?.toString()}
+                    >
+                    </stripe-pricing-table>
+                </div>
+            </div>
+        )}
     </div>
   );
 };

@@ -9,7 +9,8 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { MapPin, Users, Eye, Search, Zap, Share2, Instagram, Youtube, Music, Tv, Twitter } from "lucide-react";
+import { MapPin, Users, Eye, Search, Zap, Share2 } from "lucide-react";
+import {SiInstagram, SiTiktok, SiTwitch, SiX, SiYoutube} from "@icons-pack/react-simple-icons";
 
 export interface FilterState {
   socialPlatform: string;
@@ -51,7 +52,7 @@ const countries = [
 
 const categories = [
   "Fashion",
-  "Beauty", 
+  "Beauty",
   "Lifestyle",
   "Fitness & Health",
   "Food & Cooking",
@@ -110,31 +111,31 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
             <SelectContent>
               <SelectItem value="instagram">
                 <div className="flex items-center gap-2">
-                  <Instagram className="w-4 h-4" />
+                  <SiInstagram className="w-4 h-4" />
                   Instagram
                 </div>
               </SelectItem>
               <SelectItem value="youtube">
                 <div className="flex items-center gap-2">
-                  <Youtube className="w-4 h-4" />
+                  <SiYoutube className="w-4 h-4" />
                   YouTube
                 </div>
               </SelectItem>
               <SelectItem value="tiktok">
                 <div className="flex items-center gap-2">
-                  <Music className="w-4 h-4" />
+                  <SiTiktok className="w-4 h-4" />
                   TikTok
                 </div>
               </SelectItem>
               <SelectItem value="twitter">
                 <div className="flex items-center gap-2">
-                  <Twitter className="w-4 h-4" />
+                  <SiX className="w-4 h-4" />
                   Twitter
                 </div>
               </SelectItem>
               <SelectItem value="twitch">
                 <div className="flex items-center gap-2">
-                  <Tv className="w-4 h-4" />
+                  <SiTwitch className="w-4 h-4" />
                   Twitch
                 </div>
               </SelectItem>
@@ -231,7 +232,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
             {showCategorySuggestions && (
               <div className="absolute top-full left-0 right-0 z-50 mt-1 max-h-60 overflow-auto rounded-md border bg-popover p-0 text-popover-foreground shadow-md">
                 {categories
-                  .filter(category => 
+                  .filter(category =>
                     category.toLowerCase().includes(categoryInputValue.toLowerCase())
                   )
                   .map((category) => (
@@ -295,8 +296,8 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
 
       {/* Search Button */}
       <div className="mt-6 flex justify-center">
-        <Button 
-          onClick={onSearch} 
+        <Button
+          onClick={onSearch}
           disabled={!filters.socialPlatform || !filters.category}
           className="px-8 py-3 bg-gradient-primary text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed"
         >
