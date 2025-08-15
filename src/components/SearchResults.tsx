@@ -3,7 +3,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Instagram, Youtube, Music, Twitter, Tv } from "lucide-react";
 
 interface Influencer {
@@ -93,84 +92,132 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
         </div>
 
         <Card className="bg-gradient-card border-primary/20 shadow-card relative overflow-hidden">
-          <div className="p-2">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Influencer</TableHead>
-                  <TableHead>Platform</TableHead>
-                  <TableHead>Followers</TableHead>
-                  <TableHead>Engagement Rate</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {/* Real influencer data - first 5 rows */}
-                {results.slice(0, 5).map((influencer) => (
-                  <TableRow key={influencer.user_id}>
-                    <TableCell>
-                      <div className="flex items-center gap-3">
-                        <Avatar className="h-10 w-10">
-                          <AvatarImage src={influencer.profile.picture} alt={influencer.profile.full_name} />
-                          <AvatarFallback>{influencer.profile.full_name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <div className="font-medium text-foreground">{influencer.profile.full_name}</div>
-                          <div className="text-sm text-muted-foreground">{influencer.profile.username}</div>
+          <div className="p-4">
+            {/* Desktop Header - Hidden on mobile */}
+            <div className="hidden md:grid md:grid-cols-4 gap-4 pb-4 border-b border-primary/20 font-medium text-sm text-muted-foreground">
+              <div>Influencer</div>
+              <div>Platform</div>
+              <div>Followers</div>
+              <div>Engagement Rate</div>
+            </div>
+
+            {/* Results Grid */}
+            <div className="space-y-4 md:space-y-0">
+              {/* Real influencer data */}
+              {results.slice(0, 5).map((influencer, index) => (
+                <div key={influencer.user_id} className={`py-4 ${index > 0 ? 'border-t border-primary/10 md:border-t-0' : ''}`}>
+                  {/* Mobile Card Layout */}
+                  <div className="md:hidden space-y-3">
+                    <div className="flex items-start gap-3">
+                      <Avatar className="h-12 w-12 flex-shrink-0">
+                        <AvatarImage src={influencer.profile.picture} alt={influencer.profile.full_name} />
+                        <AvatarFallback>{influencer.profile.full_name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-foreground text-sm">{influencer.profile.full_name}</div>
+                        <div className="text-xs text-muted-foreground truncate">{influencer.profile.username}</div>
+                        <div className="flex items-center gap-2 mt-1">
+                          {getPlatformIcon(platform)}
+                          <span className="capitalize text-xs">{platform}</span>
                         </div>
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        {getPlatformIcon(platform)}
-                        <span className="capitalize">{platform}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-sm">
+                      <div>
+                        <span className="text-muted-foreground">Followers: </span>
+                        <span className="font-medium">{formatNumber(influencer.profile.followers)}</span>
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <span>{formatNumber(influencer.profile.followers)}</span>
-                    </TableCell>
-                    <TableCell>
                       <Badge variant="outline" className="text-xs">
                         {influencer.profile.engagement_percent.toFixed(1)}%
                       </Badge>
-                    </TableCell>
-                  </TableRow>
-                ))}
-                
-                {/* Blurred additional results - shown vertically below real data */}
-                {totalCount > 5 && (
-                  <>
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <TableRow key={`mock-${index}`} className="relative">
-                        <TableCell>
-                          <div className="flex items-center gap-3">
-                            <Avatar className="h-10 w-10">
-                              <AvatarFallback>••</AvatarFallback>
-                            </Avatar>
-                            <div>
-                              <div className="font-medium text-foreground">•••••••••</div>
-                              <div className="text-sm text-muted-foreground">•••••••••</div>
+                    </div>
+                  </div>
+
+                  {/* Desktop Grid Layout */}
+                  <div className="hidden md:grid md:grid-cols-4 gap-4 items-center">
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src={influencer.profile.picture} alt={influencer.profile.full_name} />
+                        <AvatarFallback>{influencer.profile.full_name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                      </Avatar>
+                      <div className="min-w-0 flex-1">
+                        <div className="font-medium text-foreground truncate">{influencer.profile.full_name}</div>
+                        <div className="text-sm text-muted-foreground truncate">{influencer.profile.username}</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {getPlatformIcon(platform)}
+                      <span className="capitalize">{platform}</span>
+                    </div>
+                    <div>
+                      <span>{formatNumber(influencer.profile.followers)}</span>
+                    </div>
+                    <div>
+                      <Badge variant="outline" className="text-xs">
+                        {influencer.profile.engagement_percent.toFixed(1)}%
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              
+              {/* Blurred additional results */}
+              {totalCount > 5 && (
+                <>
+                  {Array.from({ length: 3 }).map((_, index) => (
+                    <div key={`mock-${index}`} className="py-4 border-t border-primary/10">
+                      {/* Mobile Card Layout */}
+                      <div className="md:hidden space-y-3">
+                        <div className="flex items-start gap-3">
+                          <Avatar className="h-12 w-12 flex-shrink-0">
+                            <AvatarFallback>••</AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1 min-w-0">
+                            <div className="font-medium text-foreground text-sm">•••••••••</div>
+                            <div className="text-xs text-muted-foreground">•••••••••</div>
+                            <div className="flex items-center gap-2 mt-1">
+                              <div className="w-4 h-4 bg-muted rounded"></div>
+                              <span className="text-xs">•••••••••</span>
                             </div>
                           </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            <div className="w-4 h-4 bg-muted rounded"></div>
-                            <span>•••••••••</span>
+                        </div>
+                        <div className="flex justify-between items-center text-sm">
+                          <div>
+                            <span className="text-muted-foreground">Followers: </span>
+                            <span className="font-medium">•••••••</span>
                           </div>
-                        </TableCell>
-                        <TableCell>•••••••</TableCell>
-                        <TableCell>
                           <Badge variant="outline" className="text-xs">•••</Badge>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </>
-                )}
-              </TableBody>
-            </Table>
+                        </div>
+                      </div>
+
+                      {/* Desktop Grid Layout */}
+                      <div className="hidden md:grid md:grid-cols-4 gap-4 items-center">
+                        <div className="flex items-center gap-3">
+                          <Avatar className="h-10 w-10">
+                            <AvatarFallback>••</AvatarFallback>
+                          </Avatar>
+                          <div className="min-w-0 flex-1">
+                            <div className="font-medium text-foreground">•••••••••</div>
+                            <div className="text-sm text-muted-foreground">•••••••••</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-4 h-4 bg-muted rounded"></div>
+                          <span>•••••••••</span>
+                        </div>
+                        <div>•••••••</div>
+                        <div>
+                          <Badge variant="outline" className="text-xs">•••</Badge>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
+            </div>
           </div>
           
-          {/* Absolute positioned overlay that covers entire card */}
+          {/* Overlay for blurred results */}
           {totalCount > 5 && (
             <div className="absolute inset-0 bg-background/30 backdrop-blur-sm z-30 flex items-center justify-center" style={{top: '200px'}}>
               <div className="text-center space-y-3 max-w-sm mx-auto px-4">
