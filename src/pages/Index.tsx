@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { InfluencerFilters, FilterState } from "@/components/InfluencerFilters";
-import { PricingPackages } from "@/components/PricingPackages";
+import { SearchResults } from "@/components/SearchResults";
 import { TrialSection } from "@/components/TrialSection";
 import { ContactForm } from "@/components/ContactForm";
 import { Badge } from "@/components/ui/badge";
@@ -10,27 +10,24 @@ const Index = () => {
   const [filters, setFilters] = useState<FilterState>({
     socialPlatform: "",
     influencerSize: "micro",
-    audienceLocation: "us",
-    avgReelsViews: [10000],
-    category: "lifestyle",
-    customCategory: "",
-    postPrice: [50, 5000]
+    influencerLocation: "us",
+    category: "",
+    avgViews: [100],
+    engagementRate: [0.1]
   });
   
-  const [maxInfluencers, setMaxInfluencers] = useState(8542);
   const [showContactForm, setShowContactForm] = useState(false);
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
-  // Simulate fetching available influencers count based on filters
-  useEffect(() => {
-    const simulateApiCall = () => {
-      const baseCount = 8542;
-      const variation = Math.floor(Math.random() * 3000);
-      setMaxInfluencers(baseCount + variation);
-    };
-    
-    const timeoutId = setTimeout(simulateApiCall, 500);
-    return () => clearTimeout(timeoutId);
-  }, [filters]);
+  const handleSearch = () => {
+    setIsSearching(true);
+    // Simulate search delay
+    setTimeout(() => {
+      setIsSearching(false);
+      setShowSearchResults(true);
+    }, 1500);
+  };
 
   const handlePurchase = (packageType: string, count: number, price: number) => {
     if (packageType === "contact") {
@@ -103,12 +100,27 @@ const Index = () => {
           <div className="text-center">
             <h2 className="text-3xl font-bold text-foreground mb-4">Customize Your Search</h2>
             <p className="text-muted-foreground">
-              Found <span className="text-primary font-semibold">{maxInfluencers.toLocaleString()}</span> influencers matching your criteria
+              Use filters below to find the perfect influencers for your campaign
             </p>
           </div>
           
-          <InfluencerFilters filters={filters} onFiltersChange={setFilters} />
+          <InfluencerFilters 
+            filters={filters} 
+            onFiltersChange={setFilters}
+            onSearch={handleSearch}
+          />
         </div>
+
+        {/* Search Results */}
+        {(showSearchResults || isSearching) && (
+          <div className="space-y-8 mb-16">
+            <SearchResults 
+              results={[]}
+              totalCount={11212}
+              isLoading={isSearching}
+            />
+          </div>
+        )}
 
         {/* Pricing Section */}
         <div className="space-y-8 mb-16">
