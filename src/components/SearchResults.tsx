@@ -136,15 +136,15 @@ export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, i
   return (
     <div className="space-y-8">
       {/* Search Results Section */}
-      <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
-        <div className="space-y-6">
-          <div className="text-center">
-            <h3 className="text-2xl font-bold text-foreground mb-2">Search Results</h3>
-            <p className="text-muted-foreground">
-              Showing first 5 influencers • {totalCount.toLocaleString()} total results found
-            </p>
-          </div>
+      <div className="space-y-6">
+        <div className="text-center">
+          <h3 className="text-2xl font-bold text-foreground mb-2">Search Results</h3>
+          <p className="text-muted-foreground">
+            Showing first 5 influencers • {totalCount.toLocaleString()} total results found
+          </p>
+        </div>
 
+        <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
           <div className="relative">
             <Table>
               <TableHeader>
@@ -233,8 +233,8 @@ export const SearchResults = ({ results = mockInfluencers, totalCount = 11212, i
               </TableBody>
             </Table>
           </div>
-        </div>
-      </Card>
+        </Card>
+      </div>
 
       {/* Trial Section */}
       <div className="text-center space-y-4">
