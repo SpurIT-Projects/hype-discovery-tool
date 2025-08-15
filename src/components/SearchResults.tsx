@@ -167,95 +167,95 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
             
             {/* Fake results under blur - only show if we have more than 5 total results */}
             {totalCount > 5 && (
-              <div className="relative">
-                <div className="space-y-4 md:space-y-0">
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <div key={`fake-${index}`} className="py-4 border-t border-primary/10">
-                      {/* Mobile Card Layout */}
-                      <div className="md:hidden">
-                        <div className="flex items-start gap-3">
-                          <Avatar className="h-12 w-12 flex-shrink-0">
-                            <AvatarFallback>••</AvatarFallback>
-                          </Avatar>
-                          <div className="flex-1 min-w-0">
-                            <div className="font-medium text-foreground">•••••••••</div>
-                            <div className="text-sm text-muted-foreground">•••••••••</div>
-                            <div className="flex items-center gap-2 mt-1">
-                              <div className="w-4 h-4 bg-muted rounded"></div>
-                              <span className="text-sm">•••••••••</span>
+              <div className="space-y-4 md:space-y-0">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <div key={`fake-${index}`} className="py-4 border-t border-primary/10">
+                    {/* Mobile Card Layout */}
+                    <div className="md:hidden">
+                      <div className="flex items-start gap-3">
+                        <Avatar className="h-12 w-12 flex-shrink-0">
+                          <AvatarFallback>••</AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-foreground">•••••••••</div>
+                          <div className="text-sm text-muted-foreground">•••••••••</div>
+                          <div className="flex items-center gap-2 mt-1">
+                            <div className="w-4 h-4 bg-muted rounded"></div>
+                            <span className="text-sm">•••••••••</span>
+                          </div>
+                          <div className="flex items-center justify-between mt-2">
+                            <div className="text-sm">
+                              <span className="text-muted-foreground">Followers: </span>
+                              <span className="font-medium">•••••••</span>
                             </div>
-                            <div className="flex items-center justify-between mt-2">
-                              <div className="text-sm">
-                                <span className="text-muted-foreground">Followers: </span>
-                                <span className="font-medium">•••••••</span>
-                              </div>
-                              <div className="text-right">
-                                <div className="text-xs text-muted-foreground">Engagement Rate</div>
-                                <Badge variant="outline" className="text-xs">•••</Badge>
-                              </div>
+                            <div className="text-right">
+                              <div className="text-xs text-muted-foreground">Engagement Rate</div>
+                              <Badge variant="outline" className="text-xs">•••</Badge>
                             </div>
                           </div>
                         </div>
                       </div>
+                    </div>
 
-                      {/* Desktop Grid Layout */}
-                      <div className="hidden md:grid md:grid-cols-4 gap-4 items-center">
-                        <div className="flex items-center gap-3">
-                          <Avatar className="h-10 w-10">
-                            <AvatarFallback>••</AvatarFallback>
-                          </Avatar>
-                          <div className="min-w-0 flex-1">
-                            <div className="font-medium text-foreground">•••••••••</div>
-                            <div className="text-sm text-muted-foreground">•••••••••</div>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 bg-muted rounded"></div>
-                          <span>•••••••••</span>
-                        </div>
-                        <div>•••••••</div>
-                        <div>
-                          <Badge variant="outline" className="text-xs">•••</Badge>
+                    {/* Desktop Grid Layout */}
+                    <div className="hidden md:grid md:grid-cols-4 gap-4 items-center">
+                      <div className="flex items-center gap-3">
+                        <Avatar className="h-10 w-10">
+                          <AvatarFallback>••</AvatarFallback>
+                        </Avatar>
+                        <div className="min-w-0 flex-1">
+                          <div className="font-medium text-foreground">•••••••••</div>
+                          <div className="text-sm text-muted-foreground">•••••••••</div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-                
-                {/* Overlay for blurred fake results */}
-                <div className="absolute inset-0 bg-background/30 backdrop-blur-sm z-30 flex items-center justify-center">
-                  <div className="text-center space-y-3 max-w-sm mx-auto px-4">
-                    <div className="space-y-1">
-                      <p className="font-semibold text-foreground">
-                        +{(totalCount - 5).toLocaleString()} more influencers
-                      </p>
-                    </div>
-                    
-                    {/* Try for Free section */}
-                    <div className="space-y-2 pt-2 border-t border-primary/20">
-                      <h4 className="text-base font-bold text-foreground">Try for Free</h4>
-                      <p className="text-xs text-muted-foreground">
-                        Get 5 sample contacts to evaluate our database
-                      </p>
-                      <div className="space-y-2">
-                        <Input 
-                          type="email" 
-                          placeholder="Enter email"
-                          className="bg-background/80 backdrop-blur-sm border-primary/30 h-8 text-sm"
-                        />
-                        <Button 
-                          onClick={() => onTrialRequest?.("trial", 10, 0)}
-                          className="w-full bg-gradient-primary text-white h-8 text-sm"
-                        >
-                          Get Free Trial (5 Contacts)
-                        </Button>
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 bg-muted rounded"></div>
+                        <span>•••••••••</span>
+                      </div>
+                      <div>•••••••</div>
+                      <div>
+                        <Badge variant="outline" className="text-xs">•••</Badge>
                       </div>
                     </div>
                   </div>
-                </div>
+                ))}
               </div>
             )}
           </div>
+          
+          {/* Overlay for blurred fake results - positioned to cover entire card */}
+          {totalCount > 5 && (
+            <div className="absolute inset-0 bg-background/30 backdrop-blur-sm z-30 flex items-center justify-center">
+              <div className="text-center space-y-3 max-w-sm mx-auto px-4">
+                <div className="space-y-1">
+                  <p className="font-semibold text-foreground">
+                    +{(totalCount - 5).toLocaleString()} more influencers
+                  </p>
+                </div>
+                
+                {/* Try for Free section */}
+                <div className="space-y-2 pt-2 border-t border-primary/20">
+                  <h4 className="text-base font-bold text-foreground">Try for Free</h4>
+                  <p className="text-xs text-muted-foreground">
+                    Get 5 sample contacts to evaluate our database
+                  </p>
+                  <div className="space-y-2">
+                    <Input 
+                      type="email" 
+                      placeholder="Enter email"
+                      className="bg-background/80 backdrop-blur-sm border-primary/30 h-8 text-sm"
+                    />
+                    <Button 
+                      onClick={() => onTrialRequest?.("trial", 10, 0)}
+                      className="w-full bg-gradient-primary text-white h-8 text-sm"
+                    >
+                      Get Free Trial (5 Contacts)
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </Card>
       </div>
 
