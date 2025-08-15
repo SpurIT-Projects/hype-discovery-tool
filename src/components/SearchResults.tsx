@@ -107,29 +107,32 @@ export const SearchResults = ({ results = [], totalCount = 0, platform = "", isL
               {results.slice(0, 5).map((influencer, index) => (
                 <div key={influencer.user_id} className={`py-4 ${index > 0 ? 'border-t border-primary/10 md:border-t-0' : ''}`}>
                   {/* Mobile Card Layout */}
-                  <div className="md:hidden space-y-3">
+                  <div className="md:hidden">
                     <div className="flex items-start gap-3">
                       <Avatar className="h-12 w-12 flex-shrink-0">
                         <AvatarImage src={influencer.profile.picture} alt={influencer.profile.full_name} />
                         <AvatarFallback>{influencer.profile.full_name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                       </Avatar>
                       <div className="flex-1 min-w-0">
-                        <div className="font-medium text-foreground text-sm">{influencer.profile.full_name}</div>
-                        <div className="text-xs text-muted-foreground truncate">{influencer.profile.username}</div>
+                        <div className="font-medium text-foreground">{influencer.profile.full_name}</div>
+                        <div className="text-sm text-muted-foreground truncate">{influencer.profile.username}</div>
                         <div className="flex items-center gap-2 mt-1">
                           {getPlatformIcon(platform)}
-                          <span className="capitalize text-xs">{platform}</span>
+                          <span className="capitalize text-sm">{platform}</span>
+                        </div>
+                        <div className="flex items-center justify-between mt-2">
+                          <div className="text-sm">
+                            <span className="text-muted-foreground">Followers: </span>
+                            <span className="font-medium">{formatNumber(influencer.profile.followers)}</span>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-xs text-muted-foreground">Engagement Rate</div>
+                            <Badge variant="outline" className="text-xs">
+                              {influencer.profile.engagement_percent.toFixed(1)}%
+                            </Badge>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex justify-between items-center text-sm">
-                      <div>
-                        <span className="text-muted-foreground">Followers: </span>
-                        <span className="font-medium">{formatNumber(influencer.profile.followers)}</span>
-                      </div>
-                      <Badge variant="outline" className="text-xs">
-                        {influencer.profile.engagement_percent.toFixed(1)}%
-                      </Badge>
                     </div>
                   </div>
 
