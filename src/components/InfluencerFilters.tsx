@@ -213,55 +213,59 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
         </div>
 
         {/* Category */}
-        <div className="space-y-3">
+        <div className="space-y-3 relative">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <Search className="w-4 h-4 text-primary" />
             Category
             <span className="text-red-500 ml-1">*</span>
           </Label>
-          <Popover open={categoryOpen} onOpenChange={setCategoryOpen}>
-            <PopoverTrigger asChild>
-              <Input
-                placeholder="Enter category..."
-                value={filters.category}
-                onChange={(e) => handleCategoryInputChange(e.target.value)}
-                className="bg-background/50 border-primary/30"
-              />
-            </PopoverTrigger>
-            <PopoverContent className="w-full p-0" align="start">
-              <Command>
-                <CommandList>
-                  {categories
-                    .filter(category =>
-                      category.toLowerCase().includes(filters.category.toLowerCase())
-                    )
-                    .length > 0 && (
-                    <CommandGroup>
-                      {categories
-                        .filter(category =>
-                          category.toLowerCase().includes(filters.category.toLowerCase())
-                        )
-                        .map((category) => (
-                          <CommandItem
-                            key={category}
-                            value={category}
-                            onSelect={() => handleCategorySelect(category)}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                filters.category === category ? "opacity-100" : "opacity-0"
-                              )}
-                            />
-                            {category}
-                          </CommandItem>
-                        ))}
-                    </CommandGroup>
-                  )}
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
+          <div className="relative">
+            <Input
+              placeholder="Enter category..."
+              value={filters.category}
+              onChange={(e) => handleCategoryInputChange(e.target.value)}
+              onFocus={() => setCategoryOpen(true)}
+              className="bg-background/50 border-primary/30"
+            />
+            <Popover open={categoryOpen} onOpenChange={setCategoryOpen}>
+              <PopoverTrigger asChild>
+                <div className="absolute inset-0 pointer-events-none" />
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0" align="start">
+                <Command>
+                  <CommandList>
+                    {categories
+                      .filter(category =>
+                        category.toLowerCase().includes(filters.category.toLowerCase())
+                      )
+                      .length > 0 && (
+                      <CommandGroup>
+                        {categories
+                          .filter(category =>
+                            category.toLowerCase().includes(filters.category.toLowerCase())
+                          )
+                          .map((category) => (
+                            <CommandItem
+                              key={category}
+                              value={category}
+                              onSelect={() => handleCategorySelect(category)}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  filters.category === category ? "opacity-100" : "opacity-0"
+                                )}
+                              />
+                              {category}
+                            </CommandItem>
+                          ))}
+                      </CommandGroup>
+                    )}
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          </div>
         </div>
 
         {/* Avg Views (per post) */}
