@@ -93,10 +93,6 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
     setCategoryOpen(false);
   };
 
-  const handleInputBlur = () => {
-    setTimeout(() => setCategoryOpen(false), 150);
-  };
-
 
   return (
     <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
@@ -187,7 +183,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-full p-0">
+            <PopoverContent className="w-full p-0" align="start">
               <Command>
                 <CommandInput placeholder="Search country..." />
                 <CommandList>
@@ -227,11 +223,10 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
           </Label>
           <div className="relative">
             <Input
-              placeholder="Enter category..."
+              placeholder="Enter your niche or category..."
               value={filters.category}
+              onClick={() => setCategoryOpen(true)}
               onChange={(e) => handleCategoryInputChange(e.target.value)}
-              onFocus={() => setCategoryOpen(true)}
-              onBlur={handleInputBlur}
               className="bg-background/50 border-primary/30"
             />
             <Popover open={categoryOpen} onOpenChange={setCategoryOpen}>
@@ -239,13 +234,9 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
                 <div className="absolute inset-0 pointer-events-none" />
               </PopoverTrigger>
               <PopoverContent className="w-full p-0" align="start" onOpenAutoFocus={(e) => e.preventDefault()}>
-                <Command shouldFilter={false}>
+                <Command>
+                  <CommandInput placeholder="Search category..." />
                   <CommandList>
-                    {categories
-                      .filter(category =>
-                        category.toLowerCase().includes(filters.category.toLowerCase())
-                      )
-                      .length > 0 && (
                       <CommandGroup>
                         {categories
                           .filter(category =>
@@ -267,7 +258,6 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
                             </CommandItem>
                           ))}
                       </CommandGroup>
-                    )}
                   </CommandList>
                 </Command>
               </PopoverContent>
