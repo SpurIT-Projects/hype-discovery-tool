@@ -213,39 +213,55 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
         </div>
 
         {/* Category */}
-        <div className="space-y-3 relative">
+        <div className="space-y-3">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <Search className="w-4 h-4 text-primary" />
             Category
             <span className="text-red-500 ml-1">*</span>
           </Label>
-          <div className="relative">
-            <Input
-              placeholder="Enter category..."
-              value={filters.category}
-              onChange={(e) => handleCategoryInputChange(e.target.value)}
-              onFocus={() => setCategoryOpen(true)}
-              onBlur={() => setTimeout(() => setCategoryOpen(false), 200)}
-              className="bg-background/50 border-primary/30"
-            />
-            {categoryOpen && (
-              <div className="absolute top-full left-0 right-0 z-50 mt-1 max-h-60 overflow-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md">
-                {categories
-                  .filter(category =>
-                    category.toLowerCase().includes(filters.category.toLowerCase())
-                  )
-                  .map((category) => (
-                    <div
-                      key={category}
-                      className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
-                      onMouseDown={() => handleCategorySelect(category)}
-                    >
-                      {category}
-                    </div>
-                  ))}
-              </div>
-            )}
-          </div>
+          <Popover open={categoryOpen} onOpenChange={setCategoryOpen}>
+            <PopoverTrigger asChild>
+              <Input
+                placeholder="Enter category..."
+                value={filters.category}
+                onChange={(e) => handleCategoryInputChange(e.target.value)}
+                className="bg-background/50 border-primary/30"
+              />
+            </PopoverTrigger>
+            <PopoverContent className="w-full p-0" align="start">
+              <Command>
+                <CommandList>
+                  {categories
+                    .filter(category =>
+                      category.toLowerCase().includes(filters.category.toLowerCase())
+                    )
+                    .length > 0 && (
+                    <CommandGroup>
+                      {categories
+                        .filter(category =>
+                          category.toLowerCase().includes(filters.category.toLowerCase())
+                        )
+                        .map((category) => (
+                          <CommandItem
+                            key={category}
+                            value={category}
+                            onSelect={() => handleCategorySelect(category)}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                filters.category === category ? "opacity-100" : "opacity-0"
+                              )}
+                            />
+                            {category}
+                          </CommandItem>
+                        ))}
+                    </CommandGroup>
+                  )}
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
         </div>
 
         {/* Avg Views (per post) */}
