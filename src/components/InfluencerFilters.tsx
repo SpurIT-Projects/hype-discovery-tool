@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
@@ -7,7 +7,7 @@ import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { MapPin, Users, Eye, Search, Zap, Share2 } from "lucide-react";
 import {SiInstagram, SiTiktok, SiTwitch, SiX, SiYoutube} from "@icons-pack/react-simple-icons";
@@ -27,28 +27,10 @@ interface InfluencerFiltersProps {
   onSearch: () => void;
 }
 
-const countries = [
-  { value: "us", label: "🇺🇸 United States" },
-  { value: "uk", label: "🇬🇧 United Kingdom" },
-  { value: "de", label: "🇩🇪 Germany" },
-  { value: "fr", label: "🇫🇷 France" },
-  { value: "br", label: "🇧🇷 Brazil" },
-  { value: "ca", label: "🇨🇦 Canada" },
-  { value: "au", label: "🇦🇺 Australia" },
-  { value: "es", label: "🇪🇸 Spain" },
-  { value: "it", label: "🇮🇹 Italy" },
-  { value: "jp", label: "🇯🇵 Japan" },
-  { value: "kr", label: "🇰🇷 South Korea" },
-  { value: "in", label: "🇮🇳 India" },
-  { value: "mx", label: "🇲🇽 Mexico" },
-  { value: "nl", label: "🇳🇱 Netherlands" },
-  { value: "se", label: "🇸🇪 Sweden" },
-  { value: "no", label: "🇳🇴 Norway" },
-  { value: "dk", label: "🇩🇰 Denmark" },
-  { value: "fi", label: "🇫🇮 Finland" },
-  { value: "ch", label: "🇨🇭 Switzerland" },
-  { value: "at", label: "🇦🇹 Austria" },
-];
+interface Location {
+  value: string;
+  label: string;
+}
 
 const categories = [
   "Fashion",
@@ -77,6 +59,36 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
   const [locationOpen, setLocationOpen] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [searchCategory, setSearchCategory] = useState("");
+  const [locations, setLocations] = useState<Location[]>([]);
+  const [locationsLoading, setLocationsLoading] = useState(false);
+
+  // Fetch locations when platform changes
+  useEffect(() => {
+    if (!filters.platform) {
+      setLocations([]);
+      return;
+    }
+
+    const fetchLocations = async () => {
+      setLocationsLoading(true);
+      try {
+        const response = await fetch(`https://workflow.influencersss.com/webhook/locations?platform=${filters.platform}`);
+        if (response.ok) {
+          const data = await response.json();
+          setLocations(data || []);
+        } else {
+          setLocations([]);
+        }
+      } catch (error) {
+        console.error('Failed to fetch locations:', error);
+        setLocations([]);
+      } finally {
+        setLocationsLoading(false);
+      }
+    };
+
+    fetchLocations();
+  }, [filters.platform]);
 
   const updateFilter = (key: keyof FilterState, value: any) => {
     onFiltersChange({ ...filters, [key]: value });
@@ -179,10 +191,20 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
                 role="combobox"
                 aria-expanded={locationOpen}
                 className="w-full justify-between bg-background/50 border-primary/30"
+                disabled={!filters.platform || locationsLoading}
               >
-                {filters.location
-                  ? countries.find((country) => country.value === filters.location)?.label
-                  : "Select country..."}
+                {locationsLoading ? (
+                  <div className="flex items-center gap-2">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Loading locations...
+                  </div>
+                ) : filters.location ? (
+                  locations.find((location) => location.value === filters.location)?.label
+                ) : !filters.platform ? (
+                  "Select platform first..."
+                ) : (
+                  "Select country..."
+                )}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
@@ -191,26 +213,26 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
                 <CommandInput placeholder="Search country..." />
                 <CommandList>
                   <CommandEmpty>No country found.</CommandEmpty>
-                  <CommandGroup>
-                    {countries.map((country) => (
-                      <CommandItem
-                        key={country.value}
-                        value={country.value}
-                        onSelect={(currentValue) => {
-                          updateFilter('location', currentValue === filters.location ? "" : currentValue);
-                          setLocationOpen(false);
-                        }}
-                      >
-                        <Check
-                          className={cn(
-                            "mr-2 h-4 w-4",
-                            filters.location === country.value ? "opacity-100" : "opacity-0"
-                          )}
-                        />
-                        {country.label}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
+                   <CommandGroup>
+                     {locations.map((location) => (
+                       <CommandItem
+                         key={location.value}
+                         value={location.value}
+                         onSelect={(currentValue) => {
+                           updateFilter('location', currentValue === filters.location ? "" : currentValue);
+                           setLocationOpen(false);
+                         }}
+                       >
+                         <Check
+                           className={cn(
+                             "mr-2 h-4 w-4",
+                             filters.location === location.value ? "opacity-100" : "opacity-0"
+                           )}
+                         />
+                         {location.label}
+                       </CommandItem>
+                     ))}
+                   </CommandGroup>
                 </CommandList>
               </Command>
             </PopoverContent>
