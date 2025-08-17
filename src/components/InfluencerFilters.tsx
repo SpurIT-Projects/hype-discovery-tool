@@ -83,12 +83,18 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
 
   const handleCategoryInputChange = (value: string) => {
     updateFilter('category', value);
-    setCategoryOpen(value.length > 0);
+    if (value.length > 0) {
+      setCategoryOpen(true);
+    }
   };
 
   const handleCategorySelect = (category: string) => {
     updateFilter('category', category);
     setCategoryOpen(false);
+  };
+
+  const handleInputBlur = () => {
+    setTimeout(() => setCategoryOpen(false), 150);
   };
 
 
@@ -225,6 +231,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
               value={filters.category}
               onChange={(e) => handleCategoryInputChange(e.target.value)}
               onFocus={() => setCategoryOpen(true)}
+              onBlur={handleInputBlur}
               className="bg-background/50 border-primary/30"
             />
             <Popover open={categoryOpen} onOpenChange={setCategoryOpen}>
