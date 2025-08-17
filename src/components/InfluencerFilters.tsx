@@ -209,7 +209,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
                 ) : !filters.platform ? (
                   "Select platform first..."
                 ) : (
-                  "Select country..."
+                  "Select location..."
                 )}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
