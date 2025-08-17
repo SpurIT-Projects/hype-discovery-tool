@@ -231,8 +231,8 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
               <PopoverTrigger asChild>
                 <div className="absolute inset-0 pointer-events-none" />
               </PopoverTrigger>
-              <PopoverContent className="w-full p-0" align="start">
-                <Command>
+              <PopoverContent className="w-full p-0" align="start" onOpenAutoFocus={(e) => e.preventDefault()}>
+                <Command shouldFilter={false}>
                   <CommandList>
                     {categories
                       .filter(category =>
