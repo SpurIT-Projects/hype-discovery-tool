@@ -75,24 +75,12 @@ const categories = [
 
 export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: InfluencerFiltersProps) => {
   const [locationOpen, setLocationOpen] = useState(false);
-  const [categoryInputValue, setCategoryInputValue] = useState(filters.category);
-  const [showCategorySuggestions, setShowCategorySuggestions] = useState(false);
+  const [categoryOpen, setCategoryOpen] = useState(false);
 
   const updateFilter = (key: keyof FilterState, value: any) => {
     onFiltersChange({ ...filters, [key]: value });
   };
 
-  const handleCategoryInputChange = (value: string) => {
-    setCategoryInputValue(value);
-    updateFilter('category', value);
-    setShowCategorySuggestions(value.length > 0);
-  };
-
-  const handleCategorySelect = (category: string) => {
-    setCategoryInputValue(category);
-    updateFilter('category', category);
-    setShowCategorySuggestions(false);
-  };
 
   return (
     <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
@@ -215,38 +203,53 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
         </div>
 
         {/* Category */}
-        <div className="space-y-3 relative">
+        <div className="space-y-3">
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <Search className="w-4 h-4 text-primary" />
             Category
             <span className="text-red-500 ml-1">*</span>
           </Label>
-          <div className="relative">
-            <Input
-              placeholder="Enter category..."
-              value={categoryInputValue}
-              onChange={(e) => handleCategoryInputChange(e.target.value)}
-              onFocus={() => setShowCategorySuggestions(true)}
-              className="bg-background/50 border-primary/30"
-            />
-            {showCategorySuggestions && (
-              <div className="absolute top-full left-0 right-0 z-50 mt-1 max-h-60 overflow-auto rounded-md border bg-popover p-0 text-popover-foreground shadow-md">
-                {categories
-                  .filter(category =>
-                    category.toLowerCase().includes(categoryInputValue.toLowerCase())
-                  )
-                  .map((category) => (
-                    <div
-                      key={category}
-                      className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
-                      onClick={() => handleCategorySelect(category)}
-                    >
-                      {category}
-                    </div>
-                  ))}
-              </div>
-            )}
-          </div>
+          <Popover open={categoryOpen} onOpenChange={setCategoryOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                aria-expanded={categoryOpen}
+                className="w-full justify-between bg-background/50 border-primary/30"
+              >
+                {filters.category || "Select category..."}
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-full p-0">
+              <Command>
+                <CommandInput placeholder="Search category..." />
+                <CommandList>
+                  <CommandEmpty>No category found.</CommandEmpty>
+                  <CommandGroup>
+                    {categories.map((category) => (
+                      <CommandItem
+                        key={category}
+                        value={category}
+                        onSelect={(currentValue) => {
+                          updateFilter('category', currentValue === filters.category ? "" : currentValue);
+                          setCategoryOpen(false);
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            filters.category === category ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                        {category}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
         </div>
 
         {/* Avg Views (per post) */}
