@@ -188,6 +188,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
           <Label className="flex items-center gap-2 text-foreground font-medium">
             <MapPin className="w-4 h-4 text-primary" />
             Influencer Location
+            <span className="text-red-500 ml-1">*</span>
           </Label>
           <Popover open={locationOpen} onOpenChange={setLocationOpen}>
             <PopoverTrigger asChild>
@@ -344,7 +345,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
       <div className="mt-6 flex justify-center">
         <Button
           onClick={onSearch}
-          disabled={!filters.platform || !filters.category}
+          disabled={!filters.platform || !filters.category || !filters.location}
           className="px-8 py-3 bg-gradient-primary text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Search className="w-4 h-4 mr-2" />
