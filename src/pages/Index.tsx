@@ -12,12 +12,12 @@ import { TrendingUp, Users, Globe, Zap } from "lucide-react";
 
 const Index = () => {
   const [filters, setFilters] = useState<FilterState>({
-    socialPlatform: "",
-    influencerSize: "micro",
-    influencerLocation: "us",
+    platform: "",
+    size: "micro",
+    location: "us",
     category: "",
-    avgViews: [2500],
-    engagementRate: [0.8]
+    avg_views: [2500],
+    er: [0.8]
   });
 
 
@@ -59,12 +59,12 @@ const Index = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          platform: filters.socialPlatform,
-          size: filters.influencerSize,
-          location: countryNameMap[filters.influencerLocation] || filters.influencerLocation,
+          platform: filters.platform,
+          size: filters.size,
+          location: countryNameMap[filters.location] || filters.location,
           category: filters.category,
-          avg_views: filters.avgViews[0],
-          er: filters.engagementRate[0]
+          avg_views: filters.avg_views[0],
+          er: filters.er[0]
         })
       });
 

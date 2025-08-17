@@ -13,12 +13,12 @@ import { MapPin, Users, Eye, Search, Zap, Share2 } from "lucide-react";
 import {SiInstagram, SiTiktok, SiTwitch, SiX, SiYoutube} from "@icons-pack/react-simple-icons";
 
 export interface FilterState {
-  socialPlatform: string;
-  influencerSize: string;
-  influencerLocation: string;
+  platform: string;
+  size: string;
+  location: string;
   category: string;
-  avgViews: number[];
-  engagementRate: number[];
+  avg_views: number[];
+  er: number[];
 }
 
 interface InfluencerFiltersProps {
@@ -76,6 +76,7 @@ const categories = [
 export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: InfluencerFiltersProps) => {
   const [locationOpen, setLocationOpen] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(false);
+  const [searchCategory, setSearchCategory] = useState("");
 
   const updateFilter = (key: keyof FilterState, value: any) => {
     onFiltersChange({ ...filters, [key]: value });
@@ -86,11 +87,13 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
     if (value.length > 0) {
       setCategoryOpen(true);
     }
+    setSearchCategory(value || "");
   };
 
   const handleCategorySelect = (category: string) => {
     updateFilter('category', category);
     setCategoryOpen(false);
+    setSearchCategory("")
   };
 
 
@@ -104,7 +107,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
             Social Platform
             <span className="text-red-500 ml-1">*</span>
           </Label>
-          <Select value={filters.socialPlatform} onValueChange={(value) => updateFilter('socialPlatform', value)}>
+          <Select value={filters.platform} onValueChange={(value) => updateFilter('platform', value)}>
             <SelectTrigger className="bg-background/50 border-primary/30">
               <SelectValue placeholder="Select platform" />
             </SelectTrigger>
@@ -149,7 +152,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
             <Users className="w-4 h-4 text-primary" />
             Influencer Size
           </Label>
-          <Select value={filters.influencerSize} onValueChange={(value) => updateFilter('influencerSize', value)}>
+          <Select value={filters.size} onValueChange={(value) => updateFilter('size', value)}>
             <SelectTrigger className="bg-background/50 border-primary/30">
               <SelectValue placeholder="Select size" />
             </SelectTrigger>
@@ -177,8 +180,8 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
                 aria-expanded={locationOpen}
                 className="w-full justify-between bg-background/50 border-primary/30"
               >
-                {filters.influencerLocation
-                  ? countries.find((country) => country.value === filters.influencerLocation)?.label
+                {filters.location
+                  ? countries.find((country) => country.value === filters.location)?.label
                   : "Select country..."}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
@@ -194,14 +197,14 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
                         key={country.value}
                         value={country.value}
                         onSelect={(currentValue) => {
-                          updateFilter('influencerLocation', currentValue === filters.influencerLocation ? "" : currentValue);
+                          updateFilter('location', currentValue === filters.location ? "" : currentValue);
                           setLocationOpen(false);
                         }}
                       >
                         <Check
                           className={cn(
                             "mr-2 h-4 w-4",
-                            filters.influencerLocation === country.value ? "opacity-100" : "opacity-0"
+                            filters.location === country.value ? "opacity-100" : "opacity-0"
                           )}
                         />
                         {country.label}
@@ -229,19 +232,19 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
               onChange={(e) => handleCategoryInputChange(e.target.value)}
               className="bg-background/50 border-primary/30"
             />
-            <Popover open={categoryOpen} onOpenChange={setCategoryOpen}>
+            <Popover open={categoryOpen} onOpenChange={(value) => {
+                setCategoryOpen(value);
+                setSearchCategory("")
+            }}>
               <PopoverTrigger asChild>
                 <div className="absolute inset-0 pointer-events-none" />
               </PopoverTrigger>
               <PopoverContent className="w-full p-0" align="start" onOpenAutoFocus={(e) => e.preventDefault()}>
                 <Command>
-                  <CommandInput placeholder="Search category..." />
+                  <CommandInput placeholder="Search category..." value={searchCategory} hidden/>
                   <CommandList>
                       <CommandGroup>
                         {categories
-                          .filter(category =>
-                            category.toLowerCase().includes(filters.category.toLowerCase())
-                          )
                           .map((category) => (
                             <CommandItem
                               key={category}
@@ -273,8 +276,8 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
           </Label>
           <div className="px-3">
             <Slider
-              value={filters.avgViews}
-              onValueChange={(value) => updateFilter('avgViews', value)}
+              value={filters.avg_views}
+              onValueChange={(value) => updateFilter('avg_views', value)}
               max={10000}
               min={100}
               step={100}
@@ -282,7 +285,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
             />
             <div className="flex justify-between text-sm text-muted-foreground mt-2">
               <span>100</span>
-              <span>From: {filters.avgViews[0]?.toLocaleString() || '100'}</span>
+              <span>From: {filters.avg_views[0]?.toLocaleString() || '100'}</span>
             </div>
           </div>
         </div>
@@ -295,8 +298,8 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
           </Label>
           <div className="px-3">
             <Slider
-              value={filters.engagementRate}
-              onValueChange={(value) => updateFilter('engagementRate', value)}
+              value={filters.er}
+              onValueChange={(value) => updateFilter('er', value)}
               max={2.0}
               min={0.1}
               step={0.1}
@@ -304,7 +307,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
             />
             <div className="flex justify-between text-sm text-muted-foreground mt-2">
               <span>0.1%</span>
-              <span>From: {filters.engagementRate[0]?.toFixed(1) || '0.1'}%</span>
+              <span>From: {filters.er[0]?.toFixed(1) || '0.1'}%</span>
             </div>
           </div>
         </div>
@@ -314,7 +317,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
       <div className="mt-6 flex justify-center">
         <Button
           onClick={onSearch}
-          disabled={!filters.socialPlatform || !filters.category}
+          disabled={!filters.platform || !filters.category}
           className="px-8 py-3 bg-gradient-primary text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Search className="w-4 h-4 mr-2" />
