@@ -74,8 +74,13 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
       try {
         const response = await fetch(`https://workflow.influencersss.com/webhook/locations?platform=${filters.platform}`);
         if (response.ok) {
-          const data = await response.json();
-          setLocations(data || []);
+          const data: string[] = await response.json();
+          // Transform array of strings to array of objects with value and label
+          const transformedLocations = data.map(location => ({
+            value: location.toLowerCase().replace(/\s+/g, '_'),
+            label: location
+          }));
+          setLocations(transformedLocations);
         } else {
           setLocations([]);
         }
