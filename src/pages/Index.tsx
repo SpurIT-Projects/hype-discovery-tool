@@ -14,7 +14,7 @@ const Index = () => {
   const [filters, setFilters] = useState<FilterState>({
     platform: "",
     size: "micro",
-    location: "us",
+    location: "",
     category: "",
     avg_views: [2500],
     er: [0.8]

@@ -27,11 +27,6 @@ interface InfluencerFiltersProps {
   onSearch: () => void;
 }
 
-interface Location {
-  value: string;
-  label: string;
-}
-
 const categories = [
   "Fashion",
   "Beauty",
@@ -59,10 +54,10 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
   const [locationOpen, setLocationOpen] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [searchCategory, setSearchCategory] = useState("");
-  const [locations, setLocations] = useState<Location[]>([]);
+  const [locations, setLocations] = useState<string[]>([]);
   const [locationsLoading, setLocationsLoading] = useState(false);
 
-  // Fetch locations when platform changes
+  // Fetch locations when a platform changes
   useEffect(() => {
     if (!filters.platform) {
       setLocations([]);
@@ -74,25 +69,22 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
       try {
         const response = await fetch(`https://workflow.influencersss.com/webhook/locations?platform=${filters.platform}`);
         if (response.ok) {
-          const data: string[] = await response.json();
-          // Transform array of strings to array of objects with value and label
-          const transformedLocations = data.map(location => ({
-            value: location.toLowerCase().replace(/\s+/g, '_'),
-            label: location
-          }));
-          setLocations(transformedLocations);
-        } else {
-          setLocations([]);
+          return await response.json();
         }
       } catch (error) {
         console.error('Failed to fetch locations:', error);
-        setLocations([]);
       } finally {
         setLocationsLoading(false);
       }
+      return [];
     };
 
-    fetchLocations();
+    fetchLocations().then(locations => {
+        setLocations(locations);
+        if (!locations.length || !locations.includes(filters.location)) {
+            updateFilter('location', '');
+        }
+    });
   }, [filters.platform]);
 
   const updateFilter = (key: keyof FilterState, value: any) => {
@@ -205,7 +197,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
                     Loading locations...
                   </div>
                 ) : filters.location ? (
-                  locations.find((location) => location.value === filters.location)?.label
+                  locations.find((location) => location === filters.location)
                 ) : !filters.platform ? (
                   "Select platform first..."
                 ) : (
@@ -222,8 +214,8 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
                    <CommandGroup>
                      {locations.map((location) => (
                        <CommandItem
-                         key={location.value}
-                         value={location.value}
+                         key={location}
+                         value={location}
                          onSelect={(currentValue) => {
                            updateFilter('location', currentValue === filters.location ? "" : currentValue);
                            setLocationOpen(false);
@@ -232,10 +224,10 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
                          <Check
                            className={cn(
                              "mr-2 h-4 w-4",
-                             filters.location === location.value ? "opacity-100" : "opacity-0"
+                             filters.location === location ? "opacity-100" : "opacity-0"
                            )}
                          />
-                         {location.label}
+                         {location}
                        </CommandItem>
                      ))}
                    </CommandGroup>
