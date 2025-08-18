@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import {SiInstagram, SiTiktok, SiTwitch, SiX, SiYoutube} from '@icons-pack/react-simple-icons';
 
 interface Influencer {
@@ -63,6 +63,7 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionState, setSubmissionState] = useState<"idle" | "success" | "error">("idle");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const { id, accounts, total, platform } = result || { id: null, accounts: [], total: 0, platform: "" };
     const results = accounts.slice(0, 5);
@@ -74,18 +75,30 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
     }
 
     setIsSubmitting(true);
+    setSubmissionState("idle");
     setIsDialogOpen(true);
-    
-    // Simulate API call with potential error
+    setErrorMessage(null);
+
     try {
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // Simulate random success/error for demonstration
-          Math.random() > 0.3 ? resolve(true) : reject(new Error("Service temporarily unavailable"));
-        }, 1500);
+      const res = await fetch("https://workflow.influencersss.com/webhook-test/trial", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
       });
+
+      const data: any = await res.json().catch(() => ({}));
+
+      if (!res.ok || !data?.success) {
+        const msg = data?.error || `Request failed${res.status ? ` (${res.status})` : ""}`;
+        setErrorMessage(msg);
+        setSubmissionState("error");
+        return;
+      }
+
       setSubmissionState("success");
     } catch (error) {
+      const msg = error instanceof Error ? error.message : "Network error";
+      setErrorMessage(msg);
       setSubmissionState("error");
     } finally {
       setIsSubmitting(false);
@@ -96,6 +109,7 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
     setSubmissionState("idle");
     setIsDialogOpen(false);
     setEmail("");
+    setErrorMessage(null);
   };
 
   if (isLoading) {
@@ -313,70 +327,73 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
                            <DialogContent className="sm:max-w-md">
                              {isSubmitting && (
                                <>
-                                 <DialogHeader>
-                                   <DialogTitle className="text-center">Processing Request...</DialogTitle>
-                                 </DialogHeader>
-                                 <div className="text-center space-y-4 py-4">
-                                   <div className="w-16 h-16 mx-auto flex items-center justify-center">
-                                     <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary/20 border-t-primary"></div>
-                                   </div>
-                                   <p className="text-muted-foreground text-sm">
-                                     Please wait while we process your request...
-                                   </p>
-                                 </div>
+                                  <DialogHeader>
+                                    <DialogTitle className="text-center">Processing Request...</DialogTitle>
+                                    <DialogDescription className="text-center">
+                                      Please wait while we process your request...
+                                    </DialogDescription>
+                                  </DialogHeader>
+                                  <div className="text-center space-y-4 py-4">
+                                    <div className="w-16 h-16 mx-auto flex items-center justify-center">
+                                      <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary/20 border-t-primary"></div>
+                                    </div>
+                                  </div>
                                </>
                              )}
                              
                              {submissionState === "success" && (
                                <>
-                                 <DialogHeader>
-                                   <DialogTitle className="text-center">Request Submitted!</DialogTitle>
-                                 </DialogHeader>
-                                 <div className="text-center space-y-4 py-4">
-                                   <div className="w-16 h-16 mx-auto bg-green-500/20 rounded-full flex items-center justify-center">
-                                     <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                     </svg>
-                                   </div>
-                                   <p className="text-foreground font-medium">
-                                     Thank you for your interest in our service!
-                                   </p>
-                                   <p className="text-muted-foreground text-sm">
-                                     We will send you a sample of 5 influencers to your email shortly to evaluate the quality of our database.
-                                   </p>
-                                   <Button onClick={resetDialog} className="mt-4">
-                                     Close
-                                   </Button>
-                                 </div>
+                                  <DialogHeader>
+                                    <DialogTitle className="text-center">Request Submitted!</DialogTitle>
+                                    <DialogDescription className="text-center">
+                                      Your free trial request was submitted successfully.
+                                    </DialogDescription>
+                                  </DialogHeader>
+                                  <div className="text-center space-y-4 py-4">
+                                    <div className="w-16 h-16 mx-auto bg-green-500/20 rounded-full flex items-center justify-center">
+                                      <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                      </svg>
+                                    </div>
+                                    <p className="text-foreground font-medium">
+                                      Thank you for your interest in our service!
+                                    </p>
+                                    <p className="text-muted-foreground text-sm">
+                                      We will send you a sample of 5 influencers to your email shortly to evaluate the quality of our database.
+                                    </p>
+                                    <Button onClick={resetDialog} className="mt-4">
+                                      Close
+                                    </Button>
+                                  </div>
                                </>
                              )}
 
                              {submissionState === "error" && (
                                <>
-                                 <DialogHeader>
-                                   <DialogTitle className="text-center">Request Failed</DialogTitle>
-                                 </DialogHeader>
-                                 <div className="text-center space-y-4 py-4">
-                                   <div className="w-16 h-16 mx-auto bg-red-500/20 rounded-full flex items-center justify-center">
-                                     <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                     </svg>
-                                   </div>
-                                   <p className="text-foreground font-medium">
-                                     Something went wrong
-                                   </p>
-                                   <p className="text-muted-foreground text-sm">
-                                     We are sorry, but there was an error processing your request. Please try again later or contact our support team.
-                                   </p>
-                                   <div className="flex gap-2 justify-center">
-                                     <Button onClick={() => setSubmissionState("idle")} variant="outline">
-                                       Try Again
-                                     </Button>
-                                     <Button onClick={resetDialog}>
-                                       Close
-                                     </Button>
-                                   </div>
-                                 </div>
+                                  <DialogHeader>
+                                    <DialogTitle className="text-center">Request Failed</DialogTitle>
+                                    <DialogDescription className="text-center">
+                                      {errorMessage ?? "There was an error processing your request."}
+                                    </DialogDescription>
+                                  </DialogHeader>
+                                  <div className="text-center space-y-4 py-4">
+                                    <div className="w-16 h-16 mx-auto bg-red-500/20 rounded-full flex items-center justify-center">
+                                      <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                      </svg>
+                                    </div>
+                                    <p className="text-muted-foreground text-sm">
+                                      Please try again or contact our support team if the issue persists.
+                                    </p>
+                                    <div className="flex gap-2 justify-center">
+                                      <Button onClick={handleFreePackageRequest} variant="outline">
+                                        Try Again
+                                      </Button>
+                                      <Button onClick={resetDialog}>
+                                        Close
+                                      </Button>
+                                    </div>
+                                  </div>
                                </>
                              )}
                            </DialogContent>
