@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -58,10 +59,44 @@ const formatNumber = (num: number) => {
 };
 
 export const SearchResults = ({ result = null, isLoading = false, onTrialRequest }: SearchResultsProps) => {
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionState, setSubmissionState] = useState<"idle" | "success" | "error">("idle");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const { id, accounts, total, platform } = result || { id: null, accounts: [], total: 0, platform: "" };
     const results = accounts.slice(0, 5);
     const totalCount = total;
+
+  const handleFreePackageRequest = async () => {
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setIsDialogOpen(true);
+    
+    // Simulate API call with potential error
+    try {
+      await new Promise((resolve, reject) => {
+        setTimeout(() => {
+          // Simulate random success/error for demonstration
+          Math.random() > 0.3 ? resolve(true) : reject(new Error("Service temporarily unavailable"));
+        }, 1500);
+      });
+      setSubmissionState("success");
+    } catch (error) {
+      setSubmissionState("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const resetDialog = () => {
+    setSubmissionState("idle");
+    setIsDialogOpen(false);
+    setEmail("");
+  };
 
   if (isLoading) {
     return (
@@ -257,38 +292,96 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
                       <p className="text-sm text-muted-foreground">
                         Get 5 sample contacts to evaluate our database
                       </p>
-                      <div className="space-y-4">
-                        <Input
-                          type="email"
-                          placeholder="Enter your email address"
-                          className="bg-background/90 border-primary/40 h-12 text-base"
-                        />
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button className="w-full bg-gradient-primary text-white h-12 text-base font-semibold">
-                              Get Free Package
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="sm:max-w-md">
-                            <DialogHeader>
-                              <DialogTitle className="text-center">Request Submitted!</DialogTitle>
-                            </DialogHeader>
-                            <div className="text-center space-y-4 py-4">
-                              <div className="w-16 h-16 mx-auto bg-green-500/20 rounded-full flex items-center justify-center">
-                                <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                </svg>
-                              </div>
-                              <p className="text-foreground font-medium">
-                                Thank you for your interest in our service!
-                              </p>
-                              <p className="text-muted-foreground text-sm">
-                                We will send you a sample of 5 influencers to your email shortly to evaluate the quality of our database.
-                              </p>
-                            </div>
-                          </DialogContent>
-                        </Dialog>
-                      </div>
+                       <div className="space-y-4">
+                         <Input
+                           type="email"
+                           placeholder="Enter your email address"
+                           value={email}
+                           onChange={(e) => setEmail(e.target.value)}
+                           className="bg-background/90 border-primary/40 h-12 text-base"
+                         />
+                         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                           <DialogTrigger asChild>
+                             <Button 
+                               onClick={handleFreePackageRequest}
+                               disabled={!email || !/\S+@\S+\.\S+/.test(email)}
+                               className="w-full bg-gradient-primary text-white h-12 text-base font-semibold"
+                             >
+                               Get Free Package
+                             </Button>
+                           </DialogTrigger>
+                           <DialogContent className="sm:max-w-md">
+                             {isSubmitting && (
+                               <>
+                                 <DialogHeader>
+                                   <DialogTitle className="text-center">Processing Request...</DialogTitle>
+                                 </DialogHeader>
+                                 <div className="text-center space-y-4 py-4">
+                                   <div className="w-16 h-16 mx-auto flex items-center justify-center">
+                                     <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary/20 border-t-primary"></div>
+                                   </div>
+                                   <p className="text-muted-foreground text-sm">
+                                     Please wait while we process your request...
+                                   </p>
+                                 </div>
+                               </>
+                             )}
+                             
+                             {submissionState === "success" && (
+                               <>
+                                 <DialogHeader>
+                                   <DialogTitle className="text-center">Request Submitted!</DialogTitle>
+                                 </DialogHeader>
+                                 <div className="text-center space-y-4 py-4">
+                                   <div className="w-16 h-16 mx-auto bg-green-500/20 rounded-full flex items-center justify-center">
+                                     <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                     </svg>
+                                   </div>
+                                   <p className="text-foreground font-medium">
+                                     Thank you for your interest in our service!
+                                   </p>
+                                   <p className="text-muted-foreground text-sm">
+                                     We will send you a sample of 5 influencers to your email shortly to evaluate the quality of our database.
+                                   </p>
+                                   <Button onClick={resetDialog} className="mt-4">
+                                     Close
+                                   </Button>
+                                 </div>
+                               </>
+                             )}
+
+                             {submissionState === "error" && (
+                               <>
+                                 <DialogHeader>
+                                   <DialogTitle className="text-center">Request Failed</DialogTitle>
+                                 </DialogHeader>
+                                 <div className="text-center space-y-4 py-4">
+                                   <div className="w-16 h-16 mx-auto bg-red-500/20 rounded-full flex items-center justify-center">
+                                     <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                     </svg>
+                                   </div>
+                                   <p className="text-foreground font-medium">
+                                     Something went wrong
+                                   </p>
+                                   <p className="text-muted-foreground text-sm">
+                                     We are sorry, but there was an error processing your request. Please try again later or contact our support team.
+                                   </p>
+                                   <div className="flex gap-2 justify-center">
+                                     <Button onClick={() => setSubmissionState("idle")} variant="outline">
+                                       Try Again
+                                     </Button>
+                                     <Button onClick={resetDialog}>
+                                       Close
+                                     </Button>
+                                   </div>
+                                 </div>
+                               </>
+                             )}
+                           </DialogContent>
+                         </Dialog>
+                       </div>
                     </div>
                   </div>
                 </div>
