@@ -80,7 +80,7 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
     setErrorMessage(null);
 
     try {
-      const res = await fetch("https://workflow.influencersss.com/webhook-test/trial", {
+      const res = await fetch("https://workflow.influencersss.com/webhook/trial", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
