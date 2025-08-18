@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import {SiInstagram, SiTiktok, SiTwitch, SiX, SiYoutube} from '@icons-pack/react-simple-icons';
 
 interface Influencer {
@@ -262,12 +263,31 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
                           placeholder="Enter your email address"
                           className="bg-background/90 border-primary/40 h-12 text-base"
                         />
-                        <Button
-                          onClick={() => onTrialRequest?.("trial", 10, 0)}
-                          className="w-full bg-gradient-primary text-white h-12 text-base font-semibold"
-                        >
-                          Get Free Package
-                        </Button>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button className="w-full bg-gradient-primary text-white h-12 text-base font-semibold">
+                              Get Free Package
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-md">
+                            <DialogHeader>
+                              <DialogTitle className="text-center">Заявка принята!</DialogTitle>
+                            </DialogHeader>
+                            <div className="text-center space-y-4 py-4">
+                              <div className="w-16 h-16 mx-auto bg-green-500/20 rounded-full flex items-center justify-center">
+                                <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                </svg>
+                              </div>
+                              <p className="text-foreground font-medium">
+                                Спасибо за интерес к нашему сервису!
+                              </p>
+                              <p className="text-muted-foreground text-sm">
+                                В ближайшее время мы отправим вам на email подборку из 5 инфлюенсеров для оценки качества нашей базы данных.
+                              </p>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
                       </div>
                     </div>
                   </div>
