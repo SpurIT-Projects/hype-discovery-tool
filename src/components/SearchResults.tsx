@@ -28,7 +28,6 @@ export interface SearchResultState {
 interface SearchResultsProps {
   result?: SearchResultState | null;
   isLoading?: boolean;
-  onTrialRequest?: (packageType: string, count: number, price: number) => void;
 }
 
 const getPlatformIcon = (platform: string) => {
@@ -58,7 +57,7 @@ const formatNumber = (num: number) => {
   return num.toString();
 };
 
-export const SearchResults = ({ result = null, isLoading = false, onTrialRequest }: SearchResultsProps) => {
+export const SearchResults = ({ result = null, isLoading = false }: SearchResultsProps) => {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionState, setSubmissionState] = useState<"idle" | "success" | "error">("idle");
@@ -69,8 +68,8 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
     const results = accounts.slice(0, 5);
     const totalCount = total;
 
-  const handleFreePackageRequest = async () => {
-    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+  const handleFreePackageRequest = async (id: number, email: string) => {
+    if (!email || !id) {
       return;
     }
 
@@ -83,7 +82,7 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
       const res = await fetch("https://workflow.influencersss.com/webhook/trial", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ id, email }),
       });
 
       const data: any = await res.json().catch(() => ({}));
@@ -316,9 +315,9 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
                          />
                          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                            <DialogTrigger asChild>
-                             <Button 
-                               onClick={handleFreePackageRequest}
-                               disabled={!email || !/\S+@\S+\.\S+/.test(email)}
+                             <Button
+                               onClick={() =>  handleFreePackageRequest(id, email)}
+                               disabled={!email || !id}
                                className="w-full bg-gradient-primary text-white h-12 text-base font-semibold"
                              >
                                Get Free Package
@@ -340,14 +339,11 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
                                   </div>
                                </>
                              )}
-                             
+
                              {submissionState === "success" && (
                                <>
                                   <DialogHeader>
                                     <DialogTitle className="text-center">Request Submitted!</DialogTitle>
-                                    <DialogDescription className="text-center">
-                                      Your free trial request was submitted successfully.
-                                    </DialogDescription>
                                   </DialogHeader>
                                   <div className="text-center space-y-4 py-4">
                                     <div className="w-16 h-16 mx-auto bg-green-500/20 rounded-full flex items-center justify-center">
@@ -372,9 +368,6 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
                                <>
                                   <DialogHeader>
                                     <DialogTitle className="text-center">Request Failed</DialogTitle>
-                                    <DialogDescription className="text-center">
-                                      {errorMessage ?? "There was an error processing your request."}
-                                    </DialogDescription>
                                   </DialogHeader>
                                   <div className="text-center space-y-4 py-4">
                                     <div className="w-16 h-16 mx-auto bg-red-500/20 rounded-full flex items-center justify-center">
@@ -383,12 +376,9 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
                                       </svg>
                                     </div>
                                     <p className="text-muted-foreground text-sm">
-                                      Please try again or contact our support team if the issue persists.
+                                        {errorMessage ?? "Please try again or contact our support team if the issue persists."}
                                     </p>
                                     <div className="flex gap-2 justify-center">
-                                      <Button onClick={handleFreePackageRequest} variant="outline">
-                                        Try Again
-                                      </Button>
                                       <Button onClick={resetDialog}>
                                         Close
                                       </Button>

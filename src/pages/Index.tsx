@@ -1,8 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { InfluencerFilters, FilterState } from "@/components/InfluencerFilters";
 import {SearchResults, SearchResultState} from "@/components/SearchResults";
-import { TrialSection } from "@/components/TrialSection";
-import { ContactForm } from "@/components/ContactForm";
 import { HowItWorks } from "@/components/HowItWorks";
 import { Benefits } from "@/components/Benefits";
 import { Testimonials } from "@/components/Testimonials";
@@ -22,32 +20,7 @@ const Index = () => {
 
 
   const [searchResult, setSearchResult] = useState<SearchResultState>(null);
-  const [showContactForm, setShowContactForm] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
-
-  // Map short country codes to full names for API
-  const countryNameMap: Record<string, string> = {
-    us: "United States",
-    uk: "United Kingdom",
-    de: "Germany",
-    fr: "France",
-    br: "Brazil",
-    ca: "Canada",
-    au: "Australia",
-    es: "Spain",
-    it: "Italy",
-    jp: "Japan",
-    kr: "South Korea",
-    in: "India",
-    mx: "Mexico",
-    nl: "Netherlands",
-    se: "Sweden",
-    no: "Norway",
-    dk: "Denmark",
-    fi: "Finland",
-    ch: "Switzerland",
-    at: "Austria",
-  };
 
   const handleSearch = async () => {
     setIsSearching(true);
@@ -61,7 +34,7 @@ const Index = () => {
         body: JSON.stringify({
           platform: filters.platform,
           size: filters.size,
-          location: countryNameMap[filters.location] || filters.location,
+          location: filters.location,
           category: filters.category,
           avg_views: filters.avg_views[0],
           er: filters.er[0]
@@ -98,17 +71,6 @@ const Index = () => {
     } finally {
       setIsSearching(false);
     }
-  };
-
-  const handlePurchase = (packageType: string, count: number, price: number) => {
-    if (packageType === "contact") {
-      setShowContactForm(true);
-      return;
-    }
-
-    // Here you would integrate with payment system
-    console.log(`Purchasing ${packageType} package: ${count} influencers for $${price}`);
-    // Redirect to payment or show payment modal
   };
 
   const stats = [
@@ -191,26 +153,7 @@ const Index = () => {
             <SearchResults
               result={searchResult}
               isLoading={isSearching}
-              onTrialRequest={(packageType, count, price) => {
-                if (packageType === "trial") {
-                  setShowContactForm(true);
-                }
-              }}
             />
-          </div>
-        )}
-
-        {/* Only show contact form when explicitly requested */}
-        {showContactForm && !searchResult && !isSearching && (
-          <div className="space-y-8 mb-16">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold text-foreground mb-4">Try for Free</h2>
-              <p className="text-muted-foreground">
-                Evaluate the quality of our database before making a purchase
-              </p>
-            </div>
-
-            <ContactForm onClose={() => setShowContactForm(false)} />
           </div>
         )}
 
