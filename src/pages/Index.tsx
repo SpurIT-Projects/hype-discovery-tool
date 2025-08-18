@@ -177,7 +177,10 @@ const Index = () => {
 
           <InfluencerFilters
             filters={filters}
-            onFiltersChange={setFilters}
+            onFiltersChange={(filters) => {
+                setFilters(filters);
+                setSearchResult(null);
+            }}
             onSearch={handleSearch}
           />
         </div>

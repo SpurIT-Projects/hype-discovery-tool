@@ -78,7 +78,7 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
     return (
       <div className="py-20">
         <div className="text-center space-y-6">
-          <h3 className="text-2xl font-bold text-foreground">Search Results</h3>
+          <h2 className="text-3xl font-bold text-foreground mb-4">Search Results</h2>
           <div className="text-muted-foreground">
             <p className="text-lg mb-2">No influencers found</p>
             <p>Try adjusting your search parameters to find more results</p>
@@ -93,7 +93,7 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
       {/* Search Results Section */}
       <div className="space-y-6">
         <div className="text-center">
-          <h3 className="text-2xl font-bold text-foreground mb-2">Search Results</h3>
+          <h2 className="text-3xl font-bold text-foreground mb-4">Search Results</h2>
           <p className="text-muted-foreground">
             Showing first 5 influencers • {totalCount.toLocaleString()} total results found
           </p>
@@ -110,14 +110,14 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
             </div>
 
             {/* Results Grid */}
-            <div className="space-y-4 md:space-y-0">
+            <div>
               {/* Real influencer data - always visible */}
               {results.slice(0, 5).map((influencer, index) => (
                 <div key={influencer.user_id} className={`py-4 ${index > 0 ? 'border-t border-primary/10 md:border-t-0' : ''}`}>
                   {/* Mobile Card Layout */}
                   <div className="md:hidden">
-                    <div className="flex items-start gap-3">
-                      <Avatar className="h-12 w-12 flex-shrink-0">
+                    <div className="flex items-start gap-5">
+                      <Avatar className="h-14 w-14 flex-shrink-0">
                         <AvatarImage src={influencer.profile.picture} alt={influencer.profile.full_name} />
                         <AvatarFallback>{influencer.profile.full_name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                       </Avatar>
@@ -128,17 +128,19 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
                           {getPlatformIcon(platform)}
                           <span className="capitalize text-sm">{platform}</span>
                         </div>
-                        <div className="flex items-center justify-between mt-2">
+                        <div className="flex items-center justify-end gap-4 mt-2">
                           <div className="text-sm">
                             <span className="text-muted-foreground">Followers: </span>
                             <span className="font-medium">{formatNumber(influencer.profile.followers)}</span>
                           </div>
-                          <div className="text-right">
-                            <div className="text-xs text-muted-foreground">Engagement Rate</div>
-                            <Badge variant="outline" className="text-xs">
-                              {influencer.profile.engagement_percent.toFixed(1)}%
-                            </Badge>
-                          </div>
+                            <div className="text-sm flex items-center">
+                                <span className="text-muted-foreground">ER: </span>
+                                <span className="ml-1 font-medium">
+                                    <Badge variant="outline" className="text-s">
+                                      {influencer.profile.engagement_percent.toFixed(1)}%
+                                    </Badge>
+                                </span>
+                            </div>
                         </div>
                       </div>
                     </div>
@@ -146,8 +148,8 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
 
                   {/* Desktop Grid Layout */}
                   <div className="hidden md:grid md:grid-cols-4 gap-4 items-center">
-                    <div className="flex items-center gap-3">
-                      <Avatar className="h-10 w-10">
+                    <div className="flex items-center gap-5">
+                      <Avatar className="h-12 w-12">
                         <AvatarImage src={influencer.profile.picture} alt={influencer.profile.full_name} />
                         <AvatarFallback>{influencer.profile.full_name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                       </Avatar>
@@ -164,7 +166,7 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
                       <span>{formatNumber(influencer.profile.followers)}</span>
                     </div>
                     <div>
-                      <Badge variant="outline" className="text-xs">
+                      <Badge variant="outline" className="text-sm">
                         {influencer.profile.engagement_percent.toFixed(1)}%
                       </Badge>
                     </div>
@@ -178,49 +180,58 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
               <div className="relative">
                 {/* Simple banner showing total count from API - positioned at the junction */}
                 <div className="space-y-4 md:space-y-0">
-                  {/* Reduce fake results on mobile - show only 2 instead of 5 */}
+                  {/* Reduce fake results on mobile - show only 3 instead of 5 */}
                   {Array.from({ length: window.innerWidth < 768 ? 3 : 5 }).map((_, index) => (
                     <div key={`fake-${index}`} className="py-3 md:py-4 border-t border-primary/10">
                       {/* Mobile Card Layout - Compressed */}
                       <div className="md:hidden">
-                        <div className="flex items-center gap-3">
-                          <Avatar className="h-10 w-10 flex-shrink-0">
-                            <AvatarFallback>••</AvatarFallback>
+                        <div className="flex items-start gap-5">
+                          <Avatar className="h-14 w-14 flex-shrink-0">
+                              <AvatarFallback className="bg-gray-800">•{index}•</AvatarFallback>
                           </Avatar>
                           <div className="flex-1 min-w-0">
                             <div className="font-medium text-foreground text-sm">••••••••••••••••••</div>
                             <div className="text-xs text-muted-foreground">•••••••••</div>
-                            <div className="flex items-center justify-between mt-1">
-                              <div className="flex items-center gap-1">
-                                <div className="w-3 h-3 bg-muted rounded"></div>
-                                <span className="text-xs">•••••</span>
-                              </div>
-                              <div className="text-right">
-                                <Badge variant="outline" className="text-xs px-1 py-0">•••</Badge>
-                              </div>
+                            <div className="flex items-center gap-2 mt-1 text-muted-foreground">
+                              {getPlatformIcon(platform)}
+                              <span className="capitalize text-sm">{platform}</span>
                             </div>
+                              <div className="flex items-center justify-end gap-4 mt-2">
+                                  <div className="text-sm">
+                                      <span className="text-muted-foreground">Followers: </span>
+                                      <span className="font-medium">•••••</span>
+                                  </div>
+                                  <div className="text-sm flex items-center">
+                                      <span className="text-muted-foreground">ER: </span>
+                                      <span className="ml-1 font-medium">
+                                    <Badge variant="outline" className="text-s">
+                                      •••••
+                                    </Badge>
+                                </span>
+                                  </div>
+                              </div>
                           </div>
                         </div>
                       </div>
 
                       {/* Desktop Grid Layout */}
                       <div className="hidden md:grid md:grid-cols-4 gap-4 items-center">
-                        <div className="flex items-center gap-3">
-                          <Avatar className="h-10 w-10">
-                            <AvatarFallback>••</AvatarFallback>
+                        <div className="flex items-center gap-5">
+                          <Avatar className="h-12 w-12">
+                            <AvatarFallback className="bg-gray-800">•{index}•</AvatarFallback>
                           </Avatar>
                           <div className="min-w-0 flex-1">
                             <div className="font-medium text-foreground">••••••••••••••••••</div>
                             <div className="text-sm text-muted-foreground">•••••••••</div>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 bg-muted rounded"></div>
-                          <span>•••••••••</span>
-                        </div>
-                        <div>•••••••</div>
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                              {getPlatformIcon(platform)}
+                              <span className="capitalize">{platform}</span>
+                          </div>
+                        <div className="text-xl">•••••</div>
                         <div>
-                          <Badge variant="outline" className="text-xs">•••</Badge>
+                          <Badge variant="outline" className="text-xl">•••</Badge>
                         </div>
                       </div>
                     </div>
@@ -228,8 +239,8 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
                 </div>
 
                 {/* Simple overlay for blurred fake results */}
-                <div className="absolute inset-0 -mx-4 -mb-4 bg-background/40 backdrop-blur-md z-30 flex justify-center">
-                  <div className="text-center space-y-6 md:space-y-12 max-w-md">
+                <div className="absolute inset-0 -mx-4 -mb-4 bg-background/40 backdrop-blur-[9px] z-30 flex justify-center">
+                  <div className="text-center space-y-12 max-w-md">
                     <div className="px-4 py-2 text-center">
                       <p className="text-base md:text-lg font-bold text-foreground">
                         Total <span className="text-primary">{totalCount.toLocaleString()}</span> influencers found
