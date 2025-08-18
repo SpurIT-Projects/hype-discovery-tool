@@ -188,7 +188,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
                 variant="outline"
                 role="combobox"
                 aria-expanded={locationOpen}
-                className="w-full justify-between bg-background/50 border-primary/30"
+                className="w-full justify-between bg-background/50 border-primary/30 hover:bg-background/50 hover:border-primary/30"
                 disabled={!filters.platform || locationsLoading}
               >
                 {locationsLoading ? (
