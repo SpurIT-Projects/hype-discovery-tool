@@ -271,7 +271,7 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
                           </DialogTrigger>
                           <DialogContent className="sm:max-w-md">
                             <DialogHeader>
-                              <DialogTitle className="text-center">Заявка принята!</DialogTitle>
+                              <DialogTitle className="text-center">Request Submitted!</DialogTitle>
                             </DialogHeader>
                             <div className="text-center space-y-4 py-4">
                               <div className="w-16 h-16 mx-auto bg-green-500/20 rounded-full flex items-center justify-center">
@@ -280,10 +280,10 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
                                 </svg>
                               </div>
                               <p className="text-foreground font-medium">
-                                Спасибо за интерес к нашему сервису!
+                                Thank you for your interest in our service!
                               </p>
                               <p className="text-muted-foreground text-sm">
-                                В ближайшее время мы отправим вам на email подборку из 5 инфлюенсеров для оценки качества нашей базы данных.
+                                We will send you a sample of 5 influencers to your email shortly to evaluate the quality of our database.
                               </p>
                             </div>
                           </DialogContent>
