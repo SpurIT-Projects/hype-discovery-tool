@@ -290,7 +290,7 @@ export const SearchResults = ({ result = null, isLoading = false, onTrialRequest
                     </p>
                 </div>
 
-                <div className="w-full max-w-6xl mx-auto">
+                <div className="w-full mx-auto">
                     <stripe-pricing-table
                         pricing-table-id="prctbl_1Rw0ChGifA2aeWJ3MA1cFlun"
                         publishable-key="pk_test_51LdXkTGifA2aeWJ3CLmWlPiYusyyjUXvvmVpKFpwIjPWDzhUi1WDVs7wZncc1VA1smxKizBPb1mVw5FmByTqjrFb00cbdbnelP"
