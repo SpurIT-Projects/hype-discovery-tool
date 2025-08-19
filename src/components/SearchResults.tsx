@@ -289,7 +289,7 @@ export const SearchResults = ({ result = null, isLoading = false }: SearchResult
 
                 {/* Simple overlay for blurred fake results */}
                 <div className="absolute inset-0 -mx-4 -mb-4 bg-background/40 backdrop-blur-[9px] z-30 flex justify-center">
-                  <div className="text-center space-y-12 max-w-md">
+                  <div className="text-center space-y-12 max-w-md mx-4">
                     <div className="px-4 py-2 text-center">
                       <p className="text-base md:text-lg font-bold text-foreground">
                         Total <span className="text-primary">{totalCount.toLocaleString()}</span> influencers found
