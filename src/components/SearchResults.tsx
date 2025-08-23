@@ -68,7 +68,14 @@ export const SearchResults = ({ result = null, isLoading = false }: SearchResult
     const results = accounts.slice(0, 5);
     const totalCount = total;
 
-  const handleFreePackageRequest = async (id: number, email: string) => {
+
+    const isValidEmail = (email: string): boolean => {
+        // Простая, но рабочая регулярка для email
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+
+
+    const handleFreePackageRequest = async (id: number, email: string) => {
     if (!email || !id) {
       return;
     }
@@ -317,7 +324,7 @@ export const SearchResults = ({ result = null, isLoading = false }: SearchResult
                            <DialogTrigger asChild>
                              <Button
                                onClick={() =>  handleFreePackageRequest(id, email)}
-                               disabled={!email || !id}
+                               disabled={!email || !isValidEmail(email) || !id}
                                className="w-full bg-gradient-primary text-white h-12 text-base font-semibold"
                              >
                                Get Free Package
