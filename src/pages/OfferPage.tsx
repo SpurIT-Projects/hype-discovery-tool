@@ -225,12 +225,12 @@ const OfferPage = () => {
             </div>
 
             {/* Results Summary */}
-            <div className="text-center bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-2xl p-8 border border-primary/20">
-              <div className="space-y-2">
-                <div className="text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+            <div className="text-center bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-2xl p-6 border border-primary/20">
+              <div className="space-y-1">
+                <div className="text-3xl md:text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                   {offer.total.toLocaleString()}
                 </div>
-                <div className="text-lg font-medium text-muted-foreground">
+                <div className="text-base md:text-lg font-medium text-muted-foreground">
                   Total matching influencers found
                 </div>
               </div>
