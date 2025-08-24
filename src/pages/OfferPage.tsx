@@ -172,7 +172,7 @@ const OfferPage = () => {
             </div>
             
             {/* Header */}
-            <div className="text-center space-y-3 pt-4">
+            <div className="text-center space-y-3 pt-1">
               <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 Offer #{offer.id}
               </h2>
