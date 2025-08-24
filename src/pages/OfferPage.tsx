@@ -164,7 +164,7 @@ const OfferPage = () => {
               <Button
                 variant="ghost"
                 onClick={() => navigate('/')}
-                className="text-white hover:bg-white/10"
+                className="text-white hover:bg-white/10 px-2 py-1"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Search
