@@ -169,7 +169,7 @@ const OfferPage = () => {
       <div className="container mx-auto px-4 pb-16 space-y-8">
         {/* Offer Details */}
         <div className="relative overflow-hidden rounded-2xl bg-gradient-card border border-primary/20 backdrop-blur-sm shadow-card">
-          <div className="relative p-8 space-y-8">
+          <div className="relative p-6 space-y-6">
             {/* Header */}
             <div className="text-center space-y-3">
               <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
@@ -199,27 +199,27 @@ const OfferPage = () => {
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Location</div>
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-medium text-foreground">{offer.filters.location}</span>
+                  <span className="text-sm font-medium text-foreground truncate">{offer.filters.location}</span>
                 </div>
               </div>
               <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 space-y-3">
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Category</div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-foreground">{offer.filters.category}</span>
+                  <span className="text-sm font-semibold text-foregroun truncate">{offer.filters.category}</span>
                 </div>
               </div>
               <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 space-y-3">
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Avg Views</div>
                 <div className="flex items-center gap-2">
                   <Eye className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-semibold text-foreground">{offer.filters.avg_views.toLocaleString()}</span>
+                  <span className="text-sm font-semibold text-foreground">{"> " + offer.filters.avg_views.toLocaleString()}</span>
                 </div>
               </div>
               <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 space-y-3">
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Engagement Rate</div>
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-semibold text-foreground">{offer.filters.er}%</span>
+                  <span className="text-sm font-semibold text-foreground">{"> "+offer.filters.er}%</span>
                 </div>
               </div>
             </div>

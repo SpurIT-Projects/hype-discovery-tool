@@ -160,7 +160,7 @@ export const SearchResults = ({ result = null, isLoading = false, free_package_u
           </p>
         </div>
 
-        <Card className="bg-gradient-card border-primary/20 shadow-card relative overflow-hidden">
+        <Card className="bg-gradient-card border-primary/20 shadow-card relative overflow-hidden rounded-2xl">
           <div className="p-4">
             {/* Desktop Header - Hidden on mobile */}
             <div className="hidden md:grid md:grid-cols-4 gap-4 pb-4 border-b border-primary/20 font-medium text-sm text-muted-foreground">
@@ -183,7 +183,7 @@ export const SearchResults = ({ result = null, isLoading = false, free_package_u
                         <AvatarFallback>{influencer.profile.full_name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                       </Avatar>
                       <div className="flex-1 min-w-0">
-                        <div className="font-medium text-foreground">{influencer.profile.full_name}</div>
+                        <div className="font-medium text-foreground truncate">{influencer.profile.full_name}</div>
                         <div className="text-sm text-muted-foreground truncate">{influencer.profile.username}</div>
                         <div className="flex items-center gap-2 mt-1">
                           {getPlatformIcon(platform)}
