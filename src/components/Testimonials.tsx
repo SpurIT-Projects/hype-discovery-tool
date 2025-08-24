@@ -13,7 +13,7 @@ const testimonials = [
   {
     name: "Mike Chen",
     company: "Fashion Forward",
-    avatar: "/placeholder.svg", 
+    avatar: "/placeholder.svg",
     rating: 5,
     text: "The contact quality is amazing. 95% response rate from influencers we contacted through this platform."
   },
@@ -35,21 +35,21 @@ export const Testimonials = () => {
           Join thousands of successful marketers who trust our influencer database
         </p>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {testimonials.map((testimonial, index) => (
-          <Card key={index} className="p-6 bg-gradient-card border-primary/20 shadow-card">
+          <Card key={index} className="p-6 bg-gradient-card border-primary/20 shadow-card rounded-2xl">
             <div className="space-y-4">
               <div className="flex gap-1">
                 {Array.from({ length: testimonial.rating }).map((_, i) => (
                   <Star key={i} className="w-4 h-4 fill-primary text-primary" />
                 ))}
               </div>
-              
+
               <p className="text-sm text-muted-foreground italic">
                 "{testimonial.text}"
               </p>
-              
+
               <div className="flex items-center gap-3">
                 <Avatar className="h-10 w-10">
                   <AvatarImage src={testimonial.avatar} alt={testimonial.name} />

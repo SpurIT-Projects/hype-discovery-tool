@@ -158,21 +158,22 @@ const OfferPage = () => {
       <div className="container mx-auto px-4 pb-16 space-y-8">
         {/* Offer Details */}
         <div className="relative overflow-hidden rounded-2xl bg-gradient-card border border-primary/20 backdrop-blur-sm shadow-card">
-          <div className="relative p-6 space-y-6">
+          <div className="relative p-4 md:p-6 space-y-4 md:space-y-6">
             {/* Back Button */}
-            <div className="absolute top-4 left-4">
+            <div className="absolute top-2 md:top-3 left-2 md:left-3">
               <Button
                 variant="ghost"
                 onClick={() => navigate('/')}
-                className="text-white hover:bg-white/10 px-2 py-1"
+                size="sm"
+                className="text-white hover:bg-white/5"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Search
               </Button>
             </div>
-            
+
             {/* Header */}
-            <div className="text-center space-y-3 pt-1">
+            <div className="text-center space-y-3 pt-4">
               <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 Offer #{offer.id}
               </h2>
@@ -255,7 +256,7 @@ const OfferPage = () => {
         {/* Recent Packages */}
         {offer.packages.length > 0 && (
           <Card className="bg-gradient-card border-primary/20 rounded-2xl">
-            <div className="p-6 space-y-6">
+            <div className="p-4 md:p-6 space-y-6">
               <div className="flex items-center gap-2">
                 <Package className="w-5 h-5 text-primary" />
                 <h3 className="text-xl font-bold text-foreground">Recent Packages</h3>
@@ -266,33 +267,42 @@ const OfferPage = () => {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-primary/20">
-                      <th className="text-left py-3 px-4 font-medium text-muted-foreground">Type</th>
-                      <th className="text-left py-3 px-4 font-medium text-muted-foreground">Platform</th>
-                      <th className="text-left py-3 px-4 font-medium text-muted-foreground">Total Influencers</th>
-                      <th className="text-left py-3 px-4 font-medium text-muted-foreground">Status</th>
-                      <th className="text-left py-3 px-4 font-medium text-muted-foreground">Created At</th>
+                      <th className="text-left py-3 px-4 font-medium text-sm text-muted-foreground">Type</th>
+                      <th className="text-left py-3 px-4 font-medium text-sm text-muted-foreground">Platform</th>
+                      <th className="text-right py-3 px-4 font-medium text-sm text-muted-foreground">Total</th>
+                      <th className="text-right py-3 px-4 font-medium text-sm text-muted-foreground">Status</th>
+                      <th className="text-right py-3 px-4 font-medium text-sm text-muted-foreground">Created At</th>
                     </tr>
                   </thead>
                   <tbody>
                     {offer.packages.map((pkg) => (
-                      <tr key={pkg.id} className="border-b border-primary/10 hover:bg-background/50">
+                      <tr key={pkg.id} className="hover:bg-background/10">
                         <td className="py-4 px-4">
                           <span className="font-medium text-foreground">{getPackageTypeLabel(pkg.type)}</span>
                         </td>
                         <td className="py-4 px-4">
                           <Badge className="capitalize">{pkg.platform}</Badge>
                         </td>
-                        <td className="py-4 px-4">
+                        <td className="text-right py-4 px-4">
                           <span className="text-foreground">{pkg.limit}</span>
                         </td>
-                        <td className="py-4 px-4">
+                        <td className="text-right py-4 px-4">
                           {getStatusBadge(pkg.status)}
                         </td>
-                        <td className="py-4 px-4">
-                          <span className="text-foreground">{formatDate(pkg.created_at)}</span>
+                        <td className="text-right py-4 px-4">
+                          <span className="text-foreground text-nowrap">{formatDate(pkg.created_at)}</span>
                         </td>
                       </tr>
                     ))}
+                    <tr key={0} className="border-t border-primary/20">
+                        <td className="py-4 px-4"></td>
+                        <td className="py-4 px-4"></td>
+                        <td className="text-right py-4 px-4">
+                            <span className="font-semibold text-foreground">{ offer.packages_total }</span>
+                        </td>
+                        <td className="text-right py-4 px-4"></td>
+                        <td className="text-right py-4 px-4"></td>
+                    </tr>
                   </tbody>
                 </table>
               </div>

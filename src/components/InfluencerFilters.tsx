@@ -107,7 +107,7 @@ export const InfluencerFilters = ({ filters, onFiltersChange, onSearch }: Influe
 
 
   return (
-    <Card className="p-6 bg-gradient-card border-primary/20 shadow-card">
+    <Card className="p-6 bg-gradient-card border-primary/20 shadow-card rounded-2xl">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Social Platform */}
         <div className="space-y-3">

@@ -70,7 +70,6 @@ export const SearchResults = ({ result = null, isLoading = false, free_package_u
     const results = accounts.slice(0, 5);
     const totalCount = total;
 
-    console.log({ id, accounts, total, platform });
 
 
     const isValidEmail = (email: string): boolean => {
@@ -161,7 +160,7 @@ export const SearchResults = ({ result = null, isLoading = false, free_package_u
         </div>
 
         <Card className="bg-gradient-card border-primary/20 shadow-card relative overflow-hidden rounded-2xl">
-          <div className="p-4">
+          <div className="p-4 md:p-6">
             {/* Desktop Header - Hidden on mobile */}
             <div className="hidden md:grid md:grid-cols-4 gap-4 pb-4 border-b border-primary/20 font-medium text-sm text-muted-foreground">
               <div>Influencer</div>
@@ -300,8 +299,8 @@ export const SearchResults = ({ result = null, isLoading = false, free_package_u
                 </div>
 
                 {/* Simple overlay for blurred fake results */}
-                <div className="absolute inset-0 -mx-4 -mb-4 bg-background/40 backdrop-blur-[9px] z-30 flex justify-center">
-                  <div className="text-center space-y-12 max-w-md mx-4">
+                <div className="absolute inset-0 -mx-4 -mb-4 md:-mx-6 md:-mb-6 bg-background/40 backdrop-blur-[9px] z-30 flex justify-center">
+                  <div className="text-center space-y-12 max-w-xs mx-4">
                     <div className="px-4 py-2 text-center">
                       <p className="text-base md:text-lg font-bold text-foreground">
                         Total <span className="text-primary">{totalCount.toLocaleString()}</span> influencers found

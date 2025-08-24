@@ -33,12 +33,12 @@ export const HowItWorks = () => {
           Get started with influencer marketing in just 4 simple steps
         </p>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {steps.map((step, index) => {
           const Icon = step.icon;
           return (
-            <Card key={index} className="p-6 bg-gradient-card border-primary/20 shadow-card text-center">
+            <Card key={index} className="p-6 bg-gradient-card border-primary/20 shadow-card text-center rounded-2xl">
               <div className="space-y-4">
                 <div className="w-12 h-12 mx-auto bg-gradient-primary rounded-full flex items-center justify-center">
                   <Icon className="w-6 h-6 text-white" />

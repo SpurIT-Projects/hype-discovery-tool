@@ -49,14 +49,14 @@ export const FAQ = () => {
           Everything you need to know about our influencer database
         </p>
       </div>
-      
+
       <div className="max-w-3xl mx-auto">
         <Accordion type="single" collapsible className="w-full space-y-4">
           {faqs.map((faq, index) => (
-            <AccordionItem 
-              key={index} 
+            <AccordionItem
+              key={index}
               value={`item-${index}`}
-              className="bg-gradient-card rounded-lg px-6 shadow-card"
+              className="bg-gradient-card rounded-2xl px-6 shadow-card"
             >
               <AccordionTrigger className="text-left text-foreground hover:text-primary">
                 {faq.question}
