@@ -168,74 +168,70 @@ const OfferPage = () => {
 
       <div className="container mx-auto px-4 pb-16 space-y-8">
         {/* Offer Details */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 via-background to-primary/5 border border-primary/20 backdrop-blur-sm">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent" />
+        <div className="relative overflow-hidden rounded-2xl bg-background/50 border border-primary/20 backdrop-blur-sm">
           <div className="relative p-8 space-y-8">
             {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div className="space-y-1">
-                <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                  Offer #{offer.id}
-                </h2>
-                <p className="text-muted-foreground">Your search results are ready</p>
-              </div>
-              <div className="flex items-center gap-2 text-muted-foreground bg-background/50 rounded-lg px-3 py-2 border">
+            <div className="text-center space-y-3">
+              <h2 className="text-3xl font-bold text-foreground">
+                Offer #{offer.id}
+              </h2>
+              <p className="text-muted-foreground">Your search results are ready</p>
+              <div className="flex items-center justify-center gap-2 text-muted-foreground">
                 <Calendar className="w-4 h-4" />
-                <span className="text-sm font-medium">Created {formatDate(offer.created_at)}</span>
+                <span className="text-sm">Created {formatDate(offer.created_at)}</span>
               </div>
             </div>
 
             {/* Filters Grid */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              <div className="bg-background/50 rounded-xl p-4 border border-primary/10 space-y-3 hover:bg-background/70 transition-colors">
+              <div className="bg-background/50 rounded-xl p-4 border space-y-3 hover:bg-background/70 transition-colors">
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Platform</div>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 capitalize font-medium">
+                <Badge variant="secondary" className="capitalize font-medium">
                   {offer.filters.platform}
                 </Badge>
               </div>
-              <div className="bg-background/50 rounded-xl p-4 border border-primary/10 space-y-3 hover:bg-background/70 transition-colors">
+              <div className="bg-background/50 rounded-xl p-4 border space-y-3 hover:bg-background/70 transition-colors">
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Size</div>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 capitalize font-medium">
+                <Badge variant="secondary" className="capitalize font-medium">
                   {offer.filters.size}
                 </Badge>
               </div>
-              <div className="bg-background/50 rounded-xl p-4 border border-primary/10 space-y-3 hover:bg-background/70 transition-colors">
+              <div className="bg-background/50 rounded-xl p-4 border space-y-3 hover:bg-background/70 transition-colors">
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Location</div>
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-primary" />
+                  <MapPin className="w-4 h-4" />
                   <span className="text-sm font-medium text-foreground">{offer.filters.location}</span>
                 </div>
               </div>
-              <div className="bg-background/50 rounded-xl p-4 border border-primary/10 space-y-3 hover:bg-background/70 transition-colors">
+              <div className="bg-background/50 rounded-xl p-4 border space-y-3 hover:bg-background/70 transition-colors">
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Category</div>
                 <span className="text-sm font-semibold text-foreground">{offer.filters.category}</span>
               </div>
-              <div className="bg-background/50 rounded-xl p-4 border border-primary/10 space-y-3 hover:bg-background/70 transition-colors">
+              <div className="bg-background/50 rounded-xl p-4 border space-y-3 hover:bg-background/70 transition-colors">
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Avg Views</div>
                 <div className="flex items-center gap-2">
-                  <Eye className="w-4 h-4 text-primary" />
+                  <Eye className="w-4 h-4" />
                   <span className="text-sm font-semibold text-foreground">{offer.filters.avg_views.toLocaleString()}</span>
                 </div>
               </div>
-              <div className="bg-background/50 rounded-xl p-4 border border-primary/10 space-y-3 hover:bg-background/70 transition-colors">
+              <div className="bg-background/50 rounded-xl p-4 border space-y-3 hover:bg-background/70 transition-colors">
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Engagement Rate</div>
                 <div className="flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4 text-primary" />
+                  <TrendingUp className="w-4 h-4" />
                   <span className="text-sm font-semibold text-foreground">{offer.filters.er}%</span>
                 </div>
               </div>
             </div>
 
             {/* Results Summary */}
-            <div className="text-center bg-gradient-to-r from-primary/5 to-primary/10 rounded-2xl p-8 border border-primary/20">
+            <div className="text-center bg-background/30 rounded-2xl p-8 border">
               <div className="space-y-2">
-                <div className="text-5xl font-bold bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent">
+                <div className="text-5xl font-bold text-primary">
                   {offer.total.toLocaleString()}
                 </div>
                 <div className="text-lg font-medium text-muted-foreground">
                   Total matching influencers found
                 </div>
-                <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary/60 rounded-full mx-auto" />
               </div>
             </div>
           </div>
