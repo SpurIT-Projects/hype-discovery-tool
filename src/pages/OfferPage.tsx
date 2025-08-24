@@ -253,7 +253,7 @@ const OfferPage = () => {
 
         {/* Recent Packages */}
         {offer.packages.length > 0 && (
-          <Card className="bg-gradient-card border-primary/20">
+          <Card className="bg-gradient-card border-primary/20 rounded-2xl">
             <div className="p-6 space-y-6">
               <div className="flex items-center gap-2">
                 <Package className="w-5 h-5 text-primary" />
