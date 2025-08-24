@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import {SiInstagram, SiTiktok, SiTwitch, SiX, SiYoutube} from '@icons-pack/react-simple-icons';
 
-interface Influencer {
+export interface Influencer {
   user_id: string;
   profile: {
     full_name: string;
@@ -29,7 +29,6 @@ interface SearchResultsProps {
   result?: SearchResultState | null;
   isLoading?: boolean;
   free_package_used?: boolean;
-  onFreePackageSuccess?: () => void;
 }
 
 const getPlatformIcon = (platform: string) => {
@@ -59,16 +58,19 @@ const formatNumber = (num: number) => {
   return num.toString();
 };
 
-export const SearchResults = ({ result = null, isLoading = false, free_package_used = false, onFreePackageSuccess }: SearchResultsProps) => {
+export const SearchResults = ({ result = null, isLoading = false, free_package_used = false }: SearchResultsProps) => {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionState, setSubmissionState] = useState<"idle" | "success" | "error">("idle");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [freePackageUsed, setFreePackageUsed] = useState(free_package_used);
 
     const { id, accounts, total, platform } = result || { id: null, accounts: [], total: 0, platform: "" };
     const results = accounts.slice(0, 5);
     const totalCount = total;
+
+    console.log({ id, accounts, total, platform });
 
 
     const isValidEmail = (email: string): boolean => {
@@ -104,7 +106,7 @@ export const SearchResults = ({ result = null, isLoading = false, free_package_u
       }
 
       setSubmissionState("success");
-      onFreePackageSuccess?.(); // Уведомляем родительский компонент об успехе
+      setFreePackageUsed(true);
     } catch (error) {
       const msg = error instanceof Error ? error.message : "Network error";
       setErrorMessage(msg);
@@ -310,7 +312,7 @@ export const SearchResults = ({ result = null, isLoading = false, free_package_u
                     </div>
 
                     {/* Try for Free section or Already Used message */}
-                    {!free_package_used ? (
+                    {!freePackageUsed ? (
                       <div className="space-y-4">
                         <h4 className="text-xl md:text-2xl font-bold text-foreground">Try for Free</h4>
                         <p className="text-sm text-muted-foreground">
@@ -407,7 +409,7 @@ export const SearchResults = ({ result = null, isLoading = false, free_package_u
                         <p className="text-sm text-muted-foreground">
                           You have already used your free trial package. Please choose from our paid packages below to access the complete database.
                         </p>
-                        <Button 
+                        <Button
                           className="w-full bg-gradient-primary text-white h-12 text-base font-semibold"
                           onClick={() => {
                             const pricingSection = document.getElementById('pricing-section');
@@ -416,7 +418,7 @@ export const SearchResults = ({ result = null, isLoading = false, free_package_u
                             }
                           }}
                         >
-                          View Paid Packages
+                          Choose Your Package
                         </Button>
                       </div>
                     )}

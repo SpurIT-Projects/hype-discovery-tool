@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { SearchResults, SearchResultState } from "@/components/SearchResults";
+import {Influencer, SearchResults} from "@/components/SearchResults";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ArrowLeft, Calendar, MapPin, Eye, TrendingUp, Package, Download } from "lucide-react";
@@ -27,6 +27,8 @@ interface Offer {
   packages: Package[];
   free_package_used: boolean;
   packages_total: number;
+  accounts: Influencer[];
+  platform: string;
 }
 
 interface Package {
@@ -42,34 +44,15 @@ interface Package {
   updated_at: string;
 }
 
-interface Influencer {
-  user_id: string;
-  profile: {
-    full_name: string;
-    username: string;
-    picture: string;
-    followers: number;
-    engagement_percent: number;
-  };
-}
-
 const OfferPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const [offer, setOffer] = useState<Offer | null>(null);
-  const [searchResult, setSearchResult] = useState<SearchResultState | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingInfluencers, setIsLoadingInfluencers] = useState(false);
-  const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionState, setSubmissionState] = useState<'idle' | 'success' | 'error'>('idle');
-  const [errorMessage, setErrorMessage] = useState("");
 
-  const isValidEmail = (email: string): boolean => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
 
   useEffect(() => {
     const fetchOffer = async () => {
@@ -82,33 +65,6 @@ const OfferPage = () => {
         if (response.ok) {
           const data = await response.json();
           setOffer(data);
-
-          // Fetch sample influencers using the same API as search
-          setIsLoadingInfluencers(true);
-          const influencersResponse = await fetch('https://workflow.influencersss.com/webhook/search', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              platform: data.filters.platform,
-              size: data.filters.size,
-              location: data.filters.location,
-              category: data.filters.category,
-              avg_views: data.filters.avg_views,
-              er: data.filters.er
-            })
-          });
-
-          if (influencersResponse.ok) {
-            const influencersData = await influencersResponse.json();
-            setSearchResult({
-              id: influencersData.id,
-              accounts: influencersData.accounts || [],
-              total: influencersData.total || 0,
-              platform: influencersData.platform || data.filters.platform
-            });
-          }
         } else {
           toast({
             title: "Error",
@@ -131,63 +87,6 @@ const OfferPage = () => {
 
     fetchOffer();
   }, [id, toast]);
-
-  const handleFreePackageRequest = async () => {
-    if (!email || !isValidEmail(email) || !id) {
-      return;
-    }
-
-    setIsSubmitting(true);
-    setSubmissionState('idle');
-
-    try {
-      const response = await fetch('https://workflow.influencersss.com/webhook/trial', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          offer_id: parseInt(id)
-        })
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.success) {
-        setSubmissionState('success');
-        // Refresh offer data to update free_package_used status
-        window.location.reload();
-      } else {
-        setSubmissionState('error');
-        setErrorMessage(data.error || 'An error occurred while processing your request');
-      }
-    } catch (error) {
-      console.error('Free package request error:', error);
-      setSubmissionState('error');
-      setErrorMessage('Network error. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleFreePackageSuccess = () => {
-    // Обновляем состояние offer чтобы показать что бесплатный пакет использован
-    if (offer) {
-      setOffer({
-        ...offer,
-        free_package_used: true
-      });
-    }
-  };
-
-  const handlePurchase = (packageType: string, count: number, price: number) => {
-    // TODO: Implement Stripe integration
-    toast({
-      title: "Purchase",
-      description: `Purchasing ${packageType} package with ${count} influencers for $${price}`,
-    });
-  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -251,13 +150,11 @@ const OfferPage = () => {
     );
   }
 
-  const needsMorePackages = offer.total > offer.packages_total;
-
   return (
     <div className="min-h-screen bg-gradient-hero">
       {/* Header */}
       <Header />
-      
+
       <div className="container mx-auto px-4 pb-4">
         <Button
           variant="ghost"
@@ -327,10 +224,14 @@ const OfferPage = () => {
           {/* Sample Influencers */}
           <div className="space-y-6">
               <SearchResults
-                  result={searchResult}
+                  result={{
+                      id: offer.id,
+                      accounts: offer.accounts,
+                      total: offer.total,
+                      platform: offer.platform
+                  }}
                   isLoading={isLoadingInfluencers}
                   free_package_used={offer.free_package_used}
-                  onFreePackageSuccess={handleFreePackageSuccess}
               />
           </div>
 
@@ -374,7 +275,7 @@ const OfferPage = () => {
         )}
 
       </div>
-      
+
       <Footer />
     </div>
   );
