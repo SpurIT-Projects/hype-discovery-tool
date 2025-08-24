@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PricingPackages } from "@/components/PricingPackages";
+import { SearchResults, SearchResultState } from "@/components/SearchResults";
 import { ArrowLeft, Calendar, MapPin, Users, Eye, TrendingUp, Package, Download, ExternalLink } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -45,17 +46,14 @@ interface Package {
 }
 
 interface Influencer {
-  username: string;
-  followers: number;
-  following: number;
-  er: number;
-  avg_views: number;
-  posts: number;
-  category: string;
-  location: string;
-  is_verified: boolean;
-  email?: string;
-  phone?: string;
+  user_id: string;
+  profile: {
+    full_name: string;
+    username: string;
+    picture: string;
+    followers: number;
+    engagement_percent: number;
+  };
 }
 
 const OfferPage = () => {
@@ -64,7 +62,7 @@ const OfferPage = () => {
   const { toast } = useToast();
   
   const [offer, setOffer] = useState<Offer | null>(null);
-  const [influencers, setInfluencers] = useState<Influencer[]>([]);
+  const [searchResult, setSearchResult] = useState<SearchResultState | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingInfluencers, setIsLoadingInfluencers] = useState(false);
   const [email, setEmail] = useState("");
@@ -107,7 +105,12 @@ const OfferPage = () => {
           
           if (influencersResponse.ok) {
             const influencersData = await influencersResponse.json();
-            setInfluencers(influencersData.accounts?.slice(0, 5) || []);
+            setSearchResult({
+              id: influencersData.id,
+              accounts: influencersData.accounts || [],
+              total: influencersData.total || 0,
+              platform: influencersData.platform || data.filters.platform
+            });
           }
         } else {
           toast({
@@ -321,48 +324,20 @@ const OfferPage = () => {
         </Card>
 
         {/* Sample Influencers */}
-        <Card className="p-6 bg-gradient-card border-primary/20">
-          <div className="space-y-6">
-            <div className="flex items-center gap-2">
+        <div className="space-y-6">
+          <Card className="p-6 bg-gradient-card border-primary/20">
+            <div className="flex items-center gap-2 mb-4">
               <Users className="w-5 h-5 text-primary" />
               <h3 className="text-xl font-bold text-foreground">Sample Influencers</h3>
               <Badge variant="secondary">First 5 results</Badge>
             </div>
+          </Card>
 
-            {isLoadingInfluencers ? (
-              <div className="space-y-4">
-                {[...Array(5)].map((_, i) => (
-                  <Skeleton key={i} className="h-16 w-full" />
-                ))}
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {influencers.map((influencer, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-background/50 rounded-lg border border-primary/10">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold">
-                        {influencer.username?.charAt(0).toUpperCase() || 'U'}
-                      </div>
-                      <div>
-                        <div className="font-semibold text-foreground flex items-center gap-2">
-                          @{influencer.username}
-                          {influencer.is_verified && <Badge className="text-xs">Verified</Badge>}
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                          {influencer.followers?.toLocaleString()} followers • {influencer.er}% ER
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm font-medium">{influencer.category}</div>
-                      <div className="text-xs text-muted-foreground">{influencer.location}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </Card>
+          <SearchResults
+            result={searchResult}
+            isLoading={isLoadingInfluencers}
+          />
+        </div>
 
         {/* Free Package Section */}
         {!offer.free_package_used && (
