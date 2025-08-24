@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {Influencer, SearchResults} from "@/components/SearchResults";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { ArrowLeft, Calendar, MapPin, Eye, TrendingUp, Package, Download } from "lucide-react";
+import { ArrowLeft, Calendar, MapPin, Eye, TrendingUp, Package } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Offer {
@@ -270,7 +270,6 @@ const OfferPage = () => {
                       <th className="text-left py-3 px-4 font-medium text-muted-foreground">Total Influencers</th>
                       <th className="text-left py-3 px-4 font-medium text-muted-foreground">Status</th>
                       <th className="text-left py-3 px-4 font-medium text-muted-foreground">Created At</th>
-                      <th className="text-right py-3 px-4 font-medium text-muted-foreground">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -290,12 +289,6 @@ const OfferPage = () => {
                         </td>
                         <td className="py-4 px-4">
                           <span className="text-foreground">{formatDate(pkg.created_at)}</span>
-                        </td>
-                        <td className="py-4 px-4 text-right">
-                          <Button size="sm" variant="outline">
-                            <Download className="w-4 h-4 mr-1" />
-                            Download
-                          </Button>
                         </td>
                       </tr>
                     ))}
