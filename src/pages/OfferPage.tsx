@@ -319,6 +319,7 @@ const OfferPage = () => {
               <SearchResults
                   result={searchResult}
                   isLoading={isLoadingInfluencers}
+                  free_package_used={offer.free_package_used}
               />
           </div>
 

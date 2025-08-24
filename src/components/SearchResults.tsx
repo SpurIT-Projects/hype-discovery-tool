@@ -28,6 +28,7 @@ export interface SearchResultState {
 interface SearchResultsProps {
   result?: SearchResultState | null;
   isLoading?: boolean;
+  free_package_used?: boolean;
 }
 
 const getPlatformIcon = (platform: string) => {
@@ -57,7 +58,7 @@ const formatNumber = (num: number) => {
   return num.toString();
 };
 
-export const SearchResults = ({ result = null, isLoading = false }: SearchResultsProps) => {
+export const SearchResults = ({ result = null, isLoading = false, free_package_used = false }: SearchResultsProps) => {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionState, setSubmissionState] = useState<"idle" | "success" | "error">("idle");
@@ -306,30 +307,31 @@ export const SearchResults = ({ result = null, isLoading = false }: SearchResult
                       </p>
                     </div>
 
-                    {/* Try for Free section - Large and centered */}
-                    <div className="space-y-4">
-                      <h4 className="text-xl md:text-2xl font-bold text-foreground">Try for Free</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Get 5 sample contacts to evaluate our database
-                      </p>
-                       <div className="space-y-4">
-                         <Input
-                           type="email"
-                           placeholder="Enter your email address"
-                           value={email}
-                           onChange={(e) => setEmail(e.target.value)}
-                           className="bg-background/90 border-primary/40 h-12 text-base"
-                         />
-                         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                           <DialogTrigger asChild>
-                             <Button
-                               onClick={() =>  handleFreePackageRequest(id, email)}
-                               disabled={!email || !isValidEmail(email) || !id}
-                               className="w-full bg-gradient-primary text-white h-12 text-base font-semibold"
-                             >
-                               Get Free Package
-                             </Button>
-                           </DialogTrigger>
+                    {/* Try for Free section or Already Used message */}
+                    {!free_package_used ? (
+                      <div className="space-y-4">
+                        <h4 className="text-xl md:text-2xl font-bold text-foreground">Try for Free</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Get 5 sample contacts to evaluate our database
+                        </p>
+                         <div className="space-y-4">
+                           <Input
+                             type="email"
+                             placeholder="Enter your email address"
+                             value={email}
+                             onChange={(e) => setEmail(e.target.value)}
+                             className="bg-background/90 border-primary/40 h-12 text-base"
+                           />
+                           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                             <DialogTrigger asChild>
+                               <Button
+                                 onClick={() =>  handleFreePackageRequest(id, email)}
+                                 disabled={!email || !isValidEmail(email) || !id}
+                                 className="w-full bg-gradient-primary text-white h-12 text-base font-semibold"
+                               >
+                                 Get Free Package
+                               </Button>
+                             </DialogTrigger>
                            <DialogContent className="sm:max-w-md">
                              {isSubmitting && (
                                <>
@@ -393,10 +395,29 @@ export const SearchResults = ({ result = null, isLoading = false }: SearchResult
                                   </div>
                                </>
                              )}
-                           </DialogContent>
-                         </Dialog>
-                       </div>
-                    </div>
+                            </DialogContent>
+                          </Dialog>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        <h4 className="text-xl md:text-2xl font-bold text-foreground">Free Trial Used</h4>
+                        <p className="text-sm text-muted-foreground">
+                          You have already used your free trial package. Please choose from our paid packages below to access the complete database.
+                        </p>
+                        <Button 
+                          className="w-full bg-gradient-primary text-white h-12 text-base font-semibold"
+                          onClick={() => {
+                            const pricingSection = document.getElementById('pricing-section');
+                            if (pricingSection) {
+                              pricingSection.scrollIntoView({ behavior: 'smooth' });
+                            }
+                          }}
+                        >
+                          View Paid Packages
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -409,7 +430,7 @@ export const SearchResults = ({ result = null, isLoading = false }: SearchResult
 
       {/* Pricing Section */}
         { id && (
-            <div className="space-y-6">
+            <div className="space-y-6" id="pricing-section">
                 <div className="text-center space-y-4">
                     <h3 className="text-2xl font-bold text-foreground">Choose Your Package</h3>
                     <p className="text-muted-foreground">
