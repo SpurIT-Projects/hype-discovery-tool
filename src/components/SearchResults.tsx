@@ -29,6 +29,7 @@ interface SearchResultsProps {
   result?: SearchResultState | null;
   isLoading?: boolean;
   free_package_used?: boolean;
+  onFreePackageSuccess?: () => void;
 }
 
 const getPlatformIcon = (platform: string) => {
@@ -58,7 +59,7 @@ const formatNumber = (num: number) => {
   return num.toString();
 };
 
-export const SearchResults = ({ result = null, isLoading = false, free_package_used = false }: SearchResultsProps) => {
+export const SearchResults = ({ result = null, isLoading = false, free_package_used = false, onFreePackageSuccess }: SearchResultsProps) => {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionState, setSubmissionState] = useState<"idle" | "success" | "error">("idle");
@@ -103,6 +104,7 @@ export const SearchResults = ({ result = null, isLoading = false, free_package_u
       }
 
       setSubmissionState("success");
+      onFreePackageSuccess?.(); // Уведомляем родительский компонент об успехе
     } catch (error) {
       const msg = error instanceof Error ? error.message : "Network error";
       setErrorMessage(msg);

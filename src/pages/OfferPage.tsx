@@ -171,6 +171,16 @@ const OfferPage = () => {
     }
   };
 
+  const handleFreePackageSuccess = () => {
+    // Обновляем состояние offer чтобы показать что бесплатный пакет использован
+    if (offer) {
+      setOffer({
+        ...offer,
+        free_package_used: true
+      });
+    }
+  };
+
   const handlePurchase = (packageType: string, count: number, price: number) => {
     // TODO: Implement Stripe integration
     toast({
@@ -320,6 +330,7 @@ const OfferPage = () => {
                   result={searchResult}
                   isLoading={isLoadingInfluencers}
                   free_package_used={offer.free_package_used}
+                  onFreePackageSuccess={handleFreePackageSuccess}
               />
           </div>
 
