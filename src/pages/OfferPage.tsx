@@ -183,37 +183,39 @@ const OfferPage = () => {
 
             {/* Filters Grid */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 space-y-3 hover:from-primary/10 hover:to-primary/15 transition-all">
+              <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 space-y-3">
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Platform</div>
                 <Badge className="bg-gradient-primary text-white capitalize font-medium border-0">
                   {offer.filters.platform}
                 </Badge>
               </div>
-              <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 space-y-3 hover:from-primary/10 hover:to-primary/15 transition-all">
+              <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 space-y-3">
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Size</div>
                 <Badge className="bg-gradient-primary text-white capitalize font-medium border-0">
                   {offer.filters.size}
                 </Badge>
               </div>
-              <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 space-y-3 hover:from-primary/10 hover:to-primary/15 transition-all">
+              <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 space-y-3">
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Location</div>
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-primary" />
                   <span className="text-sm font-medium text-foreground">{offer.filters.location}</span>
                 </div>
               </div>
-              <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 space-y-3 hover:from-primary/10 hover:to-primary/15 transition-all">
+              <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 space-y-3">
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Category</div>
-                <span className="text-sm font-semibold text-foreground">{offer.filters.category}</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-semibold text-foreground">{offer.filters.category}</span>
+                </div>
               </div>
-              <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 space-y-3 hover:from-primary/10 hover:to-primary/15 transition-all">
+              <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 space-y-3">
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Avg Views</div>
                 <div className="flex items-center gap-2">
                   <Eye className="w-4 h-4 text-primary" />
                   <span className="text-sm font-semibold text-foreground">{offer.filters.avg_views.toLocaleString()}</span>
                 </div>
               </div>
-              <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 space-y-3 hover:from-primary/10 hover:to-primary/15 transition-all">
+              <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 space-y-3">
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Engagement Rate</div>
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-primary" />
