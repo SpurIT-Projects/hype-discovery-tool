@@ -7,7 +7,7 @@ const Header = () => {
     <div className="container mx-auto px-4 pt-8 pb-4">
       <div className="text-left">
         <h1 
-          className="text-3xl font-bold cursor-pointer"
+          className="text-3xl font-bold cursor-pointer hover:opacity-80 transition-opacity"
           onClick={() => navigate('/')}
         >
           <span className="text-primary">influencer</span>
