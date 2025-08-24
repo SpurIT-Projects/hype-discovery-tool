@@ -155,23 +155,24 @@ const OfferPage = () => {
       {/* Header */}
       <Header />
 
-      <div className="container mx-auto px-4 pb-4">
-        <Button
-          variant="ghost"
-          onClick={() => navigate('/')}
-          className="text-white hover:bg-white/10"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Search
-        </Button>
-      </div>
-
       <div className="container mx-auto px-4 pb-16 space-y-8">
         {/* Offer Details */}
         <div className="relative overflow-hidden rounded-2xl bg-gradient-card border border-primary/20 backdrop-blur-sm shadow-card">
           <div className="relative p-6 space-y-6">
+            {/* Back Button */}
+            <div className="absolute top-4 left-4">
+              <Button
+                variant="ghost"
+                onClick={() => navigate('/')}
+                className="text-white hover:bg-white/10"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Search
+              </Button>
+            </div>
+            
             {/* Header */}
-            <div className="text-center space-y-3">
+            <div className="text-center space-y-3 pt-8">
               <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 Offer #{offer.id}
               </h2>
