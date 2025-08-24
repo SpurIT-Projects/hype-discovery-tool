@@ -13,6 +13,9 @@ interface PricingPackagesProps {
   onPurchase: (packageType: string, count: number, price: number) => void;
 }
 
+/**
+ * @deprecated This component is deprecated and will be removed in future versions.
+ */
 export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesProps) => {
   const [customCount, setCustomCount] = useState([600]);
   const [customInputValue, setCustomInputValue] = useState("600");
@@ -78,7 +81,7 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
         {packages.map((pkg) => {
           const Icon = pkg.icon;
           return (
-            <Card 
+            <Card
               key={pkg.id}
               className={`relative p-6 transition-smooth hover:shadow-glow ${
                 pkg.recommended 
@@ -91,22 +94,22 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
                   Recommended
                 </Badge>
               )}
-              
+
               <div className="text-center space-y-4">
                 <div className="w-12 h-12 mx-auto bg-gradient-primary rounded-full flex items-center justify-center">
                   <Icon className="w-6 h-6 text-white" />
                 </div>
-                
+
                 <div>
                   <h3 className="text-xl font-bold text-foreground">{pkg.name}</h3>
                   <p className="text-sm text-muted-foreground">{pkg.description}</p>
                 </div>
-                
+
                 <div className="space-y-2">
                   <div className="text-3xl font-bold text-primary">${pkg.price}</div>
                   <div className="text-sm text-muted-foreground">{pkg.count} influencers</div>
                 </div>
-                
+
                 <ul className="space-y-2 text-sm">
                   {pkg.features.map((feature, index) => (
                     <li key={index} className="flex items-center gap-2">
@@ -115,7 +118,7 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
                     </li>
                   ))}
                 </ul>
-                
+
                 <Button
                   variant={pkg.recommended ? "hero" : "premium"}
                   className="w-full"
@@ -144,7 +147,7 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
                   <Users className="w-4 h-4 text-primary" />
                   Number of Influencers
                 </Label>
-                
+
                 <div className="flex gap-4 items-center">
                   <div className="flex-1">
                     <Slider
@@ -164,7 +167,7 @@ export const PricingPackages = ({ maxInfluencers, onPurchase }: PricingPackagesP
                     max={10000}
                   />
                 </div>
-                
+
                 <div className="flex justify-between text-sm text-muted-foreground">
                   <span>0</span>
                   <span>10,000</span>

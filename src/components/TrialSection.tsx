@@ -6,6 +6,9 @@ import { Label } from "@/components/ui/label";
 import { Gift, Mail, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+/**
+ * @deprecated This component is deprecated and will be removed in future versions.
+ */
 export const TrialSection = () => {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -54,7 +57,7 @@ export const TrialSection = () => {
         <div className="w-16 h-16 mx-auto bg-gradient-primary rounded-full flex items-center justify-center">
           <Gift className="w-8 h-8 text-white" />
         </div>
-        
+
         <div>
           <h3 className="text-2xl font-bold text-foreground mb-2">Free Trial Package</h3>
           <p className="text-muted-foreground">
@@ -78,7 +81,7 @@ export const TrialSection = () => {
               required
             />
           </div>
-          
+
           <Button type="submit" variant="hero" className="w-full">
             Get Free Package
           </Button>

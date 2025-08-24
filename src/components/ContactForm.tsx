@@ -12,6 +12,9 @@ interface ContactFormProps {
   showCancel?: boolean;
 }
 
+/**
+ * @deprecated This component is deprecated and will be removed in future versions.
+ */
 export const ContactForm = ({ onClose, showCancel = true }: ContactFormProps) => {
   const [formData, setFormData] = useState({
     name: "",
@@ -23,7 +26,7 @@ export const ContactForm = ({ onClose, showCancel = true }: ContactFormProps) =>
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Simulate API call
     setTimeout(() => {
       toast({
@@ -71,7 +74,7 @@ export const ContactForm = ({ onClose, showCancel = true }: ContactFormProps) =>
               required
             />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="email" className="flex items-center gap-2">
               <Mail className="w-4 h-4 text-primary" />

@@ -4,13 +4,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Separator } from "@/components/ui/separator";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { PricingPackages } from "@/components/PricingPackages";
 import { SearchResults, SearchResultState } from "@/components/SearchResults";
-import { ArrowLeft, Calendar, MapPin, Users, Eye, TrendingUp, Package, Download, ExternalLink } from "lucide-react";
+import { ArrowLeft, Calendar, MapPin, Eye, TrendingUp, Package, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Offer {
@@ -60,7 +55,7 @@ const OfferPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
-  
+
   const [offer, setOffer] = useState<Offer | null>(null);
   const [searchResult, setSearchResult] = useState<SearchResultState | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -77,15 +72,15 @@ const OfferPage = () => {
   useEffect(() => {
     const fetchOffer = async () => {
       if (!id) return;
-      
+
       try {
         setIsLoading(true);
         const response = await fetch(`https://workflow.influencersss.com/webhook/offer?id=${id}`);
-        
+
         if (response.ok) {
           const data = await response.json();
           setOffer(data);
-          
+
           // Fetch sample influencers using the same API as search
           setIsLoadingInfluencers(true);
           const influencersResponse = await fetch('https://workflow.influencersss.com/webhook/search', {
@@ -102,7 +97,7 @@ const OfferPage = () => {
               er: data.filters.er
             })
           });
-          
+
           if (influencersResponse.ok) {
             const influencersData = await influencersResponse.json();
             setSearchResult({
@@ -251,8 +246,8 @@ const OfferPage = () => {
       {/* Header */}
       <div className="container mx-auto px-4 pt-8 pb-4">
         <div className="flex items-center justify-between">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             onClick={() => navigate('/')}
             className="text-white hover:bg-white/10"
           >
@@ -322,73 +317,13 @@ const OfferPage = () => {
             </div>
           </div>
         </Card>
-
-        {/* Sample Influencers */}
-        <div className="space-y-6">
-          <Card className="p-6 bg-gradient-card border-primary/20">
-            <div className="flex items-center gap-2 mb-4">
-              <Users className="w-5 h-5 text-primary" />
-              <h3 className="text-xl font-bold text-foreground">Sample Influencers</h3>
-              <Badge variant="secondary">First 5 results</Badge>
-            </div>
-          </Card>
-
-          <SearchResults
-            result={searchResult}
-            isLoading={isLoadingInfluencers}
-          />
-        </div>
-
-        {/* Free Package Section */}
-        {!offer.free_package_used && (
-          <Card className="p-6 bg-gradient-card border-primary/20">
-            <div className="space-y-6">
-              <div className="text-center">
-                <h3 className="text-xl font-bold text-foreground mb-2">Get Free Trial Package</h3>
-                <p className="text-muted-foreground">Download 5 influencers for free to test our service quality</p>
-              </div>
-
-              <div className="max-w-md mx-auto space-y-4">
-                <div>
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    className="mt-1"
-                  />
-                </div>
-
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button
-                      onClick={handleFreePackageRequest}
-                      disabled={!email || !isValidEmail(email) || isSubmitting}
-                      className="w-full bg-gradient-primary text-white h-12 text-base font-semibold"
-                    >
-                      {isSubmitting ? "Processing..." : "Get Free Package"}
-                    </Button>
-                  </DialogTrigger>
-                  
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>
-                        {submissionState === 'success' ? "Success!" : submissionState === 'error' ? "Error" : "Processing..."}
-                      </DialogTitle>
-                      <DialogDescription>
-                        {submissionState === 'success' && "Your free package has been sent to your email!"}
-                        {submissionState === 'error' && (errorMessage || "An error occurred while processing your request")}
-                        {submissionState === 'idle' && "Processing your request..."}
-                      </DialogDescription>
-                    </DialogHeader>
-                  </DialogContent>
-                </Dialog>
-              </div>
-            </div>
-          </Card>
-        )}
+          {/* Sample Influencers */}
+          <div className="space-y-6">
+              <SearchResults
+                  result={searchResult}
+                  isLoading={isLoadingInfluencers}
+              />
+          </div>
 
         {/* Previous Packages */}
         {offer.packages.length > 0 && (
@@ -429,26 +364,6 @@ const OfferPage = () => {
           </Card>
         )}
 
-        {/* Pricing for Additional Packages */}
-        {needsMorePackages && (
-          <div className="space-y-6">
-            <Card className="p-6 bg-gradient-card border-primary/20">
-              <div className="text-center space-y-4">
-                <h3 className="text-xl font-bold text-foreground">Need More Influencers?</h3>
-                <p className="text-muted-foreground">
-                  You have access to {offer.packages_total.toLocaleString()} influencers, but there are{' '}
-                  <span className="font-semibold text-primary">{offer.total.toLocaleString()}</span> total matches.
-                  Upgrade to get access to all of them!
-                </p>
-              </div>
-            </Card>
-
-            <PricingPackages
-              maxInfluencers={offer.total}
-              onPurchase={handlePurchase}
-            />
-          </div>
-        )}
       </div>
     </div>
   );
