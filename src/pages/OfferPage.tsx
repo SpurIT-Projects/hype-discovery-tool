@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SearchResults, SearchResultState } from "@/components/SearchResults";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { ArrowLeft, Calendar, MapPin, Eye, TrendingUp, Package, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -244,22 +246,17 @@ const OfferPage = () => {
   return (
     <div className="min-h-screen bg-gradient-hero">
       {/* Header */}
-      <div className="container mx-auto px-4 pt-8 pb-4">
-        <div className="flex items-center justify-between">
-          <Button
-            variant="ghost"
-            onClick={() => navigate('/')}
-            className="text-white hover:bg-white/10"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Search
-          </Button>
-          <h1 className="text-3xl font-bold">
-            <span className="text-primary">influencer</span>
-            <span className="text-white text-2xl">$$$</span>
-            <span className="text-primary">.com</span>
-          </h1>
-        </div>
+      <Header />
+      
+      <div className="container mx-auto px-4 pb-4">
+        <Button
+          variant="ghost"
+          onClick={() => navigate('/')}
+          className="text-white hover:bg-white/10"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Search
+        </Button>
       </div>
 
       <div className="container mx-auto px-4 pb-16 space-y-8">
@@ -365,6 +362,8 @@ const OfferPage = () => {
         )}
 
       </div>
+      
+      <Footer />
     </div>
   );
 };

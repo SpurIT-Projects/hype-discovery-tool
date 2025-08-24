@@ -5,6 +5,8 @@ import { HowItWorks } from "@/components/HowItWorks";
 import { Benefits } from "@/components/Benefits";
 import { Testimonials } from "@/components/Testimonials";
 import { FAQ } from "@/components/FAQ";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Users, Globe, Zap } from "lucide-react";
 
@@ -82,16 +84,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-hero">
-      {/* Logo */}
-      <div className="container mx-auto px-4 pt-8 pb-4">
-        <div className="text-left">
-          <h1 className="text-3xl font-bold">
-            <span className="text-primary">influencer</span>
-            <span className="text-white text-2xl">$$$</span>
-            <span className="text-primary">.com</span>
-          </h1>
-        </div>
-      </div>
+      {/* Header */}
+      <Header />
 
       {/* Hero Section */}
       <div className="container mx-auto px-4 pt-4 pb-8">
@@ -166,25 +160,7 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="border-t border-primary/20 bg-background/50 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center space-y-4">
-            <div className="text-sm text-muted-foreground">
-              <p>© 2025 Influencer Database. All rights reserved.</p>
-            </div>
-            <div className="flex justify-center gap-8 text-sm">
-              <a href="mailto:contact@influencersss.com" className="text-muted-foreground hover:text-primary transition-colors">
-                contact@influencersss.com
-              </a>
-          {/*    <span className="text-muted-foreground">|</span>
-              <a href="tel:+1-555-0123" className="text-muted-foreground hover:text-primary transition-colors">
-                +1 (555) 012-3456
-              </a>*/}
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
