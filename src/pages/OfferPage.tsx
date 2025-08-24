@@ -251,40 +251,56 @@ const OfferPage = () => {
               />
           </div>
 
-        {/* Previous Packages */}
+        {/* Recent Packages */}
         {offer.packages.length > 0 && (
-          <Card className="p-6 bg-gradient-card border-primary/20">
-            <div className="space-y-6">
+          <Card className="bg-gradient-card border-primary/20">
+            <div className="p-6 space-y-6">
               <div className="flex items-center gap-2">
                 <Package className="w-5 h-5 text-primary" />
-                <h3 className="text-xl font-bold text-foreground">Your Packages</h3>
+                <h3 className="text-xl font-bold text-foreground">Recent Packages</h3>
                 <Badge variant="secondary">{offer.packages.length} packages</Badge>
               </div>
 
-              <div className="space-y-4">
-                {offer.packages.map((pkg) => (
-                  <div key={pkg.id} className="flex items-center justify-between p-4 bg-background/50 rounded-lg border border-primary/10">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-3">
-                        <span className="font-semibold text-foreground">{getPackageTypeLabel(pkg.type)}</span>
-                        {getStatusBadge(pkg.status)}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {pkg.limit} influencers • {formatDate(pkg.created_at)}
-                      </div>
-                      <div className="text-xs text-muted-foreground">
-                        Sent to: {pkg.email}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Badge className="capitalize">{pkg.platform}</Badge>
-                      <Button size="sm" variant="outline">
-                        <Download className="w-4 h-4 mr-1" />
-                        Download
-                      </Button>
-                    </div>
-                  </div>
-                ))}
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-primary/20">
+                      <th className="text-left py-3 px-4 font-medium text-muted-foreground">Type</th>
+                      <th className="text-left py-3 px-4 font-medium text-muted-foreground">Platform</th>
+                      <th className="text-left py-3 px-4 font-medium text-muted-foreground">Total Influencers</th>
+                      <th className="text-left py-3 px-4 font-medium text-muted-foreground">Status</th>
+                      <th className="text-left py-3 px-4 font-medium text-muted-foreground">Created At</th>
+                      <th className="text-right py-3 px-4 font-medium text-muted-foreground">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {offer.packages.map((pkg) => (
+                      <tr key={pkg.id} className="border-b border-primary/10 hover:bg-background/50">
+                        <td className="py-4 px-4">
+                          <span className="font-medium text-foreground">{getPackageTypeLabel(pkg.type)}</span>
+                        </td>
+                        <td className="py-4 px-4">
+                          <Badge className="capitalize">{pkg.platform}</Badge>
+                        </td>
+                        <td className="py-4 px-4">
+                          <span className="text-foreground">{pkg.limit}</span>
+                        </td>
+                        <td className="py-4 px-4">
+                          {getStatusBadge(pkg.status)}
+                        </td>
+                        <td className="py-4 px-4">
+                          <span className="text-foreground">{formatDate(pkg.created_at)}</span>
+                        </td>
+                        <td className="py-4 px-4 text-right">
+                          <Button size="sm" variant="outline">
+                            <Download className="w-4 h-4 mr-1" />
+                            Download
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           </Card>
