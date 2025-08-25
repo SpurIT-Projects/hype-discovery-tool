@@ -443,8 +443,8 @@ export const SearchResults = ({ result = null, isLoading = false, free_package_u
 
                 <div className="w-full mx-auto">
                     <stripe-pricing-table
-                        pricing-table-id="prctbl_1Rw0ChGifA2aeWJ3MA1cFlun"
-                        publishable-key="pk_test_51LdXkTGifA2aeWJ3CLmWlPiYusyyjUXvvmVpKFpwIjPWDzhUi1WDVs7wZncc1VA1smxKizBPb1mVw5FmByTqjrFb00cbdbnelP"
+                        pricing-table-id={import.meta.env.VITE_STRIPE_PRICING_TABLE_ID}
+                        publishable-key={import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY}
                         client-reference-id={id?.toString()}
                     >
                     </stripe-pricing-table>
