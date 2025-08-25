@@ -28,7 +28,7 @@ const faqs = [
   },
   {
     question: "Is there a limit on how many contacts I can download?",
-    answer: "It depends on your package. Our plans range from 100 contacts to unlimited access. Check our pricing options above for details."
+    answer: "It depends on your package. Our plans range from 30 contacts to unlimited access. Check our pricing options above for details."
   },
   {
     question: "How do you ensure influencer authenticity?",
